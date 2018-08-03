@@ -7,7 +7,7 @@ var taskType = [];
 
 function setNewTaskList(arr){
     for(var i = 0 ; i<arr.length ;i++){
-        if(arr[i].userStatus <=3 || !arr[i].userStatus){
+        if(arr[i].userStatus <=3 || !arr[i].userStatus || arr[i].userStatus == 8 ){
             return forMart([arr[i]])[0]
         }
     }
@@ -24,7 +24,36 @@ function forMart(arr){
     }
     return arr;
 }
+function diffTime(diff) {
 
+    //计算出相差天数  
+    var days = Math.floor(diff / (24 * 3600 * 1000));
+
+    //计算出小时数  
+    var leave1 = diff % (24 * 3600 * 1000);    //计算天数后剩余的毫:数  
+    var hours = Math.floor(leave1 / (3600 * 1000));
+    //计算相差分钟数  
+    var leave2 = leave1 % (3600 * 1000);        //计算小时数后剩余的毫:数  
+    var minutes = Math.floor(leave2 / (60 * 1000));
+
+    //计算相差:数  
+    var leave3 = leave2 % (60 * 1000);      //计算分钟数后剩余的毫:数  
+    var seconds = Math.round(leave3 / 1000);
+
+    var returnStr = seconds < 10 ? '0' + seconds : seconds;
+    if (minutes > 0) {
+        returnStr = (minutes < 10 ? '0' + minutes + ":" : minutes + ':') + returnStr;
+    } else if (minutes <= 0) {
+        returnStr = '00:' + returnStr
+    }
+    if (hours > 0) {
+        returnStr = (hours < 10 ? '0' + hours + ":" : hours + ':') + returnStr;
+    }
+    if (days > 0) {
+        returnStr = (days < 10 ? '0' + days + ":" : days + ':') + returnStr;
+    }
+    return returnStr;
+}
 function forMartProgressTask(arr){
     let result = [];
     if(arr.length){
@@ -88,4 +117,11 @@ function timestampToDate(timestamp, formats) {
 			s: second
 		})[matches];
 	});
+}
+
+function back(text){
+    text?Prompt.msg(text):"";
+    setTimeout(() => {
+        Comm.close()
+    }, 800);
 }

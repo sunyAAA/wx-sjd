@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<title>任务凭证</title>
+	<link rel="stylesheet" href="style/common.css">
+	<link rel="stylesheet" href="style/page.css">
+	<script src='inc/remset.js'></script>
+	<style>
+		.taskCertificate-wrap{
+			height: 100%;
+		}
+		/* 任务信息卡片 */
+		.taskCertificate-wrap .card-item {
+			background-color: #efeff4;
+			padding: 0 0.75rem;
+			width: 15.25rem;
+			height: 4.5rem;
+			margin: 0 auto;
+			border-radius: 0.3rem;
+			margin-bottom: 1.5rem;
+		}
+		/* 任务内容 */
+		.taskCertificate-wrap .card-item .task-content {
+			float: left;
+		}
+		.taskCertificate-wrap .card-item .task-content .title {
+			font-size: 0.75rem;
+			font-weight: 500;
+			margin: 0.625rem 0 0.75rem;
+		}
+		.taskCertificate-wrap .card-item .task-content .publisher {
+			font-size: 0.5rem;
+			margin-bottom: 0.25rem;
+		}
+		.taskCertificate-wrap .card-item .task-content .time-limit {
+			font-size: 0.5rem;
+		}
+		/* 任务赏金 */
+		.taskCertificate-wrap .card-item .task-bounty {
+			font-size: 0.75rem;
+			color: #ff4b2b;
+			float: right;
+			line-height: 4.5rem;
+		}
+		.taskCertificate-wrap .card-item .task-bounty span {
+			font-size: 1.5rem;
+		}
+		/* 上传凭证 */
+		.taskCertificate-wrap .upload-box {
+			margin-bottom: 15px;
+		}
+		.taskCertificate-wrap .upload-box .upload-area {
+			width: 17.5rem;
+			min-height: 11.425rem;
+			border: 1px solid #e6e6e6;
+			margin: 0 auto;
+			padding: 1rem;
+			padding-bottom: 0px;
+		}
+		.taskCertificate-wrap .upload-box .upload-area textarea {
+			width: 100%;
+			min-height: 4.525rem;
+		}
+		.taskCertificate-wrap .upload-box .upload-area .btn-upload,
+		.taskCertificate-wrap .upload-box .upload-area .img-item {
+			flex: 0 0 4.25rem;
+			width: 5rem;
+			height: 5rem;
+			display: inline-block;
+			margin-right: 0.5rem;
+			margin-bottom: 1rem;
+            position: relative;
+		}
+		.taskCertificate-wrap .upload-box .upload-area .btn-upload img,
+		.taskCertificate-wrap .upload-box .upload-area .img-item img {
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+		}
+		.taskCertificate-wrap .upload-box span {
+			font-size: 0.6rem;
+			color: #999;
+			padding-left: 1rem;
+		}
+		/* 审核按钮 */
+		.taskCertificate-wrap .btn-review {
+			width: 15.75rem;
+			height: 2rem;
+			line-height: 2rem;
+			border-radius: 0.25rem;
+			font-size: 0.75rem;
+			color: #fff;
+			background-color: #ff4b2b;
+			text-align: center;
+			margin: 0 auto 1rem auto;
+		}
+
+	</style>
+</head>
+<body>
+	<div class="taskCertificate-wrap">
+		<!-- 上传凭证 -->
+		<div v-show='!isNew' class="reason-title">
+			<!-- {{statusText}} -->
+		</div>
+		<div class="upload-box">
+			<div class="upload-area">
+				<textarea placeholder="内容描述..." v-model="remark"></textarea>
+				<div class="img-box">
+					<div class="img-item" v-for="(item,index) in imgUrl" :key="index" >
+						<img :src="oss + item" alt="">
+                        <div v-show="isNew" class="icon-remove" @click='remove(index)'><img src="./images//remove.jpg" alt=""></div>
+					</div>
+					<div class="btn-upload" onclick='changeImg(this)'>
+						<img src="./images/addImg.png" alt="">
+					</div>
+				</div>
+			</div>
+			<span>上传凭证（最多可上传9张）</span>
+            <p v-show='isNew' class="tips">预计审核时间为七个工作日</p>
+		</div>
+		<!-- 审核按钮 -->
+		<div class="btn-review" @click='send' v-if='isNew'>提交凭证</div>
+	</div>
+	<script src='inc/z.js'></script>
+    <script src="inc/page.js"></script>
+    <script src="inc/side/side.js"></script>
+    <script src="inc/model.js"></script>
+	<script src='inc/template.js'></script>
+	<script src="https://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+	<script src="inc/wx.js"></script>
+    <script type="text/template" id="card">
+        {{each list v}}
+        <div class="task-card" onclick="Comm.go('taskDetail.html?taskId='+{{v.taskId}})">
+            <div class="card-item">
+                <div class="type-flag">
+                    <div class="flag">{{v.flag}}</div>
+                </div>
+                <div class="task-content">
+                    <div class="title">{{v.name || v.task.name}}</div>
+                    <div class="publisher">发布商家：
+                        <span>{{v.shopName}}</span>
+                    </div>
+                    <div class="time-limit">任务时间：
+                        <span >{{v.begin}}</span> 至
+                        <span>{{v.end}}</span>
+                    </div>
+                    <div class="time-limit">预计耗时：{{v.preTime||v.task.preTime || ''}}分钟</div>
+                </div>
+                <div class="task-bounty">¥
+                    <span>{{v.singleAmount}}</span>
+                </div>
+            </div>
+        </div>
+        {{/each}}
+	</script>
+	<script>
+		WXMethod.configImg();
+		function changeImg(e) {
+			WXMethod.chooseImg(function (b) {
+				Prompt.loading();
+				AJAX.POST("api/temp/file/down", {serviceid:b[0].v}, function (a) {
+					AJAX.POST("api/customer/uploadHead", {img:a}, function () {
+						Prompt.hide();
+						Prompt.msg("上传头像成功");
+						e.querySelector("img").src = b[0].k;
+						var u = Local.user();
+						u.head = a;
+						Local.user(u);
+					})
+				});
+			});
+		}
+	</script>
+</body>
+</html>

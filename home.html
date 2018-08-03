@@ -176,9 +176,7 @@
     <script src='inc/template.js'></script>
     <script type="text/template" id="card">
         {{each list v}}
-        {{if(v.goType==1)}}
         <div class="task-card" onclick="Comm.go('taskDetail.html?taskId='+{{v.taskId}})">
-            {{/if}}
             <div class="card-item">
                 <div class="type-flag">
                     <div class="flag">{{v.flag}}</div>
@@ -204,7 +202,7 @@
     <script>
         var sideObj = null;
         var userId = Local.get('userInfo') ? Local.get('userInfo').userId : 5;
-        var newTask = {};
+        var newTask = null;
         var pageSize = 50;
         var pageNum = 1;
         var List = [];
@@ -219,7 +217,6 @@
                 for (var i = 0; i < d.length; i++) {
                     html.push('<li><img src=' + config.ossroot + d[i].face + '></li>')
                 }
-                console.log(html)
                 document.querySelector('.side_ul').innerHTML = html.join('');
                 if (!sideObj) {
                     setTimeout(function () {
@@ -254,8 +251,10 @@
         }
         function render() {
             list = list.sort(getSortFun());
-            list.unshift(newTask);
+            !newTask?'':list.unshift(newTask);
             var renderData = { list: list }
+            console.log(renderData)
+
             var html = template('card', renderData);
             document.querySelector('.view').innerHTML = html;
         }

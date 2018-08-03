@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,110 +11,156 @@
     <title>任务详情</title>
     <style>
         .taskDetail-wrap .information-operate {
-			border-top: 1px solid #efeff4;
-			border-bottom: 1px solid #efeff4;
-			padding: 1rem 1rem 0.75rem;
-			position: relative;
-		}
-		.taskDetail-wrap .information-operate .info {
-			display: flex;
-			justify-content: space-between;
-		}
-		/* 任务内容 */
-		.taskDetail-wrap .information-operate .info .info-content {}
-		.taskDetail-wrap .information-operate .info .info-content .type {
-			font-size: 0.75rem;
-		}
-		.taskDetail-wrap .information-operate .info .info-content .title,
-		.taskDetail-wrap .information-operate .info .info-content .time,
-		.taskDetail-wrap .information-operate .info .info-content .duration-time {
-			font-size: 0.55rem;
-			margin-top: 0.25rem;
-		}
-		/* 赏金和时间 */
-		.taskDetail-wrap .information-operate .info .bounty-countdown {
-			color: #ff4b2b;
-			text-align: right;
-		}
-		.taskDetail-wrap .information-operate .info .bounty-countdown .bounty {
-			font-size: 0.55rem;
-		}
-		.taskDetail-wrap .information-operate .info .bounty-countdown .bounty span {
-			font-size: 1rem;
-		}
-		.taskDetail-wrap .information-operate .info .bounty-countdown .countdown {
-			font-size: 0.55rem;
-		}
-		/* 操作 */
-		.taskDetail-wrap .information-operate .operate {}
-		/* 领取按钮 */
-		.taskDetail-wrap .information-operate .operate .btn-receive {
-			width: 2.5rem;
-			height: 2.5rem;
-			border-radius: 50%;
-			background-color: #ff4b2b;
-			color: #fff;
-			font-size: 0.55rem;
-			text-align: center;
-			line-height: 2.5rem;
-			position: absolute;
-			bottom: -1.25rem;
-			right: 1rem;
-		}
-		/* 提交凭证和放弃按钮 */
-		.taskDetail-wrap .information-operate .operate .btn-group {
-			display: flex;
-			justify-content: flex-end;
-			margin-top: 0.75rem;
-		}
-		.taskDetail-wrap .information-operate .operate .btn-group .btn-submit,
-		.taskDetail-wrap .information-operate .operate .btn-group .give-up {
-			width: 4rem;
-			height: 1.25rem;
-			border-radius: 0.2rem;
-			font-size: 0.75rem;
-			text-align: center;
-			line-height: 1.25rem;
-			background-color: #ff4b2b;
-			color: #fff;
-		}
-		.taskDetail-wrap .information-operate .operate .btn-group .give-up {
-			background-color: #fff;
-			border: 1px solid #ff4b2b;
-			color: #333;
-			margin-left: 0.75rem;
-		}
-		/* 任务描述、任务说明、任务列表 */
-		.taskDetail-wrap .task {
-			padding: 1.5rem 1rem 0;
-		}
-		/* 导航栏 */
-		.taskDetail-wrap .task .task-nav {
-			display: flex;
-			justify-content: space-between;
-			margin-bottom: 0.5rem;
-		}
-		.taskDetail-wrap .task .task-nav .nav-item {
-			flex: 1;
-			text-align: center;
-			font-size: 0.75rem;
-		}
-		.taskDetail-wrap .task .task-nav .current {
-			color: #ff4b2b;
-		}
-		/* 任务内容 */
-		.taskDetail-wrap .task .task-content .content-item {
-			font-size: 0.55rem;
-		}
-		.taskDetail-wrap .task .task-content .task-desc p,
-		.taskDetail-wrap .task .task-content .task-detail p {
-			line-height: 1.2rem;
-		}
-		.taskDetail-wrap .received {
-			padding-top: 0.75rem;
-		}
+            border-top: 1px solid #efeff4;
+            border-bottom: 1px solid #efeff4;
+            padding: 1rem 1rem 0.75rem;
+            padding-bottom: 2rem;
+            position: relative;
+        }
+
+        .taskDetail-wrap .information-operate .info {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        /* 任务内容 */
+
+        .taskDetail-wrap .information-operate .info .info-content {}
+
+        .taskDetail-wrap .information-operate .info .info-content .type {
+            font-size: 0.75rem;
+        }
+
+        .taskDetail-wrap .information-operate .info .info-content .title,
+        .taskDetail-wrap .information-operate .info .info-content .time,
+        .taskDetail-wrap .information-operate .info .info-content .duration-time {
+            font-size: 0.55rem;
+            margin-top: 0.25rem;
+        }
+
+        /* 赏金和时间 */
+
+        .taskDetail-wrap .information-operate .info .bounty-countdown {
+            color: #ff4b2b;
+            text-align: right;
+        }
+
+        .taskDetail-wrap .information-operate .info .bounty-countdown .bounty {
+            font-size: 0.55rem;
+        }
+
+        .taskDetail-wrap .information-operate .info .bounty-countdown .bounty span {
+            font-size: 1rem;
+        }
+
+        .taskDetail-wrap .information-operate .info .bounty-countdown .countdown {
+            font-size: 0.55rem;
+        }
+
+        /* 操作 */
+
+        .taskDetail-wrap .information-operate .operate {}
+
+        /* 领取按钮 */
+
+        .taskDetail-wrap .information-operate .operate .btn-receive {
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 50%;
+            background-color: #ff4b2b;
+            color: #fff;
+            font-size: 0.55rem;
+            text-align: center;
+            line-height: 2.5rem;
+            position: absolute;
+            bottom: -1.25rem;
+            right: 1rem;
+        }
+
+        /* 提交凭证和放弃按钮 */
+
+        .taskDetail-wrap .information-operate .operate .btn-group {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 0.75rem;
+        }
+
+        .taskDetail-wrap .information-operate .operate .btn-group .btn-submit,
+        .taskDetail-wrap .information-operate .operate .btn-group .give-up {
+            width: 4rem;
+            height: 1.25rem;
+            border-radius: 0.2rem;
+            font-size: 0.75rem;
+            text-align: center;
+            line-height: 1.25rem;
+            background-color: #ff4b2b;
+            color: #fff;
+        }
+
+        .taskDetail-wrap .information-operate .operate .btn-group .give-up {
+            background-color: #fff;
+            border: 1px solid #ff4b2b;
+            color: #333;
+            margin-left: 0.75rem;
+        }
+
+        /* 任务描述、任务说明、任务列表 */
+
+        .taskDetail-wrap .task {
+            padding: 1.5rem 1rem 0;
+        }
+
+        /* 导航栏 */
+
+        .taskDetail-wrap .task .task-nav {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        .taskDetail-wrap .task .task-nav .nav-item {
+            flex: 1;
+            text-align: center;
+            font-size: 0.75rem;
+        }
+
+        .taskDetail-wrap .task .task-nav .current {
+            color: #ff4b2b;
+        }
+
+        /* 任务内容 */
+
+        .taskDetail-wrap .task .task-content .content-item {
+            font-size: 0.55rem;
+        }
+
+        .taskDetail-wrap .task .task-content .task-desc p,
+        .taskDetail-wrap .task .task-content .task-detail p {
+            line-height: 1.2rem;
+        }
+
+        .taskDetail-wrap .received {
+            padding-top: 0.75rem;
+        }
+
+        .task-nav {
+            height: 3rem;
+            line-height: 3rem;
+            display: flex;
+        }
+
+        .task-nav>div {
+            flex: 1;
+            text-align: center;
+        }
+
+        .count-down,.nav-item.active {
+            color: #ff4b2b
+        }
+        .task-content {padding: 1rem}
     </style>
 </head>
+
 <body>
     <div class="content"></div>
     <script src='inc/z.js'></script>
@@ -128,63 +175,67 @@
 			<div class="info">
 				<!-- 任务内容 -->
 				<div class="info-content">
-					<div class="type" v-text="curTaskDetail.name"></div>
+					<div class="type">{{missionTask.name}}</div>
 					<div class="title">发布商家：
-						<span v-text="curTaskDetail.publisher"></span>
+						<span>{{missionTask.shopName || '平台发布'}}</span>
 					</div>
 					<div class="time">
 						任务时间：
-						<span v-text="curTaskDetail.startTime"></span> 至
-						<span v-text="curTaskDetail.endTime"></span>
-					</div>
-					<div class="duration-time" v-if="!showCountDown">
+						<span>{{missionTask.beginTime | Date}}</span> 至
+						<span>{{missionTask.endTime | Date}}</span>
+                    </div>
+                    {{if(missionTask.userStatus != 2)}}
+					<div class="duration-time">
 						任务时长：
-						<span v-text="curTaskDetail.taskTime"></span>
-					</div>
-					<div class="count-down duration-time" v-else>
+						<span>{{missionTask.taskTime}}分钟</span>
+                    </div>
+                    {{/if}}
+                    {{if(missionTask.userStatus == 2)}}
+					<div class="count-down duration-time">
 						倒计时：
-						<span>{{countDownText}}</span>
-					</div>
+						<span>{{missionTask.countDown | CountDown missionTask.taskTime now}}</span>
+                    </div>
+                    {{/if}}
 				</div>
 				<!-- 赏金和时间 -->
 				<div class="bounty-countdown">
 					<div class="bounty">¥
-						<span v-text="curTaskDetail.bounty"></span>
+						<span>{{missionTask.singleAmount}}</span>
 					</div>
-					<div class="countdown" v-text="'预计耗时'+curTaskDetail.preTime"></div>
+					<div class="countdown">预计耗时：{{missionTask.preTime}}分钟</div>
 				</div>
-			</div>
-			<div class="operate" v-show='!complete'>
-				<!-- 领取按钮 -->
-				<div class="btn-receive" v-if="!receiveFlag" @click="receive">领取</div>
-				<!-- 提交凭证和放弃按钮 -->
-				<div class="btn-group" v-else>
-					<div class="btn-submit" @click="submit">提交凭证</div>
-					<div class="give-up" @click="giveUp" v-show="!isNew">放弃</div>
-				</div>
-			</div>
+            </div>
+            {{if(missionTask.userStatus < 3 || missionTask.userStatus == 8)}}
+			<div class="operate">
+                <!-- 领取按钮 -->
+                {{if(missionTask.userStatus < 2 || missionTask.userStatus == 8)}}
+                <div class="btn-receive" onclick='takeTask()'>领取</div>
+                {{/if}}
+                <!-- 提交凭证和放弃按钮 -->
+                {{if(missionTask.userStatus >= 2 && missionTask.userStatus !=8)}}
+				<div class="btn-group" >
+					<div class="btn-submit" >提交凭证</div>
+					<div class="give-up">放弃</div>
+                </div>
+                {{/if}}
+            </div>
+            {{/if}}
 		</div>
 		<!-- 任务描述、任务说明、任务列表 -->
 		<div :class="['task',{ 'received': receiveFlag } ]" v-show="!task">
 			<!-- 任务导航 -->
 			<div class="task-nav">
-				<div class="nav-item" :class="[ currentTab == 0 ? 'current' : '' ]" @click="toggleNav(0)">任务描述</div>
-				<div class="nav-item" :class="[ currentTab == 1 ? 'current' : '' ]" @click="toggleNav(1)">任务说明</div>
+				<div class="nav-item active"  onclick='toggle(this,0)'>任务描述</div>
+				<div class="nav-item" onclick='toggle(this,1)'>任务说明</div>
 				<!-- <div class="nav-item" :class="[ currentTab == 2 ? 'current' : '' ]" @click="toggleNav(2)">任务列表</div> -->
 			</div>
 			<!-- 任务内容 -->
 			<div class="task-content">
-				<div class="content-item task-desc" v-show="currentTab == 0">
-					<scroll-view scroll-x style="width:350px">
-						<rich-text class="text-box" :nodes='curTaskDetail.description'></rich-text>
-					</scroll-view>
+				<div class="content-item task-desc" style="display:block" >
+                    {{missionTask.description}}
 				</div>
-				<div class="content-item task-detail" v-show="currentTab == 1">
-					<scroll-view scroll-x style="width:350px">
-
-						<rich-text class="text-box" :nodes='curTaskDetail.illustrate'></rich-text>
-					</scroll-view>
-
+				<div class="content-item task-detail" style="display:none">
+                    {{missionTask.illustrate || ''}}
 				</div>
 				<!-- <div class="content-item task-list" v-show="currentTab == 2">
 					<task-card v-if="curTask" :item='curTask' :no-jump="true"></task-card>
@@ -197,12 +248,79 @@
 	</div>
     </script>
     <script>
-        var taskId=Comm.query('taskId');
-
-        function loadData(){
-            prompt.loading();
-            AJAX.GET('')
+        var taskId = Comm.query('taskId'), timer,isLocal=null,url=null;
+        template.defaults.imports.Date = function (time) {
+            return timestampToDate(time)
         }
+        template.defaults.imports.CountDown = function (countDownTime, taskTime, now) {
+            if(!countDownTime){return}
+            var t = (countDownTime + taskTime * 60 * 1000) - now;
+            t>0 && setCountDown(t);
+            t<0 && timeOut();
+            return diffTime(t)
+        }
+        function loadData() {
+            Prompt.loading();
+            AJAX.GET('/api/task/getDetailById?taskId=' + taskId, function (res) {
+                if (res) {
+                    var html = template('content', res);
+                    isLocal = res.missionTask.isLocal;
+                    isLocal ?url = res.missionTask.url:'';
+                    document.querySelector('.content').innerHTML = html
+                    Prompt.hide()
+                }
+            })
+        }
+        function takeTask() {
+            Prompt.loading();
+            AJAX.GET('/api/taskUser/getReceive?taskId=' + taskId, function (res) {
+                Prompt.hide()
+                Prompt.msg('领取成功');
+                if(isLocal && url){
+                    Comm.go(url+'.html');
+                }else{
+                    loadData()
+                }
+            })
+        }
+        function setCountDown(t) {
+            if (timer) {
+                return
+            }
+            if (t <= 0) {
+                return timeOut()
+            }
+            timer = setInterval(() => {
+                document.querySelector('.count-down>span').innerHTML = diffTime(t) || 0;
+                t -= 1000;
+                if (t <= 0) {
+                    timeOut()
+                    clearInterval(timer);
+                    timer = null;
+                    return
+                }
+            }, 1000);
+        }
+        function timeOut() {
+            Prompt.msg('该任务已过期,请重新领取')
+            setTimeout(() => {
+                loadData()
+            }, 1200);
+            return;
+        }
+        function toggle(ele,index){
+            if(ele.className == 'nav-item active'){
+                return
+            }
+            document.querySelector('.nav-item.active').className = 'nav-item';
+            ele.className='nav-item active';
+            var box = document.querySelectorAll('.content-item');
+            for(var i =0;i<box.length;i++){
+                box[i].style.display = i==index? 'block' : 'none'
+            }
+        }
+        loadData()
     </script>
 </body>
+
 </html>

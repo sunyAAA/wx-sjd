@@ -495,26 +495,6 @@ var Comm = new function() {
         }
     }();
 };
-var insharedetail = location.href.indexOf("casedetail") > -1 && location.href.indexOf("share") > -1;
-
-if (self === top && !(insharedetail && !Local.user()) && !window.indexPage) {
-    var state = { title: "Page", url: "#" + Math.random() };
-    history.pushState(state, state.title, state.url);
-    window.addEventListener("popstate", function(e) {
-        if (window.goBackEvent)
-            window.goBackEvent();
-        else Comm.close();
-    }, false);
-}
-
-
-
-
-var projstages = [{ i: 0, t: '前期准备' }, { i: 1, t: '正在进行' }, { i: 2, t: '中止' }, { i: 3, t: '签约执行' }, { i: 4, t: '终止' }];
-var projtypes = [{ i: 0, t: '个人' }, { i: 1, t: '民营企业' }, { i: 2, t: '上市公司' }, { i: 3, t: '国有企业' }, { i: 4, t: '公用事业单位' }, { i: 5, t: '政府信用类' }, { i: 6, t: '其他' }];
-var casetypes = [{ i: 0, t: '未知' }, { i: 1, t: '租赁' }, { i: 2, t: '保理' }, { i: 3, t: '银行贷款' }, { i: 4, t: '其他' }];
-var casesources = [{ i: 0, t: '自建' }, { i: 1, t: '接收' }];
-var casestatus = [{ i: 0, t: '未知' }, { i: 1, t: '洽谈中' }, { i: 2, t: '已确认' }, { i: 3, t: '终止' }, { i: 4, t: '签约执行' }];
 
 Comm.toMoney = function(number, places, symbol, thousand, decimal) {
     places = !isNaN(places = Math.abs(places)) ? places : 2;
@@ -547,63 +527,11 @@ Comm.getImgUrl = function(url) {
     }
 };
 
-function userPrivilege(cb) {
-    window.privilege = 0;
-    var u = Local.user();
-    if (u && u.level == 2 && u.vipterm && u.vipterm > new Date().getTime()) window.privilege = 1;
-    cb && cb();
-}
 
 
 
 
 
-function fillData(d, dom) {
-    !dom && (dom = document);
-    var bs = dom.querySelectorAll("[b]");
-    for (var i = 0; i < bs.length; i++) {
-        var a = bs[i].getAttribute("b");
-        if (a.indexOf(":") < 0) {
-            if (d[a])
-                setData(bs[i], d[a]);
-        } else {
-            var as = a.split(",");
-            var ds = [];
-            var f = null;
-            for (var j = 0; j < as.length; j++) {
-                if (j === as.length - 1) {
-                    ds = as[j].split(":");
-                    as[j] = ds[0];
-                    ds.splice(0, 1);
-                }
-                if (j === 0) {
-                    f = window[as[j]];
-                } else if (typeof f === "object") {
-                    f = f[as[j]];
-                }
-            }
-            for (var k = 0; k < ds.length; k++) {
-                var td = d[ds[k]];
-                if (JSON.stringify(td)) ds[k] = td;
-            }
-            var ind = null;
-            if (typeof f === "function") {
-                ind = f(ds[0], ds[1], ds[2], ds[3], ds[4]);
-            }
-            if (ind)
-                setData(bs[i], ind);
-        }
-    }
-
-    function setData(e, v) {
-        if (e.tagName === "INPUT" || e.tagName === "TEXTAREA") {
-            e.value = v;
-        } else if (e.tagName === "IMG") {
-            e.src = v;
-        } else
-            e.innerHTML = v;
-    }
-}
 
 function Coder(e, inp, o) {
     var t = this;
@@ -640,47 +568,13 @@ function Coder(e, inp, o) {
     t.sec = 60;
 }
 
-function Tab(urls, ct) {
-    var box = document.createElement("UL");
-    box.className = "tab";
-    for (var i = 0; i < urls.length; i++) {
-        var it = document.createElement("LI");
-        it.innerHTML = "<span>" + urls[i].text + "</span>";
-        if (urls[i].select) {
-            it.style.backgroundImage = 'url(' + urls[i].activebg + ')';
-            it.style.color = urls[i].color;
-        } else {
-            it.style.backgroundImage = 'url(' + urls[i].bg + ')';
-        }
-        it.idx = i;
-        it.onclick = function() {
-            Local.ssave("homeIdx", this.idx);
-            location.href = urls[this.idx].url + "?_t=" + Math.random();
-        }
-        box.appendChild(it);
-    }
-    if (!ct)
-        ct = document.querySelector(".ct");
-    if (ct) {
-        ct.style.height = 'calc(' + ct.getBoundingClientRect().height + 'px - 2.5rem)';
-        document.body.insertBefore(box, ct.nextElementSibling);
-    }
-}
 
 
 
-function goTop() {
-    Local.sdel("his");
-}
 
-function popInpStr(o) {
-    !o.oktext && (o.oktext = "确认");
-    !o.title && (o.title = "请输入内容");
-    !o.type && (o.type = "text");
-    !o.val && (o.val = "");
-    !o.placeholder && (o.placeholder = o.title);
-    return '<div style="font-size: 16px; font-weight: 500; text-align: center; padding: 10px 0px">' + o.title + '</div><div style="padding:10px;height: 20px; line-height: 0px; margin: 20px; border:1px solid #d9d9d9; border-radius: 8px"><input style="width: 100%; padding: 0px; border: 0px; margin: 0px; height: 20px; line-height: 20px" type="' + o.type + '" value="' + o.val + '" ' + (o.max ? 'maxlength="' + o.max + '"' : '') + ' placeholder="' + o.placeholder + '"></div><div style="display: -webkit-box; height: 2.5rem; line-height: 2.5rem; margin-top: 15px; text-align: center"><div onclick="Prompt.end(0)" style="-webkit-box-flex: 1; width: 0px; border-top: 1px solid #d9d9d9">取消</div><div onclick="Prompt.end(this.parentNode.parentNode.querySelector(\'input\').value.toString())" style="-webkit-box-flex: 1; width: 0px; color: white; background-color: #FB5933">' + o.oktext + '</div></div>';
-}
+
+
+
 
 var regBox = {
     phone: /^1[34578]\d{9}$/,
@@ -688,12 +582,6 @@ var regBox = {
 };
 
 
-var tabList1 = [
-    { text: "首页", url: 'home.html', color: '#FB5933', bg: 'img/t11.png', activebg: 'img/t1.png' },
-    { text: "组织", url: 'org.html', color: '#FB5933', bg: 'img/t22.png', activebg: 'img/t2.png' },
-    { text: "好友", url: 'friends.html', color: '#FB5933', bg: 'img/t33.png', activebg: 'img/t3.png' },
-    { text: "我的", url: 'my.html', color: '#FB5933', bg: 'img/t44.png', activebg: 'img/t4.png' }
-];
 
 window.addEventListener("onorientationchange" in window ? "orientationchange" : "resize", function() {
     if (window.orientation === 180 || window.orientation === 0) {
