@@ -157,21 +157,25 @@
         {{/each}}
 	</script>
 	<script>
+		var taskId = Comm.query('userTaskId') || null;
 		WXMethod.configImg();
 		function changeImg(e) {
 			WXMethod.chooseImg(function (b) {
 				Prompt.loading();
-				AJAX.POST("api/temp/file/down", {serviceid:b[0].v}, function (a) {
-					AJAX.POST("api/customer/uploadHead", {img:a}, function () {
+				AJAX.POST("/api/imgupload/getImgPolicy", {serviceid:b[0].v}, function (a) {
+					AJAX.POST("/api/imgupload/imgUpload", {img:a}, function () {
 						Prompt.hide();
 						Prompt.msg("上传头像成功");
 						e.querySelector("img").src = b[0].k;
-						var u = Local.user();
-						u.head = a;
-						Local.user(u);
 					})
 				});
-			});
+			},{num:9});
+		}
+		function getApply(){
+			Prompt.loading();
+			AJAX.GET('/api/task/getApplyById?userTaskId='+userTaskId,function(res){
+				
+			})
 		}
 	</script>
 </body>

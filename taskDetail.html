@@ -215,7 +215,7 @@
                 {{if(missionTask.userStatus >= 2 && missionTask.userStatus !=8)}}
 				<div class="btn-group" >
 					<div class="btn-submit" >提交凭证</div>
-					<div class="give-up">放弃</div>
+					<div class="give-up" onclick='giveUp()'>放弃</div>
                 </div>
                 {{/if}}
             </div>
@@ -318,6 +318,17 @@
             for(var i =0;i<box.length;i++){
                 box[i].style.display = i==index? 'block' : 'none'
             }
+        }
+        function giveUp(){
+            Prompt.confirm('确定要放弃任务吗？',function(state){
+                if(state){
+                    Prompt.loading();
+                    AJAX.POST('/api/taskUser/giveUpTask?taskId='+taskId,function(res){
+                        Prompt.hide()
+                        loadData()
+                    })
+                }
+            })
         }
         loadData()
     </script>
