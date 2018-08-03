@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="inc/remset.js"></script>
+    <link type="text/css" href="style/page.css" rel="stylesheet">
+    <link type="text/css" href="inc/side/side.css" rel="stylesheet">
+    <style>
+        .banner {
+            padding-bottom: 46%;
+            position: relative
+        }
+
+        .banner>.box {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0px;
+            left: 0px
+        }
+
+        .side_ul img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        #banner {
+            height: 100%
+        }
+
+        .nav {
+            width: 100%;
+            height: 2.5rem;
+            line-height: 2.5rem;
+            font-size: 14px;
+            z-index: 10000;
+        }
+
+        .nav-item {
+            width: 33%;
+            float: left;
+            text-align: center;
+        }
+
+        .nav-item.active {
+            color: #ff4b2b;
+        }
+
+        .view {
+            padding: 10px 0;
+        }
+
+        .footer-bar {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            height: 2.6rem;
+            display: flex;
+            font-size: 0px;
+        }
+
+        .footer-bar>div {
+            flex: 1;
+            text-align: center;
+        }
+
+        .footer-bar .icon {
+            height: 1.4rem;
+            ;
+            background-size: 1.1rem 1.1rem;
+            background-position: center bottom;
+            background-repeat: no-repeat;
+        }
+
+        .footer-bar .icon.icon-task {
+            background-image: url('images/task.png');
+        }
+
+        .footer-bar .active .icon.icon-task {
+            background-image: url('images/task-active.png');
+        }
+
+        .footer-bar .icon.icon-progress {
+            background-image: url('images/task-progress.png');
+        }
+
+        .footer-bar .active .icon.icon-progress {
+            background-image: url('images/task-progress-active.png');
+        }
+
+        .footer-bar .icon.icon-my {
+            background-image: url('images/admin.png');
+        }
+
+        .footer-bar .active .icon.icon-my {
+            background-image: url('images/admin-active.png');
+        }
+
+        .footer-bar .active .text {
+            color: #ff4b2b
+        }
+
+        .text {
+            height: 1.4rem;
+            line-height: 1.4rem;
+            font-size: 12px;
+        }
+        .task-progress .active {
+            color: #ff4b2b
+        }
+    </style>
+    <title>首页</title>
+</head>
+
+<body>
+    <section>
+        <div class="home" style="display: block">
+            <div class="banner">
+                <div class="box">
+                    <div id="banner" class="side_box img">
+                        <ul class="side_ul"></ul>
+                    </div>
+                </div>
+            </div>
+            <div class="nav">
+                <div class="nav-item active" onclick="navHandle(0)">智能优选</div>
+                <div class="nav-item" onclick="navHandle(1)">耗时最短</div>
+                <div class="nav-item" onclick="navHandle(2)">赏金最高</div>
+            </div>
+            <div class="view yscroll">
+            </div>
+        </div>
+        <div class="task-progress" style="display: none">
+            <div class="progress-nav" style="display: flex;height: 2rem;">
+                <div class="active" onclick="progressNavHandle(this,2)" style="flex: 1;text-align: center;height: 2rem;line-height: 2rem;">
+                    进行中
+                </div>
+                <div onclick="progressNavHandle(this,3)" style="flex: 1;text-align: center;height: 2rem;line-height: 2rem;">
+                    我的审核
+                </div>
+                <div onclick="progressNavHandle(this,6)" style="flex: 1;text-align: center;height: 2rem;line-height: 2rem;">
+                    已完成
+                </div>
+            </div>
+            <div class="progress-view">
+
+            </div>
+        </div>
+        <div class="my" style="display: none">
+            我的
+        </div>
+    </section>
+
+    <div class="footer-bar">
+        <div class="active" onclick='footerBarChange(0)'>
+            <div class="icon icon-task"></div>
+            <div class="text">任务</div>
+        </div>
+        <div onclick='footerBarChange(1)'>
+            <div class="icon icon-progress"></div>
+            <div class="text">任务进行中</div>
+        </div>
+        <div onclick='footerBarChange(2)'>
+            <div class="icon icon-my"></div>
+            <div class="text">我的</div>
+        </div>
+    </div>
+    <script src='inc/z.js'></script>
+    <script src="inc/page.js"></script>
+    <script src="inc/side/side.js"></script>
+    <script src="inc/model.js"></script>
+    <script src='inc/template.js'></script>
+    <script type="text/template" id="card">
+        {{each list v}}
+        {{if(v.goType==1)}}
+        <div class="task-card" onclick="Comm.go('taskDetail.html?taskId='+{{v.taskId}})">
+            {{/if}}
+            <div class="card-item">
+                <div class="type-flag">
+                    <div class="flag">{{v.flag}}</div>
+                </div>
+                <div class="task-content">
+                    <div class="title">{{v.name || v.task.name}}</div>
+                    <div class="publisher">发布商家：
+                        <span>{{v.shopName}}</span>
+                    </div>
+                    <div class="time-limit">任务时间：
+                        <span >{{v.begin}}</span> 至
+                        <span>{{v.end}}</span>
+                    </div>
+                    <div class="time-limit">预计耗时：{{v.preTime||v.task.preTime || ''}}分钟</div>
+                </div>
+                <div class="task-bounty">¥
+                    <span>{{v.singleAmount}}</span>
+                </div>
+            </div>
+        </div>
+        {{/each}}
+    </script>
+    <script>
+        var sideObj = null;
+        var userId = Local.get('userInfo') ? Local.get('userInfo').userId : 5;
+        var newTask = {};
+        var pageSize = 50;
+        var pageNum = 1;
+        var List = [];
+        var sortStatus = 1;
+        var progressStatus = 2;
+
+
+        function loadBanner() {
+            AJAX.GET('/api/advert/list', function (res) {
+                var html = [];
+                var d = res;
+                for (var i = 0; i < d.length; i++) {
+                    html.push('<li><img src=' + config.ossroot + d[i].face + '></li>')
+                }
+                console.log(html)
+                document.querySelector('.side_ul').innerHTML = html.join('');
+                if (!sideObj) {
+                    setTimeout(function () {
+                        sideObj = new Side('banner');
+                        Prompt.hide();
+                        setViewHeight()
+                    }, 500);
+                }
+            })
+        }
+        function setViewHeight() {
+            var banner = document.querySelector('.banner').clientHeight;
+            var nav = document.querySelector('.nav').clientHeight;
+            var view = document.querySelector('.view');
+            var footer = document.querySelector('.footer-bar').clientHeight
+            var height = document.body.clientHeight - banner - nav - footer - 20;
+            view.setAttribute('style', 'height:' + height + 'px')
+        }
+        function loadNewList() {
+            Prompt.loading();
+            AJAX.GET('/api/task/newTask?userid=' + userId + '&dictId=2', function (res) {
+                newTask = setNewTaskList(res);
+                loadTaskList()
+            })
+        }
+        function loadTaskList() {
+            AJAX.GET('/api/task/getRecommend?pageNum=' + pageNum + '&pageSize=' + pageSize + '&userId=' + userId, function (res) {
+                list = forMart(res);
+                Prompt.hide();
+                render()
+            })
+        }
+        function render() {
+            list = list.sort(getSortFun());
+            list.unshift(newTask);
+            var renderData = { list: list }
+            var html = template('card', renderData);
+            document.querySelector('.view').innerHTML = html;
+        }
+        function taskLoad() {
+            loadBanner()
+            loadNewList()
+        }
+        function getSortFun() {
+            return sortStatus == 1
+                ? (a, b) => {
+                    return a.preTime - b.preTime;
+                }
+                : this.sortStatus == 2
+                    ? (a, b) => {
+                        return b.singleAmount - a.singleAmount;
+                    }
+                    : (a, b) => {
+                        return a.taskId - b.taskId;
+                    };
+        }
+        function navHandle(index) {
+            var navList = document.querySelectorAll('.nav-item');
+            for (var i = 0; i < navList.length; i++) {
+                navList[i].className = i == index ? 'nav-item active' : 'nav-item';
+            }
+            sortStatus = index;
+            render()
+        }
+        function progressNavHandle(ele,status){
+            var curNav = document.querySelector('.task-progress div.active');
+            if(ele == curNav){return}
+            curNav.className='';ele.className='active'
+            progressStatus = status;
+            loadProgressData();
+            
+        }
+        function loadProgressData(){
+            Prompt.loading();
+            AJAX.GET('/api/task/myList?status='+progressStatus+'&pageSize='+pageSize+'&pageNum=1',function(res){
+                if(res){
+                    var renderObj = {list : forMartProgressTask(res)}
+                    var html = template('card',renderObj);
+                    document.querySelector('.progress-view').innerHTML = html;
+                }
+                Prompt.hide()
+            })
+        }
+        function setProgressViewHeight(){
+            var nav = document.querySelector('.progress-nav').clientHeight;
+            var footer = document.querySelector('.footer-bar').clientHeight;
+            // var view 
+        }
+        function footerBarChange(index) {
+            var footerBarList = document.querySelectorAll('.footer-bar>div');
+            for (var i = 0; i < footerBarList.length; i++) {
+                footerBarList[i].className = i == index ? 'active' : '';
+            }
+            var contentBox = document.querySelectorAll('section>div');
+            for (var m = 0; m < contentBox.length; m++) {
+                contentBox[m].style.display = m == index ? 'block' : 'none'
+            }
+            switch(index){
+                case 0 : loadNewList();document.title = '首页';break;
+                case 1 : loadProgressData(); document.title = "我的任务";break;
+            }
+        }
+        taskLoad();
+    </script>
+</body>
+
+</html>
