@@ -110,8 +110,64 @@
             font-size: 12px;
         }
         .task-progress .active {
-            color: #ff4b2b
+            color: #ff4b2b;
         }
+        .progress-view {
+            padding-top:1rem;
+        }
+        .my-wrap .admin-info {
+		    width: 18.75rem;
+		    height: 8.5rem;
+		    text-align: center;
+		    padding-top: 1.5rem;
+		}
+		.my-wrap .admin-info .head-pic {
+	      	width: 4rem;
+	      	height: 4rem;
+	      	border-radius: 50%;
+	      	margin: 0 auto;
+	      	margin-bottom: 0.25rem;
+		}
+		.my-wrap .admin-info .head-pic img {
+	        width: 100%;
+	        height: 100%;
+	        border-radius: 50%;
+		}
+		.my-wrap .admin-info .username {
+	      	font-size: 0.75rem;
+	      	font-weight: 400;
+		}
+		/* 功能列表 */
+		.my-wrap .admin-list .list-item {
+	      	width: 16.55rem;
+	      	height: 3rem;
+	      	line-height: 3rem;
+	      	border-bottom: 1px solid #efeff4;
+	      	padding: 0 1.1rem;
+		}
+		.my-wrap .admin-list .list-item .icon {
+			width: 0.875rem;
+	        height: 1rem;
+	        float: left;
+	        margin-top: 0.125rem;
+		}
+		.my-wrap .admin-list .list-item .icon img {
+          	width: 100%;
+          	height: 100%;
+		}
+		.my-wrap .admin-list .list-item .title {
+	        float: left;
+	        margin-left: 0.75rem;
+		}
+		.my-wrap .admin-list .list-item .icon-arrow {
+	        width: 0.4rem;
+	        height: 0.75rem;
+	        float: right;
+		}
+		.my-wrap .admin-list .list-item .icon-arrow img {
+			width: 100%;
+			height: 100%;
+		}
     </style>
     <title>首页</title>
 </head>
@@ -151,7 +207,39 @@
             </div>
         </div>
         <div class="my" style="display: none">
-            我的
+            	<div class="my-wrap">
+                        <!-- 个人信息（头像和昵称） -->
+                        <div class="admin-info">
+                            <div class="head-pic">
+                              <img src="http://img06.tooopen.com/images/20160818/tooopen_sy_175833047715.jpg" alt="用户头像">
+                            </div>
+                            <div class="username">傻子不会跳</div>
+                        </div>
+                
+                        <!-- 功能列表 -->
+                        <ul class="admin-list">
+                            <li class="list-item" onclick="">
+                                <div class="icon"><img src=" images/my-income.png"></div>
+                                  <div class="title">我的收益</div>
+                                  <div class="icon-arrow"><img src=" images/arrow-right.png"></div>
+                            </li>
+                            <li class="list-item" onclick="jumpTo()">
+                                <div class="icon"><img src=" images/my-credibility.png"></div>
+                                  <div class="title">我的信誉</div>
+                                  <div class="icon-arrow"><img src=" images/arrow-right.png"></div>
+                            </li>
+                            <li class="list-item" onclick="Comm.go('myWallet.html')">
+                                <div class="icon"><img src=" images/withdraw.png"></div>
+                                  <div class="title">我要提现</div>
+                                  <div class="icon-arrow"><img src=" images/arrow-right.png"></div>
+                            </li>
+                            <li class="list-item" onclick="Comm.go('myMsg.html')">
+                                <div class="icon"><img src=" images/my-information.png"></div>
+                                  <div class="title">我的消息</div>
+                                  <div class="icon-arrow"><img src=" images/arrow-right.png"></div>
+                            </li>
+                        </ul>
+                      </div>
         </div>
     </section>
 

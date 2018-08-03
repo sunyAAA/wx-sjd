@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<title>我的收入</title>
+	<link rel="stylesheet" href="./css/common.css">
+	<style>
+		/* 收益金额展示 */
+		.myIncome-wrap .account {
+			height: 4.95rem;
+			border-top: 1px solid #efeff4;
+			border-bottom: 0.25rem solid #efeff4;
+			text-align: center;
+			padding-top: 1.75rem;
+		}
+		.myIncome-wrap .account .bounty {
+			font-size: 1.5rem;
+			font-weight: 500;
+			color: #000;
+		}
+		.myIncome-wrap .account span {
+			font-size: 0.5rem;
+		}
+		/* 近期收益情况展示 */
+		.recently-bounty .header {
+			font-size: 0.65rem;
+			height: 2rem;
+			line-height: 2rem;
+			border-bottom: 1px solid #efeff4;
+			display: flex;
+			justify-content: space-between;
+			padding: 0 0.75rem;
+		}
+		.recently-bounty .header .range-date {
+			display: flex;
+			justify-content: space-between;
+		}
+		.recently-bounty .header .range-date picker i {
+			width: 0;
+			height: 0;
+			display: inline-block;
+			border-left: 0.25rem solid transparent;
+			border-right: 0.25rem solid transparent;
+			border-top: 0.45rem solid #333;
+		}
+		.recently-bounty .header .range-date span {
+			margin: 0 0.5rem;
+		}
+	</style>
+</head>
+<body>
+	<div class="myIncome-wrap">
+		<!-- 收益金额展示 -->
+		<div class="account">
+			<div class="bounty">1234</div>
+			<span>累计收益额（元）</span>
+		</div>
+		<!-- 近期收益情况展示 -->
+		<div class="recently-bounty">
+			<div class="header">
+				<span>近期收益情况</span>
+				<div class="range-date">
+					<picker mode="date" @change="startDateChange">
+						{{startDate}}
+					</picker>
+					<span>-</span>
+					<picker mode="date" @change="endDateChange">
+						{{endDate}}
+					</picker>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script src='./js/remset.js'></script>
+</body>
+</html>

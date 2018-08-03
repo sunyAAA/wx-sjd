@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<title>收支详情</title>
+	<link rel="stylesheet" href="style/common.css">
+	<link rel="stylesheet" href="style/page.css">
+	<script src='inc/remset.js'></script>
+
+	<style>
+		.moneyDetail-wrap .top-bar {
+			display: flex;
+		    height: 2.5rem;
+		    border: 1px solid #eee;
+		}
+		.moneyDetail-wrap .top-bar .case {
+			flex: 1;
+	        text-align: center;
+	        height: 2.5rem;
+	        line-height: 2.5rem;
+	        font-size: 0.7rem;
+		}
+		.moneyDetail-wrap .top-bar .case:nth-child(1){
+			border-right: 1px solid #eee;
+		}
+		.moneyDetail-wrap .top-bar .active {
+			color: #ff4b2b;
+		}
+		.content {
+			padding: 1rem 0;
+		}
+
+	</style>
+</head>
+<body>
+	<div class="moneyDetail-wrap">
+		<div class="over-page">
+	        <div class="top-bar">
+	            <div class="case active" onclick="toggle(this,1)" >收入明细</div>
+	            <div class="case" onclick="toggle(this,2)">提现明细</div>
+	        </div>
+		</div>
+
+	</div>
+			<div class="content">
+
+		</div>
+	<script src="inc/page.js"></script>
+	<script src='inc/template.js'></script>
+	<script src="inc/model.js"></script>
+	<script type="text/template" id="card">
+        {{each list v}}
+        <div class="task-card" onclick="Comm.go('taskDetail.html?taskId='+{{v.taskId}})">
+            <div class="card-item" style="width:16rem">
+                <div class="type-flag">
+                    <div class="flag">收入</div>
+                </div>
+                <div class="task-content">
+                    <div class="title">{{v.name || v.task.name}}</div>
+                    <div class="publisher">发布商家：
+                        <span>{{v.shopName}}</span>
+                    </div>
+                    <div class="time-limit">任务时间：
+                        <span >{{v.begin}}</span> 至
+                        <span>{{v.end}}</span>
+                    </div>
+                </div>
+                <div class="task-bounty">¥
+                    <span>{{v.singleAmount}}</span>
+                </div>
+            </div>
+        </div>
+        {{/each}}
+	</script>
+	<script>
+		var type = 1;
+		function toggle(ele,type){
+			if(ele.className.indexOf('active') > -1){
+				return
+			}
+			document.querySelector('.case.active').className='case';
+			ele.className = 'case active';
+			type = type;
+			loadData()
+		}
+		function loadData(){
+			Prompt.loading();
+			AJAX.GET('/api/userDeposit/getDepositPage?type='+type+"&pageSize=1000&pageNum=1",function(res){
+				Prompt.hide()
+				if(res.length){
+					for(var i = 0 ;i<res.length;i++){
+						res[i]  = forMart([res[i].task])[0];
+					}
+					var obj={list:res};
+					var html = template('card',obj);
+					document.querySelector('.content').innerHTML = html
+				}
+			})
+		}
+		loadData()
+	</script>
+</body>
+</html>

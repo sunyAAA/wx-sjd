@@ -205,14 +205,14 @@
 					<div class="countdown">预计耗时：{{missionTask.preTime}}分钟</div>
 				</div>
             </div>
-            {{if(missionTask.userStatus < 3 || missionTask.userStatus == 8)}}
+            {{if(missionTask.userStatus < 3 || missionTask.userStatus == 8 || missionTask.userStatus == 7)}}
 			<div class="operate">
                 <!-- 领取按钮 -->
-                {{if(missionTask.userStatus < 2 || missionTask.userStatus == 8)}}
+                {{if(missionTask.userStatus < 2 || missionTask.userStatus == 8 || missionTask.userStatus == 7)}}
                 <div class="btn-receive" onclick='takeTask()'>领取</div>
                 {{/if}}
                 <!-- 提交凭证和放弃按钮 -->
-                {{if(missionTask.userStatus >= 2 && missionTask.userStatus !=8)}}
+                {{if(missionTask.userStatus >= 2 && missionTask.userStatus !=8 && missionTask.userStatus !=7)}}
 				<div class="btn-group" >
 					<div class="btn-submit" >提交凭证</div>
 					<div class="give-up" onclick='giveUp()'>放弃</div>
@@ -248,24 +248,27 @@
 	</div>
     </script>
     <script>
-        var taskId = Comm.query('taskId'), timer,isLocal=null,url=null;
+        var taskId = Comm.query('taskId'), timer,isLocal=null,url=null,userStatus;
         template.defaults.imports.Date = function (time) {
             return timestampToDate(time)
         }
         template.defaults.imports.CountDown = function (countDownTime, taskTime, now) {
-            if(!countDownTime){return}
-            var t = (countDownTime + taskTime * 60 * 1000) - now;
-            t>0 && setCountDown(t);
-            t<0 && timeOut();
-            return diffTime(t)
+                if(!countDownTime){return}
+                var t = (countDownTime + taskTime * 60 * 1000) - now;
+                t>0 && setCountDown(t);
+                t<0 && timeOut();
+                return diffTime(t)
         }
         function loadData() {
             Prompt.loading();
+            clearInterval(timer);
+            timer = null;
             AJAX.GET('/api/task/getDetailById?taskId=' + taskId, function (res) {
                 if (res) {
                     var html = template('content', res);
                     isLocal = res.missionTask.isLocal;
                     isLocal ?url = res.missionTask.url:'';
+                    userStatus = res.missionTask.userStatus;
                     document.querySelector('.content').innerHTML = html
                     Prompt.hide()
                 }
@@ -323,8 +326,8 @@
             Prompt.confirm('确定要放弃任务吗？',function(state){
                 if(state){
                     Prompt.loading();
-                    AJAX.POST('/api/taskUser/giveUpTask?taskId='+taskId,function(res){
-                        Prompt.hide()
+                    AJAX.POST('/api/taskUser/giveUpTask?taskId='+taskId,{},function(res){
+                        Prompt.hide();
                         loadData()
                     })
                 }

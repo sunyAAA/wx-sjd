@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<title>我的消息</title>
+	<link rel="stylesheet" href="style/common.css">
+	<link rel="stylesheet" href="style/page.css">
+	<script src="inc/remset.js"></script>
+	<style>
+		.task-card .card-item .type-flag .flag {
+			width: 1.25rem;
+			height: 1.75rem;
+			background-color: #ff4b2b;
+			font-size: 0.45rem;
+			color: #fff;
+			padding: 0.25rem 0.15rem 0 0.15rem;
+			text-align: center;
+			position: relative;
+			line-height: 0.5rem;
+		}
+		.time-limit {
+			font-size: 10px;
+			padding-top: 2rem;
+			padding-left: 1rem;
+
+		}
+	</style>
+	<title>我的消息</title>
+</head>
+
+<body>
+	<div class="content"></div>
+	<script src="inc/page.js"></script>
+	<script src='inc/template.js'></script>
+	<script src="inc/model.js"></script>
+	<script type="text/template" id="card">
+	{{each list v}}
+	<div class="task-card" onclick="Comm.go('taskDetail.html?taskId='+{{v.taskId}})">
+		<div class="card-item">
+			<div class="type-flag">
+				<div class="flag">{{v.context.title}}</div>
+			</div>
+			<div class="task-content">
+				<div class="title"></div>
+				<div class="publisher">发送时间：
+					<span>{{v.context.sendTime | Date}}</span>
+				</div>
+			</div>
+			<div class="time-limit">
+					{{v.context.content}}
+			</div>
+		</div>
+	</div>
+	{{/each}}
+</script>
+	<script>
+		var pageNum = 1, pageSize = 1000;
+		template.defaults.imports.Date = function (time) {
+            return timestampToDate(time)
+        }
+		function getMsg() {
+			Prompt.loading();
+			AJAX.GET('/api/message/getMessage?pageNum=' + pageNum + '&pageSize=' + pageSize, function (res) {
+				Prompt.hide();
+				var obj = { list: res }
+				var html = template('card', obj);
+				document.querySelector('.content').innerHTML = html;
+			})
+		}
+		getMsg()
+	</script>
+</body>
+
+</html>

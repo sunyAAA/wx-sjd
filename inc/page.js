@@ -236,7 +236,7 @@ var AJAX = new function() {
         } else {
             if (!data._token) {
                 data._device = Device.type;
-                data._token = u ? u.token : "";
+                data._token = u ? u.token : "d41723132edc2ab8a58a0b461fb4f4";
                 data._t = Math.random();
             }
         }
