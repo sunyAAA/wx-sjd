@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<title>登录</title>
+	<link rel="stylesheet" href="./style/common.css">
+	<style>
+		.login-wrap {
+			background: url(./images/login-bg.png) no-repeat;
+			-webkit-background-size: 100% 100%;
+			background-size: 100% 100%;
+		}
+		/* logo图 */
+		.login-wrap .logo {
+			width: 3.8rem;
+			height: 3.85rem;
+			margin: 1.5rem auto 2.375rem;
+		}
+		.login-wrap .logo img {
+			width: 100%;
+			height: 100%;
+		}
+		/* form表单 */
+		.login-wrap .form {
+			width: 15.925rem;
+			margin: 0 auto;
+		}
+		/* 手机号 */
+		.login-wrap .form .tel {
+			width: 100%;
+			/*height: 3.25rem;*/
+			height: 2.125rem;
+			border-bottom: 2px solid #999;
+			margin-bottom: 1.125rem;
+		}
+		.login-wrap .form .tel input {
+			width: 100%;
+			height: 100%;
+			background-color: transparent;
+		}
+		/* 验证码 */
+		.login-wrap .form .code {
+			width: 100%;
+			height: 2.125rem;
+			border-bottom: 2px solid #999;
+			display: flex;
+			justify-content: space-between;
+		}
+		.login-wrap .form .code input {
+			background-color: transparent;
+		}
+		.login-wrap .form .code .btn-get {
+			color: #0063ea;
+			cursor: pointer;
+			line-height: 2.125rem;
+		}
+		/* 平台使用协议 */
+		.login-wrap .form .platform {
+			display: flex;
+			margin: 1rem 0 2rem;
+		}
+		.login-wrap .form .platform .text {
+			font-size: 0.7rem;
+		}
+		.login-wrap .form .platform .text a {
+			color: #fc4e21;
+		}
+		.login-wrap .form .platform .icon {
+			width: 1.075rem;
+			height: 1.075rem;
+			background: url(./images/icon-btn-unsure.png);
+			-webkit-background-size: 100% 100%;
+			background-size: 100% 100%;
+		}
+		/* 登录按钮 */
+		.login-wrap .form .btn-login {
+			width: 100%;
+			height: 2rem;
+			line-height: 2rem;
+			background-color: #fd5934;
+			text-align: center;
+			font-size: 1rem;
+			cursor: pointer;
+			color: #fff;
+			border-radius: 0.125rem;
+		}
+		/* 弹出框 */
+		.alert-model {
+			width: 100%;
+			height: 100%;
+			background-color: rgba(0,0,0,0.7);
+			position: absolute;
+			left: 0;
+			top: 0;
+		}
+		.alert-model .alert-content {
+			width: 70%;
+			background-color: #fff;
+			position: absolute;
+			transform: translate(-50%,-50%);
+			left: 50%;
+			top: 50%;
+		}
+		.alert-model .alert-content .alert-header {
+			text-align: right;
+		}
+	</style>
+</head>
+<body>
+	<div class="login-wrap wrap-box">
+		<!-- logo图 -->
+		<div class="logo"><img src="./images/logo-sjd.png" alt=""></div>
+		<!-- form表单 -->
+		<div class="form">
+			<div class="tel">
+				<input type="tel" placeholder='请输入您的手机号'>
+			</div>
+			<div class="code">
+				<input type="text" class='code-input' placeholder='请输入您收到的验证码'>
+				<input type="button" class='btn-get' value='发送验证码'>
+			</div>
+			<!-- 平台使用协议 -->
+			<div class="platform">
+				<div class="text">
+					<span>我已阅读并同意</span>
+					<a href="">《平台使用协议》</a>
+				</div>
+				<div class="icon"></div>
+			</div>
+			<!-- 登录按钮 -->
+			<div class="btn-login">登录</div>
+		</div>
+		<!-- 弹出框 -->
+		<div class="alert-model" style='display: none;'>
+			<div class="alert-content">
+				<div class="alert-header">&times;</div>
+				<div class="alert-body">
+					<span></span>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script src='./inc/remset.js'></script>
+	<script src='./inc/page.js'></script>
+	<script src='./inc/jquery-2.1.1.min.js'></script>
+	<script>
+		$(function(){
+			var wait = 60;
+			function countdown(o) {
+			  	if (wait == 0) {
+			   		o.removeAttribute("disabled");   
+			   		o.value="免费获取验证码";
+			   		wait = 60;
+			  	} else { 
+				   	o.setAttribute("disabled", true);
+				   	o.value="重新发送(" + wait + ")";
+				   	wait--;
+				   	setTimeout(function() {
+				    	countdown(o)
+				   	},
+			   		1000)
+			  	}
+		 	}
+		 	// 点击获取验证码
+		 	$('.code .btn-get').on('click',function(){
+		 		var phone = $('.form .tel input').val();
+		 		// 如果手机号无效
+	 			if(!(/^1(3|4|5|7|8)\d{9}$/.test(phone))){ 
+			        alertMsg("手机号码有误，请重填");  
+			        return false; 
+			    } else {
+			    	countdown(this)
+			    	$.ajax({
+			    		url: 'https://sjd.uvmatrix.com/api/user/sendVerificationCode',
+			    		type: 'GET',
+			    		data: {
+			    			phone: phone,
+			    			type: 1
+			    		},
+			    		success(res){
+			    			console.log(res)
+			    		}
+			    	})
+			    }
+		 	})
+		 	// 点击登录
+		 	$('.btn-login').on('click',function(){
+		 		var phone = $('.form .tel input').val();
+		 		var code = $('.form .code .code-input').val();
+		 		if(phone != '' && code != ''){	// 如果手机号和验证码都不为空的话
+		 			$.ajax({
+		 				url: 'https://sjd.uvmatrix.com/api/user/loginByCode',
+		 				type: 'POST',
+		 				data: {
+		 					phone: phone,
+		 					verificationCode: code
+		 				},
+		 				success: function(res){
+		 					console.log(res)
+		 					// window.location.href = 'home.html'
+		 					Local.save('u',res.data)
+		 					Local.save('_token',res.data.token)
+		 				}
+		 			})
+		 		}else {
+		 			// alert('手机号和验证码都不能为空')
+		 		}
+		 	})
+
+		 	function alertMsg(msg){
+		 		$('.alert-model').show();
+		 		$('.alert-model .alert-body span').html(msg);
+		 	}
+
+		 	$('.alert-model .alert-header').click(function(){
+		 		$('.alert-model').hide();
+		 	})
+		})
+	</script>
+
+</body>
+</html>
