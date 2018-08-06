@@ -1,17 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no,minimal-ui">
 	<title>任务凭证</title>
 	<link rel="stylesheet" href="style/common.css">
 	<link rel="stylesheet" href="style/page.css">
 	<script src='inc/remset.js'></script>
 	<style>
-		.taskCertificate-wrap{
+		.taskCertificate-wrap {
 			height: 100%;
 		}
+
 		/* 任务信息卡片 */
+
 		.taskCertificate-wrap .card-item {
 			background-color: #efeff4;
 			padding: 0 0.75rem;
@@ -21,48 +24,60 @@
 			border-radius: 0.3rem;
 			margin-bottom: 1.5rem;
 		}
+
 		/* 任务内容 */
+
 		.taskCertificate-wrap .card-item .task-content {
 			float: left;
 		}
+
 		.taskCertificate-wrap .card-item .task-content .title {
 			font-size: 0.75rem;
 			font-weight: 500;
 			margin: 0.625rem 0 0.75rem;
 		}
+
 		.taskCertificate-wrap .card-item .task-content .publisher {
 			font-size: 0.5rem;
 			margin-bottom: 0.25rem;
 		}
+
 		.taskCertificate-wrap .card-item .task-content .time-limit {
 			font-size: 0.5rem;
 		}
+
 		/* 任务赏金 */
+
 		.taskCertificate-wrap .card-item .task-bounty {
 			font-size: 0.75rem;
 			color: #ff4b2b;
 			float: right;
 			line-height: 4.5rem;
 		}
+
 		.taskCertificate-wrap .card-item .task-bounty span {
 			font-size: 1.5rem;
 		}
+
 		/* 上传凭证 */
+
 		.taskCertificate-wrap .upload-box {
 			margin-bottom: 15px;
 		}
+
 		.taskCertificate-wrap .upload-box .upload-area {
 			width: 17.5rem;
 			min-height: 11.425rem;
 			border: 1px solid #e6e6e6;
 			margin: 0 auto;
-			padding: 1rem;
 			padding-bottom: 0px;
 		}
+
 		.taskCertificate-wrap .upload-box .upload-area textarea {
 			width: 100%;
 			min-height: 4.525rem;
 		}
+
 		.taskCertificate-wrap .upload-box .upload-area .btn-upload,
 		.taskCertificate-wrap .upload-box .upload-area .img-item {
 			flex: 0 0 4.25rem;
@@ -71,20 +86,24 @@
 			display: inline-block;
 			margin-right: 0.5rem;
 			margin-bottom: 1rem;
-            position: relative;
+			position: relative;
 		}
+
 		.taskCertificate-wrap .upload-box .upload-area .btn-upload img,
 		.taskCertificate-wrap .upload-box .upload-area .img-item img {
 			width: 100%;
 			height: 100%;
 			object-fit: cover;
 		}
+
 		.taskCertificate-wrap .upload-box span {
 			font-size: 0.6rem;
 			color: #999;
 			padding-left: 1rem;
 		}
+
 		/* 审核按钮 */
+
 		.taskCertificate-wrap .btn-review {
 			width: 15.75rem;
 			height: 2rem;
@@ -97,8 +116,78 @@
 			margin: 0 auto 1rem auto;
 		}
 
+		/*UpImage*/
+
+		#UpImageBox {
+			position: absolute;
+			top: 0px;
+			left: 0px;
+			width: 100%;
+			height: 100%;
+			z-index: 1000;
+			text-align: center;
+			overflow: hidden;
+			display: none;
+		}
+
+		#UpImageBox .nav {
+			background: #393A3F;
+			height: 50px;
+			overflow: hidden;
+		}
+
+		#UpImageBox .nav>span {
+			display: inline-block;
+			margin: 10px;
+			height: .4rem;
+			text-align: center;
+		}
+
+		#UpImageBox .back {
+			float: left;
+			background: url(../img/back_w.png) no-repeat center center;
+			width: 30px;
+		}
+
+		#UpImageBox .select {
+			color: #fff;
+			background: transparent;
+			border-radius: 5px;
+			float: right;
+			line-height: 30px;
+			width: 2.5rem;
+			height: 1.5rem;
+		}
+
+		#UpImageBox .content {
+			height: 300px;
+			width: 300px;
+			overflow: hidden;
+			margin: 20px auto 0px auto;
+			background-size: cover;
+			border: 1px solid #fff;
+			background-repeat: no-repeat;
+			background-position: center center;
+		}
+
+		#UpImageBox .mask {
+			height: 100%;
+			width: 100%;
+			float: right;
+			background: #AAA;
+			opacity: .9;
+			font-size: 0px;
+			overflow: hidden;
+		}
+
+		#UpImageBox .upmess {
+			line-height: 50px;
+			text-align: center;
+			color: #000;
+		}
 	</style>
 </head>
+
 <body>
 	<div class="taskCertificate-wrap">
 		<!-- 上传凭证 -->
@@ -109,29 +198,25 @@
 			<div class="upload-area">
 				<textarea placeholder="内容描述..." v-model="remark"></textarea>
 				<div class="img-box">
-					<div class="img-item" v-for="(item,index) in imgUrl" :key="index" >
-						<img :src="oss + item" alt="">
-                        <div  class="icon-remove" @click='remove(index)'><img src="./images//remove.jpg" alt=""></div>
-					</div>
-					<div class="btn-upload">
+					<div class="btn-upload" id='addBox'>
 						<img src="./images/addImg.png" alt="">
 					</div>
 				</div>
+
 			</div>
 			<span>上传凭证（最多可上传9张）</span>
-            <p v-show='isNew' class="tips">预计审核时间为七个工作日</p>
+			<p v-show='isNew' class="tips">预计审核时间为七个工作日</p>
 		</div>
 		<!-- 审核按钮 -->
 		<div class="btn-review" @click='send' v-if='isNew'>提交凭证</div>
 	</div>
-	<script src='inc/z.js'></script>
-    <script src="inc/page.js"></script>
-    <script src="inc/side/side.js"></script>
-    <script src="inc/model.js"></script>
+	<script src="inc/z.js"></script>
+	<script src='inc/page.js'></script>
+	<script src="inc/g.js"></script>
+	<script src="inc/upimg//upload.js"></script>
+	<script src="inc/model.js"></script>
 	<script src='inc/template.js'></script>
-	<script src="https://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
-	<script src="inc/wx.js"></script>
-    <script type="text/template" id="card">
+	<script type="text/template" id="card">
         {{each list v}}
         <div class="task-card" onclick="Comm.go('taskDetail.html?taskId='+{{v.taskId}})">
             <div class="card-item">
@@ -157,30 +242,30 @@
         {{/each}}
 	</script>
 	<script>
-		var taskId = Comm.query('userTaskId') || null;
-		// WXMethod.configImg();
-		// function changeImg(e) {
-		// 	WXMethod.chooseImg(function (b) {
-		// 		Prompt.loading();
-		// 		AJAX.GET("/api/imgupload/getImgPolicy", function (a) {
-		// 			AJAX.POST("/api/imgupload/imgUpload", {img:a}, function () {
-		// 				Prompt.hide();
-		// 				Prompt.msg("上传头像成功");
-		// 				e.querySelector("img").src = b[0].k;
-		// 			})
-		// 		});
-		// 	},{num:9});
-		// }
-		function getApply(){
-			Prompt.loading();
-			AJAX.GET('/api/task/getApplyById?userTaskId='+userTaskId,function(res){
-				Prompt.hide();
-				back('操作成功')
-			})
+		var taskId = Comm.query('userTaskId') || null, imgList = [];
+		function addStaffImg() {
+			load = new imgUploader("addBox");
+			load.success = function () {
+				if(imgList.length >9){return Prompt.msg('最多上传9张图片') }
+				if(imgList.length == 9){toggleLoadBtn('none')}
+				imgList.push(this.getList()[0]);
+			};
+			load.fill = function () {
+				if(imgList.length >=9){return Prompt.msg('最多上传9张图片') }
+				var div = document.createElement('DIV');
+				var img = document.createElement('IMG');
+				img.setAttribute('src', config.ossroot + this.getList()[0]);
+				div.className = 'img-item';
+				div.appendChild(img)
+				document.querySelector('.img-box').insertBefore(div,document.getElementById('addBox'));
+			}
 		}
-		function addImg(e){
-			console.log(e)
+		function toggleLoadBtn(display){
+			document.getElementById('addBox').style.display = display
 		}
+		addStaffImg()
+
 	</script>
 </body>
+
 </html>

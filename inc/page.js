@@ -252,7 +252,6 @@ var AJAX = new function() {
             }
         };
         xhr.open(post ? 'POST' : 'GET', url, true);
-        xhr.setRequestHeader("Accept", "application/json");
         if (post) {
             data = deobj(data);
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
