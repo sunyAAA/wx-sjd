@@ -9,7 +9,7 @@
 		/* 头像 */
 		.head-pic {
 			height: 8.85rem;
-			border-top: 1px solid #efeff4;
+			/*border-top: 1px solid #efeff4;*/
 			text-align: center;
 		}
 		.head-pic img {
@@ -41,10 +41,68 @@
 		.info-list .list-item .disabled {
 			color: #999;
 		}
+		.info-list .list-item .sex-value {
+			color: #000;
+			font-size: 0.6rem;
+		}
+		/* 性别选择弹出框 */
+		.sex-model-wrap {
+			width: 100%;
+			height: 100vh;
+			background-color: rgba(0,0,0,0.5);
+			position: absolute;
+			left: 0;
+			top: 0;
+		}
+		.sex-model-wrap .sex {
+			width: 16.75rem;
+			height: 10.6rem;
+			position: absolute;
+			left: 1rem;
+			bottom: 2.5rem;
+			display: flex;
+			flex-direction: column;
+			justify-content: space-between;
+		}
+		.sex-model-wrap .sex .content {
+			width: 100%;
+			height: 7.875rem;
+			background-color: #fff;
+			border-radius: 0.25rem;
+			text-align: center;
+			padding: 0 0.375rem;
+		}
+		.sex-model-wrap .sex .content .title {
+			font-size: 0.85rem;
+			height: 1.875rem;
+			line-height: 1.875rem;
+			margin-bottom: 1rem;
+		}
+		.sex-model-wrap .sex .content .sex-box .sex-item {
+			font-size: 0.7rem;
+			height: 2.5rem;
+			line-height: 2.5rem;
+		}
+		.sex-model-wrap .sex .content .sex-box .selected {
+			color: #ff4b2b;
+		}
+		.sex-model-wrap .sex .content .sex-box .sex-item:first-child {
+			border-bottom: 1px solid #999;
+		}
+		.sex-model-wrap .sex .btn-cancel {
+			width: 100%;
+			height: 2rem;
+			line-height: 2rem;
+			background-color: #fff;
+			border-radius: 0.25rem;
+			font-size: 0.85rem;
+			color: #ff4b2b;
+			text-align: center;
+		}
 	</style>
 </head>
 <body>
-	<section class="admin-wrap">
+	<section class="admin-wrap wrap-box">
 		<!-- 头像 -->
 		<section class="head-pic">
 			<img src="http://img06.tooopen.com/images/20160818/tooopen_sy_175833047715.jpg" alt="">

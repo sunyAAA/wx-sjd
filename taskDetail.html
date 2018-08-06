@@ -6,61 +6,49 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <script src="inc/remset.js"></script>
-    <link type="text/css" href="style/page.css" rel="stylesheet">
+    <link type="text/css" href="./css/page.css" rel="stylesheet">
     <link type="text/css" href="inc/side/side.css" rel="stylesheet">
     <title>任务详情</title>
     <style>
+        /* 任务简介和操作 */
         .taskDetail-wrap .information-operate {
             border-top: 1px solid #efeff4;
             border-bottom: 1px solid #efeff4;
             padding: 1rem 1rem 0.75rem;
-            padding-bottom: 2rem;
             position: relative;
         }
-
         .taskDetail-wrap .information-operate .info {
             display: flex;
             justify-content: space-between;
         }
-
         /* 任务内容 */
-
-
+        .taskDetail-wrap .information-operate .info .info-content {}
         .taskDetail-wrap .information-operate .info .info-content .type {
             font-size: 0.75rem;
         }
-
         .taskDetail-wrap .information-operate .info .info-content .title,
         .taskDetail-wrap .information-operate .info .info-content .time,
         .taskDetail-wrap .information-operate .info .info-content .duration-time {
             font-size: 0.55rem;
             margin-top: 0.25rem;
         }
-
         /* 赏金和时间 */
-
         .taskDetail-wrap .information-operate .info .bounty-countdown {
             color: #ff4b2b;
             text-align: right;
         }
-
         .taskDetail-wrap .information-operate .info .bounty-countdown .bounty {
             font-size: 0.55rem;
         }
-
         .taskDetail-wrap .information-operate .info .bounty-countdown .bounty span {
             font-size: 1rem;
         }
-
         .taskDetail-wrap .information-operate .info .bounty-countdown .countdown {
             font-size: 0.55rem;
         }
-
         /* 操作 */
-
-
+        .taskDetail-wrap .information-operate .operate {}
         /* 领取按钮 */
-
         .taskDetail-wrap .information-operate .operate .btn-receive {
             width: 2.5rem;
             height: 2.5rem;
@@ -74,15 +62,12 @@
             bottom: -1.25rem;
             right: 1rem;
         }
-
         /* 提交凭证和放弃按钮 */
-
         .taskDetail-wrap .information-operate .operate .btn-group {
             display: flex;
             justify-content: flex-end;
             margin-top: 0.75rem;
         }
-
         .taskDetail-wrap .information-operate .operate .btn-group .btn-submit,
         .taskDetail-wrap .information-operate .operate .btn-group .give-up {
             width: 4rem;
@@ -94,68 +79,41 @@
             background-color: #ff4b2b;
             color: #fff;
         }
-
         .taskDetail-wrap .information-operate .operate .btn-group .give-up {
             background-color: #fff;
             border: 1px solid #ff4b2b;
             color: #333;
             margin-left: 0.75rem;
         }
-
         /* 任务描述、任务说明、任务列表 */
-
         .taskDetail-wrap .task {
             padding: 1.5rem 1rem 0;
         }
-
         /* 导航栏 */
-
         .taskDetail-wrap .task .task-nav {
             display: flex;
             justify-content: space-between;
             margin-bottom: 0.5rem;
         }
-
         .taskDetail-wrap .task .task-nav .nav-item {
             flex: 1;
             text-align: center;
             font-size: 0.75rem;
         }
-
         .taskDetail-wrap .task .task-nav .current {
             color: #ff4b2b;
         }
-
         /* 任务内容 */
-
         .taskDetail-wrap .task .task-content .content-item {
             font-size: 0.55rem;
         }
-
         .taskDetail-wrap .task .task-content .task-desc p,
         .taskDetail-wrap .task .task-content .task-detail p {
             line-height: 1.2rem;
         }
-
         .taskDetail-wrap .received {
             padding-top: 0.75rem;
         }
-
-        .task-nav {
-            height: 3rem;
-            line-height: 3rem;
-            display: flex;
-        }
-
-        .task-nav>div {
-            flex: 1;
-            text-align: center;
-        }
-
-        .count-down,.nav-item.active {
-            color: #ff4b2b
-        }
-        .task-content {padding: 1rem}
     </style>
 </head>
 
@@ -167,7 +125,7 @@
     <script src="inc/model.js"></script>
     <script src='inc/template.js'></script>
     <script type="text/template" id="content">
-    <div class="taskDetail-wrap">
+    <div class="taskDetail-wrap wrap-box">
 		<!-- 任务简介和操作 -->
 		<div class="information-operate">
 			<div class="info">
