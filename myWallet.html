@@ -114,14 +114,19 @@
 			<div class="ctrol"><input type="number" v-model="putMoney" placeholder="请输入提现金额（整数）" placeholder-style="color:#999;font-size:12px"></div>
 			<p class="desc">全部提现</p>
 		</section>
-		<section class="ye-box" @click='goBindPage'>
-			<span class="arrow">></span>
-			提现到:
-			<span id='card'></span>
-		</section>
 		<section class="ye-box" onclick="Comm.go('moneyDetail.html')">
 			余额明细
 			<span class="arrow">></span>
+		</section>
+		<section class="ye-box" @click='goBindPage'>
+			<span class="arrow">></span>
+			微信:
+			<span id='wx'></span>
+		</section>
+		<section class="ye-box" @click='goBindPage'>
+			<span class="arrow">></span>
+			支付宝:
+			<span id='ali'></span>
 		</section>
 		<button class="btn" @click='take'>申请提现</button>
 	</section>
@@ -133,7 +138,7 @@
 			})
 			AJAX.GET('/api/userDeposit/getMyBind',function(res){
 				if(res.length){
-
+					
 				}else{
 					document.getElementById('card').innerHTML='暂无提现账户，快去绑定吧！'
 					document.getElementById('card').className='no-bind'

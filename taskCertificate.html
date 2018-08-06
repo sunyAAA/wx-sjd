@@ -111,9 +111,9 @@
 				<div class="img-box">
 					<div class="img-item" v-for="(item,index) in imgUrl" :key="index" >
 						<img :src="oss + item" alt="">
-                        <div v-show="isNew" class="icon-remove" @click='remove(index)'><img src="./images//remove.jpg" alt=""></div>
+                        <div  class="icon-remove" @click='remove(index)'><img src="./images//remove.jpg" alt=""></div>
 					</div>
-					<div class="btn-upload" onclick='changeImg(this)'>
+					<div class="btn-upload">
 						<img src="./images/addImg.png" alt="">
 					</div>
 				</div>
@@ -158,25 +158,28 @@
 	</script>
 	<script>
 		var taskId = Comm.query('userTaskId') || null;
-		WXMethod.configImg();
-		function changeImg(e) {
-			WXMethod.chooseImg(function (b) {
-				Prompt.loading();
-				AJAX.GET("/api/imgupload/getImgPolicy", function (a) {
-					AJAX.POST("/api/imgupload/imgUpload", {img:a}, function () {
-						Prompt.hide();
-						Prompt.msg("上传头像成功");
-						e.querySelector("img").src = b[0].k;
-					})
-				});
-			},{num:9});
-		}
+		// WXMethod.configImg();
+		// function changeImg(e) {
+		// 	WXMethod.chooseImg(function (b) {
+		// 		Prompt.loading();
+		// 		AJAX.GET("/api/imgupload/getImgPolicy", function (a) {
+		// 			AJAX.POST("/api/imgupload/imgUpload", {img:a}, function () {
+		// 				Prompt.hide();
+		// 				Prompt.msg("上传头像成功");
+		// 				e.querySelector("img").src = b[0].k;
+		// 			})
+		// 		});
+		// 	},{num:9});
+		// }
 		function getApply(){
 			Prompt.loading();
 			AJAX.GET('/api/task/getApplyById?userTaskId='+userTaskId,function(res){
 				Prompt.hide();
 				back('操作成功')
 			})
+		}
+		function addImg(e){
+			console.log(e)
 		}
 	</script>
 </body>

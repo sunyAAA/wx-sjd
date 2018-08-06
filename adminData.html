@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<title>个人资料</title>
+	<link rel="stylesheet" href="./css/common.css">
+	<style>
+		/* 头像 */
+		.head-pic {
+			height: 8.85rem;
+			border-top: 1px solid #efeff4;
+			text-align: center;
+		}
+		.head-pic img {
+			width: 5.5rem;
+			height: 5.5rem;
+			border-radius: 50%;
+			border: 6px solid #efeff4;
+			margin: 1.5rem auto 0;
+		}
+
+		/* 相关信息 */
+		.info-list .list-item {
+			height: 2.75rem;
+			line-height: 2.75rem;
+			border-bottom: 1px solid #efeff4;
+			padding: 0 1rem;
+			display: flex;
+			justify-content: space-between;
+			font-size: 0.75rem;
+		}
+		.info-list .list-item span {
+			color: #999;
+		}
+		.info-list .list-item input {
+			/*height: 2.75rem;*/
+			color: #000;
+			text-align: right;
+		}
+		.info-list .list-item .disabled {
+			color: #999;
+		}
+	</style>
+</head>
+<body>
+	<section class="admin-wrap">
+		<!-- 头像 -->
+		<section class="head-pic">
+			<img src="http://img06.tooopen.com/images/20160818/tooopen_sy_175833047715.jpg" alt="">
+		</section>
+		<!-- 相关信息 -->
+		<section class="info-list">
+			<section class="list-item nickname">
+				<span>昵称</span>
+				<input type="text" value="傻子不会跑">
+			</section>
+			<section class="list-item sex">
+				<span>性别</span>
+				<!-- <picker :value="index" :range="sex" onchange='changeSex'>
+					<section class="picker">
+						当前选择：{{sex[index]}}
+					</section>
+				</picker> -->
+			</section>
+			<section class="list-item telephone-number">
+				<span>手机号码</span>
+				<input class="disabled" type="text" disabled value="18899997777">
+			</section>
+			<section class="list-item verified">
+				<span>实名认证</span>
+				<input class="disabled" type="text" disabled value="未认证">
+			</section>
+		</section>
+	</section>
+
+	<script src='./js/remset.js'></script>
+</body>
+</html>

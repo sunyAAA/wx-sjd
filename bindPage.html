@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<title>绑定</title>
+	<script src='inc/remset.js'></script>
+	<link rel="stylesheet" href="style/common.css">
+	<link rel="stylesheet" href="style/page.css">
+	<style>
+		/* 输入手机号 */
+		.bindPage-wrap .form .tel-number {
+            height: 2.5rem;
+            border-bottom: 1px solid #efeff4;
+            padding: 0.5rem 1rem;
+		}
+		.bindPage-wrap .form .tel-number .icon {
+			width: 0.825rem;
+            height: 1.2rem;
+            margin-right: 1rem;
+            float: left;
+            margin-top: 0.7rem;
+		}
+		.bindPage-wrap .form .tel-number .input {
+			height: 100%;
+	        font-size: 0.75rem;
+	        color: #999;
+	        float: left;
+		}
+		/* 获取验证码 */
+		.bindPage-wrap .form .code {
+			height: 2.5rem;
+            border-bottom: 1px solid #efeff4;
+            padding: 0.5rem 1rem;
+		}
+		.bindPage-wrap .form .code .icon {
+			width: 0.975rem;
+            height: 1.025rem;
+            float: left;
+            margin-top: 0.7rem;
+            margin-right: 0.85rem;
+		}
+		.bindPage-wrap .form .code input {
+			height: 100%;
+            font-size: 0.75rem;
+            color: #999;
+            float: left;
+		}
+		.bindPage-wrap .form .code .get {
+			float: right;
+            width: 5.125rem;
+            height: 1.575rem;
+            line-height: 1.575rem;
+            background-color: #ff4b2b;
+            color: #fff;
+            font-size: 0.74rem;
+            text-align: center;
+            border-radius: 0.25rem;
+            margin-top: 0.5rem;
+		}
+
+		.bindPage-wrap .btn-next {
+			width: 15.75rem;
+	        height: 2rem;
+	        line-height: 2rem;
+	        margin: 5rem auto 0;
+	        background-color: #ff4b2b;
+	        text-align: center;
+	        color: #fff;
+	        font-size: 0.75rem;
+	        border-radius: 0.25rem;
+		}
+		img {
+		    width: 100%;
+		    height: 100%;
+		    object-fit: cover;
+		}
+	</style>
+</head>
+<body>
+	<section class="bindPage-wrap">
+		<div class="icon">
+
+		</div>
+		<div class="form">
+			<div class="form-item">
+				<div class="label" id="account">微信账号</div>
+				<div class="control">
+					<input type="text">
+					<span>发送验证码</span>
+				</div>
+			</div>
+			<div class="form-item">
+				<div class="label">验证码</div>
+				<div class="control">
+					<input type="text">
+					<span>发送验证码</span>
+				</div>
+			</div>
+		</div>
+	</section>
+
+</body>
+</html>
