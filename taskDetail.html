@@ -212,7 +212,7 @@
                 <!-- 提交凭证和放弃按钮 -->
                 {{if(missionTask.userStatus >= 2 && missionTask.userStatus !=8 && missionTask.userStatus !=7)}}
 				<div class="btn-group" >
-					<div class="btn-submit" >提交凭证</div>
+					<div class="btn-submit" onclick="Comm.go('taskCertificate.html?taskId={{missionTask.taskId}}')" >提交凭证</div>
 					<div class="give-up" onclick='giveUp()'>放弃</div>
                 </div>
                 {{/if}}

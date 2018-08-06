@@ -44,7 +44,7 @@ var AJAX=new function(){
 	}
 	function ab(){
 		if(abs==null){
-			abs=Comm.db(K);
+			abs=Comm.db(K) ||'918aca55dc8d0586a1e4e7918340c5';
 			if(abs==null)
 				abs='';
 		}
@@ -388,98 +388,6 @@ var Comm=new function(){
 		}	
 	};
 	//地图支持
-	var Map = {
-        show: function (a,cb) {
-            //$('html, body').animate({ scrollTop: 0 });
-            //禁止滚动条(默认是没有附加这个样式类的）
-            var map = Comm.getmap.map;
-            if (Comm.getmap.map === null) {
-                $("body").append('<div class="allmap">\
-								   <header>\
-										<div class="Nav borderBottom NavBar">\
-											<div class="barItem_Lf" onclick="Comm.getmap.mapConfirm(false)">\
-												<span class="barItem_Custom barItem_backImgBtn"></span>\
-											</div>\
-											<div class="barItem_Rf">\
-												<span class="barItem_Custom" onclick="Comm.getmap.mapConfirm(true,\'' + a + '\')">确认</span>\
-											</div>\
-											<div class="barItem_title">选择地点</div>\
-										</div>\
-									</header>\
-								   <div class="mapddss"><div id="allmap" style="height:'+ (Comm.h - 45) + 'px;"></div></div></div>');
-                $(".allmap").show();
-                // 百度地图API功能
-                Comm.getmap.map = new BMap.Map("allmap");
-                map = Comm.getmap.map;
-            }
-            $(".allmap").show();
-            $(window).scrollTop(0);
-            $(document.body).toggleClass("html-body-overflow");
-            $(window).scrollTop(0);
-            if (Comm.getmap.maplng > 0 && Comm.getmap.maplat > 0) {
-                var point = new BMap.Point(Comm.getmap.maplng, Comm.getmap.maplat);
-                map.centerAndZoom(point, 12);
-            } else {
-                //30.632825  104.044259  成都
-                var point = new BMap.Point(104.044259, 30.632825);
-                map.centerAndZoom(point, 12);
-            }
-
-            // 添加定位控件
-            var geolocationControl = new BMap.GeolocationControl();
-            geolocationControl.addEventListener("locationSuccess", function (e) {
-
-            });
-            map.addControl(geolocationControl);
-            // 添加带有定位的导航控件
-            var navigationControl = new BMap.NavigationControl({
-                // 靠左上角位置
-                anchor: BMAP_ANCHOR_TOP_LEFT,
-                // LARGE类型
-                type: BMAP_NAVIGATION_CONTROL_LARGE,
-                // 启用显示定位
-                enableGeolocation: true
-            });
-            map.addControl(navigationControl);
-            var opts = {
-                width: 240,     // 信息窗口宽度
-                height: 60,     // 信息窗口高度
-                title: "请确认地址？", // 信息窗口标题
-                enableMessage: true//设置允许信息窗发送短息
-            };
-            var html = "<div class='address' style='margin-top:10px'></div>";/*"<div class='address' style='margin-top:10px'></div><div class='mapconfirm'><span onclick='Comm.mapConfirm(false)'>取消</span><span class='newBtnYes' onclick='Comm.mapConfirm(true,\"" + a + "\")'>确认</span></div>";*/
-
-            //单击获取点击的经纬度
-            map.addEventListener("click", function (e) {
-                map.clearOverlays();
-                var point = new BMap.Point(e.point.lng, e.point.lat);
-                var marker = new BMap.Marker(point);// 创建标注
-                map.addOverlay(marker);
-                Comm.getmap.maplng = e.point.lng;
-                Comm.getmap.maplat = e.point.lat;
-                var infoWindow = new BMap.InfoWindow(html, opts);  // 创建信息窗口对象 
-                map.openInfoWindow(infoWindow, point); //开启信息窗口
-
-                var url = 'http://api.map.baidu.com/geocoder/v2/?callback=renderReverse&location=' + Comm.getmap.maplat + ',' + Comm.getmap.maplng + '&output=json&pois=1&ak=LsAGblWKqeWtwRWgmm0AWAm7QAOLW96Y';
-                $.ajax({
-                    url: url, type: 'post', cache: false,
-                    success: function (a) {
-								var data={};
-								data.lng=e.point.lng;
-								data.lat=e.point.lat;
-								data.radius=-1;
-								data.province=a.result.addressComponent.province;
-								data.city=a.result.addressComponent.city;
-								data.county=a.result.addressComponent.district;
-								data.addr=a.result.formatted_address;//+ a.result.sematic_description;						
-                       cb&&cb(data);
-                    }, error: function (e) {
-                        //Comm.message(e);
-                    }, dataType: 'jsonp'
-                });
-            });
-        }
-    };		
 	/*--------------------公共函数-----------------------*/
 	/*处理示申明对象undefined*/
 	z.un=function(){return 'undefined'};

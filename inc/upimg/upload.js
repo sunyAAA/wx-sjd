@@ -142,7 +142,7 @@ imgUploader.prototype.initLoder = function(button, cb, resize) {
         runtimes: 'html5',
         browse_button: button,
         multi_selection: false,
-        container: document.getElementById(button).parentNode,
+        container: document.getElementById(button).parentpNode,
         url: 'http://oss.aliyuncs.com',
         filters: {
             /*mime_types: [

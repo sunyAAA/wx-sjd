@@ -121,16 +121,9 @@ var Local = new function() {
         sessionStorage.removeItem(k);
     };
     this.user = function(u) {
-        if (u && u.customerid) {
-            Local.save("mjruser", u);
-        } else {
-            var u = this.get("mjruser");
-            if (u && u.customerid) {
-                return u;
-            } else {
-                return null;
-            }
-        }
+        
+        return  Local.save("mjruser", u);
+
     };
     this.deluser = function() {
         localStorage.removeItem("mjruser");
@@ -177,6 +170,7 @@ var Nav = new function() {
     };
     t.gotop = function() {
         Local.sdel("his");
+        top.location.href = 'home.html'
     };
     t.query = function(n, u) {
         if (n == null) {
@@ -232,11 +226,11 @@ var AJAX = new function() {
             url = t.Uri() + url;
         if (!post) {
             if (url.indexOf("_token") < 0)
-                url += (url.indexOf("?") <= -1 ? "?" : "&") + "_token=" + (u ? u.token : "d41723132edc2ab8a58a0b461fb4f4") + "&_device=" + Device.type + "&_t=" + Math.random();
+                url += (url.indexOf("?") <= -1 ? "?" : "&") + "_token=" + (u ? u.token : "918aca55dc8d0586a1e4e7918340c5") + "&_device=" + Device.type + "&_t=" + Math.random();
         } else {
             if (!data._token) {
                 data._device = Device.type;
-                data._token = u ? u.token : "d41723132edc2ab8a58a0b461fb4f4";
+                data._token = u ? u.token : "918aca55dc8d0586a1e4e7918340c5";
                 data._t = Math.random();
             }
         }

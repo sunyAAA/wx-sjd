@@ -202,7 +202,7 @@
                     已完成
                 </div>
             </div>
-            <div class="progress-view">
+            <div class="progress-view yscroll">
 
             </div>
         </div>
@@ -296,6 +296,7 @@
         var List = [];
         var sortStatus = 1;
         var progressStatus = 2;
+        var homeIndex = 0;
 
 
         function loadBanner() {
@@ -386,6 +387,7 @@
                     var renderObj = {list : forMartProgressTask(res)}
                     var html = template('card',renderObj);
                     document.querySelector('.progress-view').innerHTML = html;
+                    setProgressViewHeight()
                 }
                 Prompt.hide()
             })
@@ -393,7 +395,9 @@
         function setProgressViewHeight(){
             var nav = document.querySelector('.progress-nav').clientHeight;
             var footer = document.querySelector('.footer-bar').clientHeight;
-            // var view 
+            var view = document.querySelector('.progress-view');
+            var height = document.body.clientHeight  - nav - footer - 20;
+            view.setAttribute('style','height:'+height+'px')
         }
         function footerBarChange(index) {
             var footerBarList = document.querySelectorAll('.footer-bar>div');
