@@ -203,14 +203,14 @@
 					<div class="countdown">预计耗时：{{missionTask.preTime}}分钟</div>
 				</div>
             </div>
-            {{if(missionTask.userStatus < 3 || missionTask.userStatus == 8 || missionTask.userStatus == 7)}}
+            {{if(missionTask.userStatus < 3 || missionTask.userStatus >=6)}}
 			<div class="operate">
                 <!-- 领取按钮 -->
-                {{if(missionTask.userStatus < 2 || missionTask.userStatus == 8 || missionTask.userStatus == 7)}}
+                {{if(missionTask.userStatus < 2 || missionTask.userStatus >=6)}}
                 <div class="btn-receive" onclick='takeTask()'>领取</div>
                 {{/if}}
                 <!-- 提交凭证和放弃按钮 -->
-                {{if(missionTask.userStatus >= 2 && missionTask.userStatus !=8 && missionTask.userStatus !=7)}}
+                {{if(missionTask.userStatus >= 2 && missionTask.userStatus <6)}}
 				<div class="btn-group" >
 					<div class="btn-submit" onclick="Comm.go('taskCertificate.html?taskId={{missionTask.taskId}}')" >提交凭证</div>
 					<div class="give-up" onclick='giveUp()'>放弃</div>

@@ -122,7 +122,7 @@ var Local = new function() {
     };
     this.user = function(u) {
         
-        return  Local.save("mjruser", u);
+       
 
     };
     this.deluser = function() {
@@ -133,18 +133,15 @@ var Nav = new function() {
     var t = this;
     t.go = function(u, d) {
         t.h.push({ u: u, d: d });
-        Local.ssave("his", t.h);
         top.location.href = u;
     };
     t.addhis = function(u) {
         t.h.push({ u: u });
-        Local.ssave("his", t.h);
     };
     t.back = function(times) {
         !times && (times = 1);
         for (var i = 0; i < times; i++)
             t.h.pop();
-        Local.ssave("his", t.h);
         if (t.h.length > 0) {
             var o = t.h[t.h.length - 1];
             if (o) {
@@ -165,7 +162,6 @@ var Nav = new function() {
             }
         }
         nhis.reverse();
-        Local.ssave("his", nhis);
         t.h = nhis;
     };
     t.gotop = function() {
