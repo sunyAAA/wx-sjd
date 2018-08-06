@@ -73,6 +73,7 @@
 			line-height: 2rem;
 			height: 2rem;
 			border-bottom: 1px solid #efeff4;
+			text-align: center;
 		}
 
 		.range-date>span {
@@ -85,7 +86,7 @@
 	<div class="myIncome-wrap">
 		<!-- 收益金额展示 -->
 		<div class="account">
-			<div class="bounty">1234</div>
+			<div class="bounty">0</div>
 			<span>累计收益额（元）</span>
 		</div>
 		<!-- 近期收益情况展示 -->
@@ -102,68 +103,106 @@
 		<div id="chart">
 		</div>
 	</div>
+	<script src="inc/page.js"></script>
+	<script src="inc/model.js"></script>
 	<script src='inc/g2.js'></script>
 	<script src="inc/picker.min.js"></script>
 	<script>
-		var TIME_OFFSET = 5 * 24 * 60 * 60 * 1000, startPicker, endPicker;
+		var TIME_OFFSET = 5 * 24 * 60 * 60 * 1000, startPicker, endPicker,chart=null;
 		var start = document.getElementById('start');
 		var end = document.getElementById('end');
 		function pageload() {
-			startPicker = new Datepicker('选择开始日期', function (a, b, c) {
-				let end = new Date(end.value).getTime();
-				let start = new Date(b).getTime();
-				let min = end - TIME_OFFSET;
-				if (min <= start && start <= end) {
-					start.value = b
-					this.getData();
-				} else {
-					msg('起始日与结束日相隔不得超过5天');
-				}
-				start.value = b
-			})
+			let now = new Date().getTime();
+			end.value = timestampToDate(now, "Y-m-d");
+			start.value = timestampToDate(now - TIME_OFFSET, "Y-m-d");
+			beginTime = new Date(this.startDate).getTime() - 7 * 60 * 60 * 1000 - 59 * 60 * 1000;
+			endTime =
+				startPicker = new Datepicker('选择开始日期', function (a, b, c) {
+					var endT = new Date(end.value).getTime();
+					var startT = new Date(b).getTime();
+					var min = endT - TIME_OFFSET;
+					if (min <= startT && startT <= endT) {
+						start.value = b
+						loadData()
+					} else {
+						Prompt.msg('起始日与结束日相隔不得超过5天');
+					}
+				}, { fromnow: true })
 			endPicker = new Datepicker('选择结束日期', function (a, b, c) {
-				end.value = b
-			})
-			renderChart()
+				var startT = new Date(start.value).getTime();
+				var endT = new Date(b).getTime();
+				var max = startT + TIME_OFFSET;
+				if (startT <= endT && endT <= max) {
+					end.value = b
+					loadData()
+				} else {
+					Prompt.msg("起始日与结束日相隔不得超过5天");
+				}
+			}, { fromnow: true })
+			loadData()
 		}
-		function renderChart() {
-			var data = [{
-				year: '1951 年',
-				sales: 38,
-				color: 'red'
-			}, {
-				year: '1952 年',
-				sales: 52
-			}, {
-				year: '1956 年',
-				sales: 61
-			}, {
-				year: '1957 年',
-				sales: 145
-			}, {
-				year: '1958 年',
-				sales: 48
-			}, {
-				year: '1959 年',
-				sales: 38
-			}, {
-				year: '1960 年',
-				sales: 38
-			}];
-			var chart = new G2.Chart({
+		function loadData() {
+			var b = +new Date(start.value);
+			var e = +new Date(end.value);
+			Prompt.loading();
+			AJAX.GET('/api/userDeposit/getMyDeposit?beginTime=' + b + '&endTime=' + e, function (res) {
+				Prompt.hide()
+				document.querySelector('.bounty').innerHTML  = res.total.toFixed(2);
+				renderChart(formartChartData(b,e,res.detail))
+			})
+		}
+		function renderChart(data) {
+			if(chart){chart.changeData(data);return}
+			chart = new G2.Chart({
 				container: 'chart',
 				forceFit: true,
-				height: 500,
+				height: 450,
 				padding: [20, 20, 95, 40], // 上，右，下，左
 			});
 			chart.source(data);
 			chart.scale('sales', {
 				tickInterval: 20
 			});
-			chart.interval().position('year*sales').color('#ff4b2b');
+			chart.interval().position('date*sales').color('#ff4b2b');
 			chart.render();
 		}
+		function formartChartData(begin, end, data) {
+			var dayOffset = 24 * 60 * 60 * 1000;
+			var count = Math.floor((end - begin) / dayOffset) + 1;
+			var i = 0;
+			var result = {
+				title: '每日收益',
+				data: [],
+				categories: [],
+			};
+			while (i < count) {
+				result.categories.push(timestampToDate(begin + dayOffset * i, 'm-d'))
+				i++
+			}
+			for (let n of result.categories) {
+				var has = false;
+				var obj = {};
+				if (data) {
+					for (let m of data) {
+						if (timestampToDate(m.createTime, 'm-d') == n) {
+							has = true;
+							result.data.push(m.amount)
+						}
+					}
+				}
+				if (!has) { result.data.push(0) }
+			}
+			var data=[]
+			for(var i = 0 ; i<result.data.length;i++){
+				data.push({
+					date: result.categories[i],
+					sales: result.data[i]
+				})
+			}
+			console.log(data)
+			return data
 
+		}
 		pageload()
 	</script>
 </body>
