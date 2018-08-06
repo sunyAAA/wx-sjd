@@ -54,7 +54,7 @@ var WXAJAX=new function(){
 
     /*获取服务器接口根路径*/
     t.Uri=function(){
-        return "https://yuronfu.com/finance/";
+        return "https://sjd.uvmatrix.com";
     };
     /*执行GET方法，一般用于从服务器获取数据，api长度尽量不超过1000字节*/
     t.GET=function(api,cb){
@@ -69,7 +69,7 @@ if(self!==top)
     window.wx = top.wx;
 
 var WXMethod = {
-    url:"https://yuronfu.com/finance/",
+    url:"https://sjd.uvmatrix.com",
     getTK:function(c, cb) {
         WXAJAX.POST("api/pay/getwechatToken", {code:c}, function (r) {
             var d = null;

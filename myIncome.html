@@ -1,28 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width,initial-scale=1">
-	<title>我的收入</title>
-	<link rel="stylesheet" href="./css/common.css">
+	<title>我的收益</title>
+	<script src='inc/remset.js'></script>
+	<link rel="stylesheet" href="style/common.css">
 	<style>
 		/* 收益金额展示 */
+
 		.myIncome-wrap .account {
-			height: 4.95rem;
+			height: 6.95rem;
 			border-top: 1px solid #efeff4;
 			border-bottom: 0.25rem solid #efeff4;
 			text-align: center;
 			padding-top: 1.75rem;
 		}
+
 		.myIncome-wrap .account .bounty {
 			font-size: 1.5rem;
 			font-weight: 500;
 			color: #000;
 		}
+
 		.myIncome-wrap .account span {
 			font-size: 0.5rem;
 		}
+
 		/* 近期收益情况展示 */
+
 		.recently-bounty .header {
 			font-size: 0.65rem;
 			height: 2rem;
@@ -32,10 +39,12 @@
 			justify-content: space-between;
 			padding: 0 0.75rem;
 		}
+
 		.recently-bounty .header .range-date {
 			display: flex;
 			justify-content: space-between;
 		}
+
 		.recently-bounty .header .range-date picker i {
 			width: 0;
 			height: 0;
@@ -44,11 +53,34 @@
 			border-right: 0.25rem solid transparent;
 			border-top: 0.45rem solid #333;
 		}
-		.recently-bounty .header .range-date span {
-			margin: 0 0.5rem;
+
+		.header {
+			display: flex;
+			line-height: 2rem;
+		}
+
+		.header>span {
+			flex: 0 0 5.5rem
+		}
+
+		.range-date {
+			flex: 1;
+			display: flex;
+		}
+
+		.range-date input {
+			width: 5rem;
+			line-height: 2rem;
+			height: 2rem;
+			border-bottom: 1px solid #efeff4;
+		}
+
+		.range-date>span {
+			flex: 0 0 20px
 		}
 	</style>
 </head>
+
 <body>
 	<div class="myIncome-wrap">
 		<!-- 收益金额展示 -->
@@ -61,18 +93,79 @@
 			<div class="header">
 				<span>近期收益情况</span>
 				<div class="range-date">
-					<picker mode="date" @change="startDateChange">
-						{{startDate}}
-					</picker>
-					<span>-</span>
-					<picker mode="date" @change="endDateChange">
-						{{endDate}}
-					</picker>
+					<input id="start" type="text" readonly onclick="startPicker.show()">
+					<span>至</span>
+					<input id="end" type="text" readonly onclick="endPicker.show()">
 				</div>
 			</div>
 		</div>
+		<div id="chart">
+		</div>
 	</div>
+	<script src='inc/g2.js'></script>
+	<script src="inc/picker.min.js"></script>
+	<script>
+		var TIME_OFFSET = 5 * 24 * 60 * 60 * 1000, startPicker, endPicker;
+		var start = document.getElementById('start');
+		var end = document.getElementById('end');
+		function pageload() {
+			startPicker = new Datepicker('选择开始日期', function (a, b, c) {
+				let end = new Date(end.value).getTime();
+				let start = new Date(b).getTime();
+				let min = end - TIME_OFFSET;
+				if (min <= start && start <= end) {
+					start.value = b
+					this.getData();
+				} else {
+					msg('起始日与结束日相隔不得超过5天');
+				}
+				start.value = b
+			})
+			endPicker = new Datepicker('选择结束日期', function (a, b, c) {
+				end.value = b
+			})
+			renderChart()
+		}
+		function renderChart() {
+			var data = [{
+				year: '1951 年',
+				sales: 38,
+				color: 'red'
+			}, {
+				year: '1952 年',
+				sales: 52
+			}, {
+				year: '1956 年',
+				sales: 61
+			}, {
+				year: '1957 年',
+				sales: 145
+			}, {
+				year: '1958 年',
+				sales: 48
+			}, {
+				year: '1959 年',
+				sales: 38
+			}, {
+				year: '1960 年',
+				sales: 38
+			}];
+			var chart = new G2.Chart({
+				container: 'chart',
+				forceFit: true,
+				height: 500,
+				padding: [20, 20, 95, 40], // 上，右，下，左
+			});
+			chart.source(data);
+			chart.scale('sales', {
+				tickInterval: 20
+			});
+			chart.interval().position('year*sales').color('#ff4b2b');
+			chart.render();
+		}
 
-	<script src='./js/remset.js'></script>
+		pageload()
+	</script>
 </body>
+
 </html>
