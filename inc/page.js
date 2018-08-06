@@ -170,9 +170,9 @@ var Nav = new function() {
     };
     t.query = function(n, u) {
         if (n == null) {
-            n = self.location.search;
+             return null;
+           n = self.location.search;
             if (n && n !== "") try { return decodeURIComponent(n.replace("?", "")) } catch (err) {}
-            return null;
         }
         var s = u;
         if (s == null) s = self.location.href;
