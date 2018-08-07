@@ -287,9 +287,33 @@
         </div>
         {{/each}}
     </script>
+    <script type="text/template" id="progress">
+        {{each list v}}
+        <div class="task-card">
+            <div class="card-item">
+                <div class="type-flag">
+                    <div class="flag">{{v.flag}}</div>
+                </div>
+                <div class="task-content">
+                    <div class="title">{{v.name || v.task.name}}</div>
+                    <div class="publisher">发布商家：
+                        <span>{{v.shopName}}</span>
+                    </div>
+                    <div class="time-limit">任务时间：
+                        <span >{{v.begin}}</span> 至
+                        <span>{{v.end}}</span>
+                    </div>
+                </div>
+                <div class="task-bounty">¥
+                    <span>{{v.singleAmount}}</span>
+                </div>
+            </div>
+        </div>
+        {{/each}}
+    </script>
     <script>
         var sideObj = null;
-        var userId = Local.get('userInfo') ? Local.get('userInfo').userId : 5;
+        var userId = Local.get('u') ? Local.get('u').userId : 5;
         var newTask = null;
         var pageSize = 50;
         var pageNum = 1;
@@ -339,11 +363,9 @@
             })
         }
         function render() {
-            list = list.sort(getSortFun());
-            !newTask?'':list.unshift(newTask);
-            var renderData = { list: list }
-            console.log(renderData)
-
+            renderList = list.sort(getSortFun()).slice(0);
+            !newTask?'':renderList.unshift(newTask);
+            var renderData = { list: renderList }
             var html = template('card', renderData);
             document.querySelector('.view').innerHTML = html;
         }
@@ -385,7 +407,7 @@
             AJAX.GET('/api/task/myList?status='+progressStatus+'&pageSize='+pageSize+'&pageNum=1',function(res){
                 if(res){
                     var renderObj = {list : forMartProgressTask(res)}
-                    var html = template('card',renderObj);
+                    var html = template('progress',renderObj);
                     document.querySelector('.progress-view').innerHTML = html;
                     setProgressViewHeight()
                 }
