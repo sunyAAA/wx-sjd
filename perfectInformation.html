@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<title>完善信息</title>
+	<link rel="stylesheet" href="./css/common.css">
+	<style>
+		h3 {
+			font-size: 1rem;
+			color: #000;
+			text-align: center;
+		}
+		h5 {
+			font-size: 0.5rem;
+			color: #000;
+			text-align: center;
+		}
+
+		/* 头像 */
+		.head-pic {
+			width: 4.5rem;
+			height: 4.5rem;
+			border: 0.25rem solid #efeff4;
+			border-radius: 50%;
+			margin: 1.75rem auto 3.625rem;
+			overflow: hidden;
+		}
+		.head-pic .head {
+			width: 100%;
+			height: 100%;
+			text-align: center;
+		}
+
+		/* 表单 */
+		.form {
+			width: 12.5rem;
+			margin: 0 auto;
+		}
+		.form .name, .form .birthday {
+			border: 2px solid #efeff4;
+			padding: 0 1rem;
+			height: 2.5rem;
+			line-height: 2.5rem;
+			border-radius: 1.25rem;
+			font-size: 0.75rem;
+			color: #000;
+			display: flex;
+			justify-content: space-between;
+			margin-bottom: 1.5rem;
+		}
+		.form .name, .form .birthday input {
+			height: 100%;
+			text-align: right;
+		}
+		.form .sex {
+			display: flex;
+			justify-content: space-between;
+		}
+		.form .sex .sex-item {
+			width: 5rem;
+			height: 2.5rem;
+			border-radius:1.25rem;
+			border: 2px solid #efeff4;
+			text-align: center;
+			line-height: 2.5rem;
+			font-size: 0.75rem;
+			color: #000;
+		}
+		.form .sex .current {
+			border-color: #ff4b2b;
+			background-color: #ffc9bf;
+			color: #ff4b2b;
+		}
+		/* 确认按钮 */
+		.form .btn-sure {
+			width: 2.5rem;
+			height: 2.5rem;
+			border-radius: 50%;
+			background-color: #ff4b2b;
+			color: #fff;
+			font-size: 0.75rem;
+			text-align: center;
+			box-shadow: 0 0 0.5rem rgba(255, 75, 43, 0.47);
+			margin: 2.5rem auto 0;
+		}
+		.form .btn-sure img {
+			width: 1.25rem;
+			height: 0.95rem;
+			margin-top: 0.75rem;
+		}
+
+		.head {
+			width: 2.25rem;
+			height: 2.25rem;
+			object-fit: cover;
+		}
+	</style>
+</head>
+<body>
+	<section class="perfectInfo-wrap wrap-box">
+		<h3>Hi 请完善信息</h3>
+		<h5>完善信息，领取红包哟！</h5>
+		<!-- 头像 -->
+		<section class="head-pic" id="headerImgBox" onclick="upLoadHeaderImg()">
+			<img class="head" src="http://img06.tooopen.com/images/20160818/tooopen_sy_175833047715.jpg" alt="">
+		</section>
+		<!-- 表单 -->
+		<section class="form">
+			<section class="name">
+				<span>姓名</span>
+				<input type="text" placeholder="请填写姓名">
+			</section>
+			<section class="sex">
+				<section class="sex-item">男</section>
+				<section class="sex-item">女</section>
+			</section>
+			<!-- 确认按钮 -->
+			<section class="btn-sure" onclick='save()'>
+				<img src="./images/icon-sure.png" alt="">
+			</section>
+		</section>
+	</section>
+
+	<script src='./inc/remset.js'></script>
+	<script src='./inc/jquery-2.1.1.min.js'></script>
+	<script>
+		function save(){
+			console.log('保存')
+		}
+        function upLoadHeaderImg() {
+            load = new imgUploader("headerImgBox");
+            load.fill = function () {
+                if(imgList.length >=1){return Prompt.msg('最多上传9张图片') }
+                var div = document.createElement('DIV');
+                var img = document.createElement('IMG');
+                img.setAttribute('src', config.ossroot + this.getList()[0]);
+                div.className = 'img-item';
+                div.appendChild(img)
+                document.querySelector('.img-box').insertBefore(div,document.getElementById('addBox'));
+                imgList.push(this.getList()[0])
+                if(imgList.length == 9 ){toggleLoadBtn('none')}
+            }
+        }
+	</script>
+</body>
+</html>

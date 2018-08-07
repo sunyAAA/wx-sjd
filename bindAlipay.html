@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<title>绑定账号</title>
+	<link rel="stylesheet" href="./css/common.css">
+	<style>
+		/* 支付宝图标 */
+		.bindAlipay-wrap .icon-alipay {
+			width: 4.5rem;
+			height: 4.5rem;
+			margin: 1rem auto 0.5rem;
+		}
+		.bindAlipay-wrap .icon-alipay img {
+			width: 100%;
+			height: 100%;
+		}
+		/* form表单 */
+		.bindAlipay-wrap .form {
+			border-top: 1px solid #efeff4;
+			text-align: center;
+		}
+		/* 手机号 */
+		.bindAlipay-wrap .form .tel .tel-span {
+			width: 100%;
+			height: 1.55rem;
+			line-height: 1.55rem;
+			border-bottom: 1px solid #efeff4;
+			font-size: 0.6rem;
+			padding: 0 1.5rem;
+			text-align: left;
+		}
+		.bindAlipay-wrap .form .tel .tel-box {
+			width: 100%;
+			height: 4.2rem;
+			border-bottom: 1px solid #efeff4;
+			display: flex;
+			justify-content: space-between;
+			padding: 0 1.5rem;
+		}
+		.bindAlipay-wrap .form .tel .tel-box input[type='tel'] {
+			font-size: 0.85rem;
+			border-bottom: 1px solid #ddd;
+			height: 1.7rem;
+			margin-top: 1.25rem;
+			color: #999;
+		}
+		.bindAlipay-wrap .form .tel .tel-box input[type='button'] {
+			font-size: 0.65rem;
+			color: #009fe8;
+			background-color: transparent;
+		}
+		/* 验证码 */
+		.bindAlipay-wrap .form .code .code-span {
+			width: 100%;
+			height: 1.55rem;
+			line-height: 1.55rem;
+			border-bottom: 1px solid #efeff4;
+			font-size: 0.6rem;
+			padding: 0 1.5rem;
+			text-align: left;
+		}
+		.bindAlipay-wrap .form .code .code-box {
+			width: 100%;
+			height: 4.2rem;
+			display: flex;
+			justify-content: space-between;
+			padding: 0 1.5rem;
+		}
+		.bindAlipay-wrap .form .code .code-box input[type='text'] {
+			font-size: 0.85rem;
+			border-bottom: 1px solid #ddd;
+			height: 1.7rem;
+			margin-top: 1.25rem;
+			color: #999;
+		}
+		/* 确认绑定按钮 */
+		.bindAlipay-wrap .form .sure-bind {
+			width: 12.5rem;
+			height: 2rem;
+			border-radius: 1rem;
+			background-color: #fd5a36;
+			font-size: 1rem;
+			color: #fff;
+			margin-top: 4.75rem;
+		}
+	</style>
+</head>
+<body>
+	<section class='bindAlipay-wrap wrap-box'>
+		<!-- 支付宝图标 -->
+		<div class="icon-alipay"><img src="./images/icon-alipay.png" alt=""></div>
+		<!-- form表单 -->
+		<div class="form">
+			<!-- 手机号 -->
+			<div class="tel">
+				<div class="tel-span">支付宝账号</div>
+				<div class="tel-box">
+					<input type="tel" value='输入您的手机号'>
+					<input type="button" value='获取验证码'>
+				</div>
+			</div>
+			<!-- 验证码 -->
+			<div class="code">
+				<div class="code-span">验证码</div>
+				<div class="code-box">
+					<input type="text" value='输入您收到的验证码'>
+				</div>
+			</div>
+			<!-- 确认绑定按钮 -->
+			<input type="button" value='确认绑定' class='sure-bind'>
+		</div>
+	</section>
+
+
+
+
+	<script src='./inc/remset.js'></script>
+	<script src="./inc/jquery-2.1.1.min.js"></script>
+</body>
+</html>

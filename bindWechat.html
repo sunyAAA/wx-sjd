@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<title>绑定账号</title>
+	<link rel="stylesheet" href="./css/common.css">
+	<script src='inc/remset.js'></script>
+	<style>
+		/* 微信图标 */
+		.bindWechat-wrap .icon-wechat {
+			width: 6.5rem;
+			height: 6.5rem;
+			border-radius: 50%;
+			margin: 2.5rem auto 5.75rem;
+		}
+		.bindWechat-wrap .icon-wechat img {
+			width: 100%;
+			height: 100%;
+			border-radius: 50%;
+		}
+		/* 绑定按钮 */
+		.bindWechat-wrap .btn-bind {
+			margin: 0 auto;
+			width: 12.5rem;
+			height: 2rem;
+		}
+		.bindWechat-wrap input {
+			width: 100%;
+			height: 100%;
+			border-radius: 1rem;
+			background-color: #fd5a36;
+			font-size: 1rem;
+			color: #fff;
+		}
+	</style>
+</head>
+<body>
+	<section class='bindWechat-wrap wrap-box'>
+		<!-- 微信图标 -->
+		<div class="icon-wechat"><img src="./images/icon-wechat.png" alt=""></div>
+
+		<!-- 绑定按钮 -->
+		<div class="btn-bind">
+			<input type="button" value='一键绑定'>
+		</div>
+	</section>
+
+
+
+
+	<script src="./inc/jquery-2.1.1.min.js"></script>
+	<script>
+		$(function(){
+			// 点击一键绑定按钮
+			$('.btn-bind input').on('click',function(){
+				var pclogin = 'aaa';
+				var bu='https://yuronfu.com/wx/guide.html?pclogin='+pclogin;
+	        	location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx952a3902534fbe57&redirect_uri="
+	        	+encodeURIComponent(bu)+"&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
+			})
+		})
+	</script>
+</body>
+</html>

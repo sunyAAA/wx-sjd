@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<title>我的信誉</title>
+	<link rel="stylesheet" href="./css/common.css">
+	<style>
+		.myCredibility-wrap .credibility-display {
+			width: 18.75rem;
+			height: 14rem;
+			background-color: #efeff4;
+		}
+		.myCredibility-wrap .credibility-display .content {
+		    width: 100%;
+		    height: 14rem;
+		    margin: 0 auto;
+		    position: relative;
+		}
+		.myCredibility-wrap .credibility-display .content .canvasI {
+			width: 100%;
+		    height: 100%;
+		    position: absolute;
+		    padding: 0 0.2rem;
+		    left: 0;
+		    top: 0;
+		    bottom: 0;
+		    right: 0;
+		    margin: auto auto;
+		}
+		.myCredibility-wrap .credibility-display .content .canvasII {
+		    width: 100%;
+		    height: 100%;
+		    position: absolute;
+		    padding: 0 0.2rem;
+		    left: 0;
+		    top: 0;
+		    bottom: 0;
+		    right: 0;
+		    margin: auto auto;
+		}
+
+		.myCredibility-wrap .credibility-display .content .btn {
+		    position: absolute;
+		    width: 5rem;
+		    bottom: 0.75rem;
+		    left: 0;
+		    right: 0;
+		    margin: 0 auto;
+		}
+
+		.myCredibility-wrap .btn-share {
+			width: 12.5rem;
+			height: 2rem;
+			background-color: #fc5833;
+			text-align: center;
+			line-height: 2rem;
+			color: #fff;
+			font-size: 1rem;
+			border-radius: 1rem;
+			margin: 5rem auto 0;
+		}
+	</style>
+</head>
+<body>
+	<section class="myCredibility-wrap wrap-box">
+		<section class="credibility-display">
+			<section class='content'>
+		        <canvas canvas-id='bgCanvas' class='canvasI'></canvas>
+		        <canvas canvas-id="runCanvas" class='canvasII' @touchstart='end'></canvas>
+		    </section>
+		</section>
+		<section class="btn-share">分享给好友</section>
+	</section>
+
+	<script src='./inc/remset.js'></script>
+	<script>
+		
+	</script>
+</body>
+</html>
