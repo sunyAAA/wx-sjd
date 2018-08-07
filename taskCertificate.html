@@ -404,7 +404,7 @@
 				AJAX.POST('/api/taskUser/completeApply', { userTaskId: userTaskId, userDetailId: userDetailId || '', voucher: voucher, remark: remark }, function (res) {
 					if (res.code == 1) {
 						Prompt.msg('提交审核成功');
-						// setTimeout("Nav.gotop()", 1200);
+						setTimeout("Nav.gotop()", 1200);
 					} else {
 						Prompt.msg(res.msg);
 					}
