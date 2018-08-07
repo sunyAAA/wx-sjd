@@ -173,7 +173,7 @@
 			    } else {
 			    	countdown(this)
 			    	$.ajax({
-			    		url: 'https://sjd.uvmatrix.com/api/user/sendVerificationCode',
+			    		url: 'http://sjd.itan8.net//api/user/sendVerificationCode',
 			    		type: 'GET',
 			    		data: {
 			    			phone: phone,
@@ -191,7 +191,7 @@
 		 		var code = $('.form .code .code-input').val();
 		 		if(phone != '' && code != ''){	// 如果手机号和验证码都不为空的话
 		 			$.ajax({
-		 				url: 'https://sjd.uvmatrix.com/api/user/loginByCode',
+		 				url: 'http://sjd.itan8.net//api/user/loginByCode',
 		 				type: 'POST',
 		 				data: {
 		 					phone: phone,
@@ -202,6 +202,12 @@
 		 					// window.location.href = 'home.html'
 		 					Local.save('u',res.data)
 		 					Local.save('_token',res.data.token)
+							var taskId = Comm.query('taskId')||'';
+							if(taskId){
+								Comm.go('taskDetail?taskId='+taskId)
+							}else{
+								Comm.go('index.html')
+							} 
 		 				}
 		 			})
 		 		}else {

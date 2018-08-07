@@ -4,7 +4,9 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width,initial-scale=1">
 	<title>实名认证</title>
-	<link rel="stylesheet" href="./css/common.css">
+	<link rel="stylesheet" href="css/common.css">
+	<script src='inc/remset.js'></script>
+
 	<style>
 		/* 上传身份证（正面） */
 		.verified-wrap .upload-IDCard .ID-area {
@@ -36,25 +38,116 @@
 			text-align: center;
 			margin: 3.75rem auto 0;
 		}
+				/*UpImage*/
+
+		#UpImageBox {
+			position: absolute;
+			top: 0px;
+			left: 0px;
+			width: 100%;
+			height: 100%;
+			z-index: 1000;
+			text-align: center;
+			overflow: hidden;
+			display: none;
+		}
+
+		#UpImageBox .nav {
+			background: #393A3F;
+			height: 50px;
+			overflow: hidden;
+		}
+
+		#UpImageBox .nav>span {
+			display: inline-block;
+			margin: 10px;
+			text-align: center;
+		}
+
+		#UpImageBox .back {
+			float: left;
+			background: url(images/back_w.png) no-repeat center center;
+			width: 1.2rem;
+			height: 1.2rem;
+		}
+
+		#UpImageBox .select {
+			color: #fff;
+			background: transparent;
+			border-radius: 5px;
+			float: right;
+			line-height: 30px;
+			width: 2.5rem;
+			height: 1.5rem;
+		}
+
+		#UpImageBox .content {
+			height: 300px;
+			width: 300px;
+			overflow: hidden;
+			margin: 20px auto 0px auto;
+			background-size: cover;
+			border: 1px solid #fff;
+			background-repeat: no-repeat;
+			background-position: center center;
+		}
+
+		#UpImageBox .mask {
+			height: 100%;
+			width: 100%;
+			float: right;
+			background: #AAA;
+			opacity: .9;
+			font-size: 0px;
+			overflow: hidden;
+		}
+
+		#UpImageBox .upmess {
+			line-height: 50px;
+			text-align: center;
+			color: #000;
+		}
 	</style>
 </head>
 <body>
 	<div class="verified-wrap wrap-box">
 		<!-- 上传身份证（正面） -->
 		<div class="upload-IDCard">
-			<div class="ID-area" @click.stop='upLoadImg'>
-				<img v-if="card" :src='oss+card' style="display: none;">
-				<img v-else src='./images/uploadImg.png' alt="">
+			<div class="ID-area" id="addBox">
+				<img src='images/uploadImg.png' alt="">
 			</div>
 			<span>请上传身份证（正面）</span>
 		</div>
 		<!-- 确认按钮 -->
 		<div class="btn-sure" onclick='send()'>确认</div>
 	</div>
-
-	<script src='./inc/remset.js'></script>
+	<script src="inc/z.js"></script>
+	<script src="inc/page.js"></script>
+	<script src="inc/g.js"></script>
+	<script src="inc/upimg/upload.js"></script>
 	<script>
-		
+		var load,defaultUrl = 'images/uploadImg.png',cardPositive;
+		function addImg() {
+			load = new imgUploader("addBox");
+			load.fill = function () {
+				cardPositive = this.getList()[0];
+				document.querySelector('#addBox>img').setAttribute('src',config.ossroot+cardPositive);
+			}
+		}
+		function send(){
+			if(!cardPositive){
+				Prompt.msg('请上传身份证');return;
+			}
+			AJAX.POST('/api/user/completeCardNo',{cardPositive:cardPositive},function(res){
+				if(res.code == 1){
+					Prompt.msg('提交成功')
+					setTimeout('Nav.gotop()',1200);
+				}else{
+					Prompt.msg(res.msg);
+				}
+			})
+		}
+		addImg()
 	</script>
 </body>
 </html>

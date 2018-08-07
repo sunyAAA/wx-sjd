@@ -19,7 +19,7 @@
 		.taskCertificate-wrap .card-item {
 			background-color: #efeff4;
 			padding: 0 0.75rem;
-			width: 17.25rem;
+			width: 17.05rem;
 			height: 4.5rem;
 			margin: 0 auto;
 			border-radius: 0.3rem;
@@ -35,7 +35,7 @@
 		.taskCertificate-wrap .card-item .task-content .title {
 			font-size: 0.75rem;
 			font-weight: 500;
-			margin: 0.625rem 0 0.75rem;
+			margin: 0.625rem 0 0.45rem 0;
 		}
 
 		.taskCertificate-wrap .card-item .task-content .publisher {
@@ -67,7 +67,7 @@
 		}
 
 		.taskCertificate-wrap .upload-box .upload-area {
-			width: 17.5rem;
+			width: 100%;
 			min-height: 11.425rem;
 			border: 1px solid #e6e6e6;
 			margin: 0 auto;
@@ -83,8 +83,8 @@
 		.taskCertificate-wrap .upload-box .upload-area .btn-upload,
 		.taskCertificate-wrap .upload-box .upload-area .img-item {
 			flex: 0 0 4.25rem;
-			width: 5rem;
-			height: 5rem;
+			width: 4.5rem;
+			height: 4.5rem;
 			display: inline-block;
 			margin-right: 0.5rem;
 			margin-bottom: 1rem;
@@ -98,15 +98,18 @@
 			object-fit: cover;
 		}
 
-		.taskCertificate-wrap .upload-box span,.tips {
+		.taskCertificate-wrap .upload-box span,
+		.tips {
 			font-size: 0.6rem;
 			color: #999;
 			padding-left: 1rem;
 		}
+
 		.tips {
 			margin-top: 1rem;
 			color: #ff4b2b
 		}
+
 		/* 审核按钮 */
 
 		.taskCertificate-wrap .btn-review {
@@ -149,7 +152,7 @@
 
 		#UpImageBox .back {
 			float: left;
-			background: url(../images/back_w.png) no-repeat center center;
+			background: url(images/back_w.png) no-repeat center center;
 			width: 1.2rem;
 			height: 1.2rem;
 		}
@@ -191,6 +194,22 @@
 			color: #000;
 		}
 
+		.img-item {
+			position: relative;
+		}
+
+		.remove {
+			width: 1rem !important;
+			height: 1rem !important;
+			position: absolute;
+			top: -.5rem;
+			right: -.5rem;
+		}
+
+		.reason-title {
+			padding: 1rem .5rem;
+			color: #ff4b2b
+		}
 	</style>
 </head>
 
@@ -200,8 +219,8 @@
 
 		</div>
 		<!-- 上传凭证 -->
-		<div v-show='!isNew' class="reason-title">
-			<!-- {{statusText}} -->
+		<div class="reason-title" style="display: none;">
+
 		</div>
 		<div class="upload-box">
 			<div class="upload-area">
@@ -211,7 +230,6 @@
 						<img src="./images/addImg.png" alt="">
 					</div>
 				</div>
-
 			</div>
 			<span>上传凭证（最多可上传9张）</span>
 			<p v-show='isNew' class="tips">预计审核时间为七个工作日</p>
@@ -248,24 +266,65 @@
         </div>
 	</script>
 	<script>
-		var taskId = Comm.query('taskId') || null, imgList = [],userStatus,userTaskId,userDetailId;
-		function pageload(){
+		var taskId = Comm.query('taskId') || null, imgList = [], userStatus, userTaskId, userDetailId="", load;
+		function pageload() {
 			loadData();
 		}
-		function loadData(){
-			AJAX.GET('/api/task/getDetailById?taskId='+taskId+"&userId=5",function(res){
-				if(res.code == 1){
+		function loadData() {
+			AJAX.GET('/api/task/getDetailById?taskId=' + taskId + "&userId=5", function (res) {
+				if (res.code == 1) {
 					userStatus = res.data.missionTask.userStatus;
 					userTaskId = res.data.missionTask.userTaskId
-					var obj =  forMart([res.data.missionTask])[0]
-					var html = template('card',obj);
+					var obj = forMart([res.data.missionTask])[0]
+					var html = template('card', obj);
 					document.querySelector('.card-box').innerHTML = html;
-					if(userStatus != 6 ){
+					if (userStatus == 2) {
 						addStaffImg()
-					}else{
+
+					} else if (userStatus == 3) {
 						getProvData()
+					} else if (userStatus == 5) {
+						getProvData();
+						setTimeout(function () {
+							document.getElementById('addBox').style.display = 'inline-block';
+							document.querySelector('.btn-review').style.display = 'block';
+							document.getElementById('remark').removeAttribute('readOnly')
+							addStaffImg()
+							for (var i = 0; i < imgList.length; i++) {
+								var index = i;
+								var div = document.createElement('DIV');
+								var img = document.createElement('IMG');
+								var remove = document.createElement('IMG');
+								remove.setAttribute('src', 'images/remove.jpg')
+								remove.className = 'remove';
+								img.setAttribute('src', config.ossroot + imgList[i]);
+								div.className = 'img-item';
+								div.appendChild(img)
+								div.appendChild(remove)
+								document.querySelector('.img-box').insertBefore(div, document.getElementById('addBox'));
+								remove.addEventListener('click', function () {
+									Prompt.confirm('确定要删除这张图片吗？', function (a) {
+										if (a) {
+											document.querySelector('.img-box').removeChild(div);
+											imgList.splice(index, 1);
+											if (imgList.length <= 8) { toggleLoadBtn('inline-block') }
+											addStaffImg()
+										}
+									})
+								})
+								if (imgList.length == 9) { toggleLoadBtn('none') }
+							}
+							if (i >= 8) {
+								toggleLoadBtn('none')
+							}
+						}, 800)
+					} else {
+						Prompt.msg('任务已过期，请重新领取')
+						setTimeout(() => {
+							Nav.back()
+						}, 800);
 					}
-				}else{
+				} else {
 					Prompt.msg('网络连接失败,请稍后再试');
 					setTimeout(() => {
 						Nav.back()
@@ -275,49 +334,88 @@
 			})
 		}
 		function addStaffImg() {
+			if (load) { load = null };
 			load = new imgUploader("addBox");
 			load.fill = function () {
-				if(imgList.length >=9){return Prompt.msg('最多上传9张图片') }
+				if (imgList.length >= 9) { return Prompt.msg('最多上传9张图片') }
+				imgList.push(this.getList()[0]);
+				var index = imgList.length - 1;
 				var div = document.createElement('DIV');
 				var img = document.createElement('IMG');
+				var remove = document.createElement('IMG');
+				remove.setAttribute('src', 'images/remove.jpg')
+				remove.className = 'remove';
 				img.setAttribute('src', config.ossroot + this.getList()[0]);
 				div.className = 'img-item';
 				div.appendChild(img)
-				document.querySelector('.img-box').insertBefore(div,document.getElementById('addBox'));
-				imgList.push(this.getList()[0])
-				if(imgList.length == 9 ){toggleLoadBtn('none')}
+				div.appendChild(remove)
+				document.querySelector('.img-box').insertBefore(div, document.getElementById('addBox'));
+				remove.addEventListener('click', function () {
+					Prompt.confirm('确定要删除这张图片吗？', function (a) {
+						if (a) {
+							document.querySelector('.img-box').removeChild(div);
+							imgList.splice(index, 1);
+							if (imgList.length <= 8) { toggleLoadBtn('inline-block') }
+							addStaffImg()
+						}
+					})
+				})
+				if (imgList.length == 9) { toggleLoadBtn('none') }
 			}
 		}
-		function deleImg(){
-
-		}
-		function getProvData(){
+		function getProvData() {
 			Prompt.loading()
-			AJAX.GET('/api/task/getApplyById?userTaskId='+userTaskId+'&userDetailId='+userDetailId,function(res){
+			AJAX.GET('/api/task/getApplyById?userTaskId=' + userTaskId + '&userDetailId=' + userDetailId, function (res) {
 				Prompt.hide();
-				
+				document.getElementById('addBox').style.display = 'none';
+				document.querySelector('.btn-review').style.display = 'none';
+				document.getElementById('remark').setAttribute('readOnly', true)
+				var voucher = res.data.voucher.split(',');
+				imgList = voucher;
+				document.getElementById('remark').value = res.data.remark || '';
+				if (voucher.length && userStatus != 5) {
+					document.querySelector('.tips').style.display = 'none';
+					document.querySelector('.reason-title').style.display = 'block';
+					document.querySelector('.reason-title').innerHTML = '审核中，预计审核时间为七个工作日';
+
+					for (var i = 0; i < voucher.length; i++) {
+						var div = document.createElement('DIV');
+						var img = document.createElement('IMG');
+						img.setAttribute('src', config.ossroot + voucher[i]);
+						div.className = 'img-item';
+						div.appendChild(img)
+						document.querySelector('.img-box').insertBefore(div, document.getElementById('addBox'));
+					}
+					if (i >= 8) {
+						toggleLoadBtn('none')
+					}
+				}
+				if (userStatus == 5) {
+					document.querySelector('.tips').style.display = 'none';
+					document.querySelector('.reason-title').style.display = 'block';
+					document.querySelector('.reason-title').innerHTML = '审核失败，失败原因为：' + res.data.reason;
+				}
 			})
 		}
-		function send(){
-			if(imgList.length){
+		function send() {
+			if (imgList.length) {
 				var voucher = imgList.join(',');
 				var remark = document.getElementById('remark').value;
-				AJAX.POST('/api/taskUser/completeApply',{userTaskId:userTaskId,userDetailId:userDetailId||'',voucher:voucher,remark:remark},function(res){
-					if(res.code == 1){
+				AJAX.POST('/api/taskUser/completeApply', { userTaskId: userTaskId, userDetailId: userDetailId || '', voucher: voucher, remark: remark }, function (res) {
+					if (res.code == 1) {
 						Prompt.msg('提交审核成功');
-						setTimeout("Nav.gotop()",1200);
-					}else{
+						setTimeout("Nav.gotop()", 1200);
+					} else {
 						Prompt.msg(res.msg);
 					}
 				})
-			}else{
+			} else {
 				Prompt.msg('至少上传一张凭证')
 			}
 		}
-		function toggleLoadBtn(display){
+		function toggleLoadBtn(display) {
 			document.getElementById('addBox').style.display = display
 		}
-
 	</script>
 </body>
 

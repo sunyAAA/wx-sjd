@@ -114,6 +114,23 @@
         .taskDetail-wrap .received {
             padding-top: 0.75rem;
         }
+        .task-nav {
+            display: flex;
+        }
+        .task-nav > div {
+            flex: 1;
+            text-align: center;
+            padding: 1rem;
+        }
+        .task-nav > div.active {
+            color: #ff4b2b;
+        }
+        .task-content {
+            padding: 1rem;
+        }
+        .count-down{
+            color: #ff4b2b
+        }
     </style>
 </head>
 
@@ -161,7 +178,7 @@
 					<div class="countdown">预计耗时：{{missionTask.preTime}}分钟</div>
 				</div>
             </div>
-            {{if(missionTask.userStatus < 3 || missionTask.userStatus >=6)}}
+            {{if(missionTask.userStatus < 3 || missionTask.userStatus >=5)}}
 			<div class="operate">
                 <!-- 领取按钮 -->
                 {{if(missionTask.userStatus < 2 || missionTask.userStatus >=6)}}

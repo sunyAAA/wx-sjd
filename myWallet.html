@@ -3,43 +3,150 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width,initial-scale=1">
-	<title>我的钱包</title>
+	<title>我要提现</title>
 	<link rel="stylesheet" href="./css/common.css">
+	<link rel="stylesheet" href="./css/page.css">
+	<script src='inc/remset.js'></script>
 	<style>
-		
+		.icon-box-rect {
+			width: 2.2rem;
+			height: 2.6rem;
+			overflow: hidden;
+			margin: 1rem auto;
+			margin-bottom: .5rem;
+		}
+		.icon-box-rect img {
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+		}
+		.title {
+			text-align: center;
+			padding: 0.5rem;
+		}
+		.money {
+			text-align: center;
+			font-size: 2rem;
+			font-weight: bold;
+			transform: translate(0, 0);
+		}
+		.money .unit {
+			font-size: 1rem;
+			vertical-align: top;
+		}
+		.blank {
+			margin-top: 1.2rem;
+			height: 1px;
+			background: #eee;
+		}
+		.left {
+			padding: 0.5rem 0.75rem;
+			font-size: 0.7rem;
+		}
+		.box {
+			display: flex;
+			height: 3rem;
+			align-items: center;
+			padding-bottom: 1rem;
+			border-bottom: 1px solid #eee;
+		}
+		.box .unit {
+			flex: 0 0 2.2rem;
+			padding-left: 1.5rem;
+			font-size: 1.3rem;
+			font-weight: bold;
+		}
+		.box .ctrol {
+			flex: 1;
+		}
+		.box .ctrol input {
+			text-align: center;
+			font-size: 14px;
+		}
+		.box .desc {
+			flex: 0 0 5rem;
+			padding-right: 1rem;
+			font-size: 0.6rem;
+			color: #3743B2;
+		}
+		.ye-box {
+			height: 3rem;
+			padding: 0 1.5rem;
+			line-height: 3rem;
+			font-size: 0.7rem;
+			border-bottom: 1px solid #eee;
+		}
+		.ye-box .arrow {
+			font-weight: bold;
+			float: right;
+		}
+		.btn {
+			display: block;
+			border: none;
+			width: 70%;
+			margin: 0 auto;
+			height: 2rem;
+			line-height: 2rem;
+			color: #fff;
+			background: #ff4b2b;
+			margin-top: 1.5rem;
+		}
+		.no-bind {
+			color: #e4393c;
+			float: right;
+			margin-right: 0.5rem;
+		}
 	</style>
 </head>
 <body>
-	<div class="myWallet-wrap wrap-box">
-		<!-- icon和总金额 -->
-		<div class="wallet">
-			<div class="icon"><img src="./images/icon-wallet.png" alt=""></div>
-			<div class="balance">
-				<span>¥</span>
-				<span>0.00</span>
-			</div>
-		</div>
-		<!-- 申请提现 -->
-		<div class="withdraw">
-			<div class="withdraw-header">
-				<span>申请提现（元）</span>
-				<span><a href="#">余额明细</a></span>
-			</div>
-			<div class="withdraw-body">
-				<!-- 可选择的提现金额 -->
-				<ul class="select-money">
-					<li>10</li>
-					<li>20</li>
-					<li>50</li>
-					<li>80</li>
-					<li>100</li>
-					<li>200</li>
-				</ul>
-			</div>
-		</div>
-	</div>
-
-	<script src='./inc/remset.js'></script>
-	<script src="./inc/jquery-2.1.1.min.js"></script>
+	<section class="myWallet-wrap wrap-box">
+		<section class="icon-box-rect">
+			<img src=" images/icon-wallet.png" alt="">
+		</section>
+		<p class="title">我的钱包</p>
+		<p class="money">
+			<span class="unit">￥</span>
+			<span id="balance">222</span>
+		</p>
+		<section class="blank"></section>
+		<p class="left">申请提现（元）</p>
+		<section class="box">
+			<p class="unit">￥</p>
+			<div class="ctrol"><input type="number" v-model="putMoney" placeholder="请输入提现金额（整数）" placeholder-style="color:#999;font-size:12px"></div>
+			<p class="desc">全部提现</p>
+		</section>
+		<section class="ye-box" onclick="Comm.go('moneyDetail.html')">
+			余额明细
+			<span class="arrow">></span>
+		</section>
+		<section class="ye-box" @click='goBindPage'>
+			<span class="arrow">></span>
+			微信:
+			<span id='wx'></span>
+		</section>
+		<section class="ye-box" @click='goBindPage'>
+			<span class="arrow">></span>
+			支付宝:
+			<span id='ali'></span>
+		</section>
+		<button class="btn" @click='take'>申请提现</button>
+	</section>
+	<script src="inc/page.js"></script>
+	<script>
+		function loadData(){
+			AJAX.GET('/api/userDeposit/getMyBalance',function(res){
+				document.getElementById('balance').innerHTML = res.balance;	
+			})
+			AJAX.GET('/api/userDeposit/getMyBind',function(res){
+				if(res.length){
+					
+				}else{
+					// document.getElementById('card').innerHTML='暂无提现账户，快去绑定吧！'
+					// document.getElementById('card').className='no-bind'
+				}
+			})
+		}
+		loadData()
+	</script>
 </body>
 </html>
