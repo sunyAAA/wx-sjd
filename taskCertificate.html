@@ -205,6 +205,7 @@
 			top: -.5rem;
 			right: -.5rem;
 		}
+
 		.reason-title {
 			padding: 1rem .5rem;
 			color: #ff4b2b
@@ -265,7 +266,7 @@
         </div>
 	</script>
 	<script>
-		var taskId = Comm.query('taskId') || null, imgList = [], userStatus, userTaskId, userDetailId,load;
+		var taskId = Comm.query('taskId') || null, imgList = [], userStatus, userTaskId, userDetailId="", load;
 		function pageload() {
 			loadData();
 		}
@@ -277,10 +278,46 @@
 					var obj = forMart([res.data.missionTask])[0]
 					var html = template('card', obj);
 					document.querySelector('.card-box').innerHTML = html;
-					if (userStatus == 2 || userStatus == 5) {
+					if (userStatus == 2) {
 						addStaffImg()
+
 					} else if (userStatus == 3) {
 						getProvData()
+					} else if (userStatus == 5) {
+						getProvData();
+						setTimeout(function () {
+							document.getElementById('addBox').style.display = 'inline-block';
+							document.querySelector('.btn-review').style.display = 'block';
+							document.getElementById('remark').removeAttribute('readOnly')
+							addStaffImg()
+							for (var i = 0; i < imgList.length; i++) {
+								var index = i;
+								var div = document.createElement('DIV');
+								var img = document.createElement('IMG');
+								var remove = document.createElement('IMG');
+								remove.setAttribute('src', 'images/remove.jpg')
+								remove.className = 'remove';
+								img.setAttribute('src', config.ossroot + imgList[i]);
+								div.className = 'img-item';
+								div.appendChild(img)
+								div.appendChild(remove)
+								document.querySelector('.img-box').insertBefore(div, document.getElementById('addBox'));
+								remove.addEventListener('click', function () {
+									Prompt.confirm('确定要删除这张图片吗？', function (a) {
+										if (a) {
+											document.querySelector('.img-box').removeChild(div);
+											imgList.splice(index, 1);
+											if (imgList.length <= 8) { toggleLoadBtn('inline-block') }
+											addStaffImg()
+										}
+									})
+								})
+								if (imgList.length == 9) { toggleLoadBtn('none') }
+							}
+							if (i >= 8) {
+								toggleLoadBtn('none')
+							}
+						}, 800)
 					} else {
 						Prompt.msg('任务已过期，请重新领取')
 						setTimeout(() => {
@@ -297,7 +334,7 @@
 			})
 		}
 		function addStaffImg() {
-			if(load){load=null};
+			if (load) { load = null };
 			load = new imgUploader("addBox");
 			load.fill = function () {
 				if (imgList.length >= 9) { return Prompt.msg('最多上传9张图片') }
@@ -313,12 +350,12 @@
 				div.appendChild(img)
 				div.appendChild(remove)
 				document.querySelector('.img-box').insertBefore(div, document.getElementById('addBox'));
-				remove.addEventListener('click',function(){
-					Prompt.confirm('确定要删除这张图片吗？',function(a){
-						if(a){
+				remove.addEventListener('click', function () {
+					Prompt.confirm('确定要删除这张图片吗？', function (a) {
+						if (a) {
 							document.querySelector('.img-box').removeChild(div);
-							imgList.splice(index,1);
-							if(imgList.length <= 8){toggleLoadBtn('inline-block')}
+							imgList.splice(index, 1);
+							if (imgList.length <= 8) { toggleLoadBtn('inline-block') }
 							addStaffImg()
 						}
 					})
@@ -330,16 +367,17 @@
 			Prompt.loading()
 			AJAX.GET('/api/task/getApplyById?userTaskId=' + userTaskId + '&userDetailId=' + userDetailId, function (res) {
 				Prompt.hide();
-				document.getElementById('addBox').style.display='none';
+				document.getElementById('addBox').style.display = 'none';
 				document.querySelector('.btn-review').style.display = 'none';
-				document.getElementById('remark').setAttribute('readOnly',true)
+				document.getElementById('remark').setAttribute('readOnly', true)
 				var voucher = res.data.voucher.split(',');
+				imgList = voucher;
 				document.getElementById('remark').value = res.data.remark || '';
-				if (voucher.length) {
+				if (voucher.length && userStatus != 5) {
 					document.querySelector('.tips').style.display = 'none';
 					document.querySelector('.reason-title').style.display = 'block';
 					document.querySelector('.reason-title').innerHTML = '审核中，预计审核时间为七个工作日';
-					
+
 					for (var i = 0; i < voucher.length; i++) {
 						var div = document.createElement('DIV');
 						var img = document.createElement('IMG');
@@ -366,7 +404,7 @@
 				AJAX.POST('/api/taskUser/completeApply', { userTaskId: userTaskId, userDetailId: userDetailId || '', voucher: voucher, remark: remark }, function (res) {
 					if (res.code == 1) {
 						Prompt.msg('提交审核成功');
-						setTimeout("Nav.gotop()", 1200);
+						// setTimeout("Nav.gotop()", 1200);
 					} else {
 						Prompt.msg(res.msg);
 					}
