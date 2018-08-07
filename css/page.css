@@ -131,7 +131,7 @@ input::placeholder {color: #aaaaaa}
 		.task-card .card-item .task-content .title {
 			font-size: 0.75rem;
 			font-weight: 500;
-			margin: 0.625rem 0 0.75rem;
+			margin: 0.625rem 0 0.45rem 0;
 		}
 		.task-card .card-item .task-content .publisher {
 			font-size: 0.5rem;

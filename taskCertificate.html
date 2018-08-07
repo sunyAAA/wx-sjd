@@ -35,7 +35,7 @@
 		.taskCertificate-wrap .card-item .task-content .title {
 			font-size: 0.75rem;
 			font-weight: 500;
-			margin: 0.625rem 0 0.75rem;
+			margin: 0.625rem 0 0.45rem 0;
 		}
 
 		.taskCertificate-wrap .card-item .task-content .publisher {
@@ -205,6 +205,10 @@
 			top: -.5rem;
 			right: -.5rem;
 		}
+		.reason-title {
+			padding: 1rem .5rem;
+			color: #ff4b2b
+		}
 	</style>
 </head>
 
@@ -326,10 +330,16 @@
 			Prompt.loading()
 			AJAX.GET('/api/task/getApplyById?userTaskId=' + userTaskId + '&userDetailId=' + userDetailId, function (res) {
 				Prompt.hide();
+				document.getElementById('addBox').style.display='none';
 				document.querySelector('.btn-review').style.display = 'none';
+				document.getElementById('remark').setAttribute('readOnly',true)
 				var voucher = res.data.voucher.split(',');
 				document.getElementById('remark').value = res.data.remark || '';
 				if (voucher.length) {
+					document.querySelector('.tips').style.display = 'none';
+					document.querySelector('.reason-title').style.display = 'block';
+					document.querySelector('.reason-title').innerHTML = '审核中，预计审核时间为七个工作日';
+					
 					for (var i = 0; i < voucher.length; i++) {
 						var div = document.createElement('DIV');
 						var img = document.createElement('IMG');
@@ -344,8 +354,8 @@
 				}
 				if (userStatus == 5) {
 					document.querySelector('.tips').style.display = 'none';
-					document.querySelector('reason-title').style.display = 'block';
-					document.querySelector('reason-title').innerHTML = '审核失败，失败原因为：' + res.data.reason;
+					document.querySelector('.reason-title').style.display = 'block';
+					document.querySelector('.reason-title').innerHTML = '审核失败，失败原因为：' + res.data.reason;
 				}
 			})
 		}

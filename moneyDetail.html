@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width,initial-scale=1">
@@ -10,48 +11,59 @@
 
 	<style>
 		.moneyDetail-wrap .top-bar {
+			position: fixed;
+			top:0;
+			width: 100%;
+			background: #fff;
 			display: flex;
-		    height: 2.5rem;
-		    border: 1px solid #eee;
+			height: 2.5rem;
+			border: 1px solid #eee;
+			z-index: 100;
 		}
+
 		.moneyDetail-wrap .top-bar .case {
 			flex: 1;
-	        text-align: center;
-	        height: 2.5rem;
-	        line-height: 2.5rem;
-	        font-size: 0.7rem;
+			text-align: center;
+			height: 2.5rem;
+			line-height: 2.5rem;
+			font-size: 0.7rem;
 		}
-		.moneyDetail-wrap .top-bar .case:nth-child(1){
+
+		.moneyDetail-wrap .top-bar .case:nth-child(1) {
 			border-right: 1px solid #eee;
 		}
+
 		.moneyDetail-wrap .top-bar .active {
 			color: #ff4b2b;
 		}
+
 		.content {
 			padding: 1rem 0;
+			padding-top: 3rem;
+			height: 100%;
 		}
-
 	</style>
 </head>
+
 <body>
 	<div class="moneyDetail-wrap wrap-box">
 		<div class="over-page">
-	        <div class="top-bar">
-	            <div class="case active" onclick="toggle(this,1)" >收入明细</div>
-	            <div class="case" onclick="toggle(this,2)">提现明细</div>
-	        </div>
+			<div class="top-bar">
+				<div class="case active" onclick="toggle(this,1)">收入明细</div>
+				<div class="case" onclick="toggle(this,2)">提现明细</div>
+			</div>
 		</div>
+		<div class="content">
 
+		</div>
 	</div>
-			<div class="content">
 
-		</div>
 	<script src="inc/page.js"></script>
 	<script src='inc/template.js'></script>
 	<script src="inc/model.js"></script>
 	<script type="text/template" id="card">
         {{each list v}}
-        <div class="task-card" onclick="Comm.go('taskDetail.html?taskId='+{{v.taskId}})">
+        <div class="task-card" >
             <div class="card-item" style="width:16rem">
                 <div class="type-flag">
                     <div class="flag">收入</div>
@@ -75,25 +87,26 @@
 	</script>
 	<script>
 		var type = 1;
-		function toggle(ele,type){
-			if(ele.className.indexOf('active') > -1){
+		function toggle(ele, type) {
+			if (ele.className.indexOf('active') > -1) {
 				return
 			}
-			document.querySelector('.case.active').className='case';
+			document.querySelector('.case.active').className = 'case';
 			ele.className = 'case active';
 			type = type;
 			loadData()
 		}
-		function loadData(){
+		function loadData() {
 			Prompt.loading();
-			AJAX.GET('/api/userDeposit/getDepositPage?type='+type+"&pageSize=1000&pageNum=1",function(res){
+			AJAX.GET('/api/userDeposit/getDepositPage?type=' + type + "&pageSize=1000&pageNum=1", function (res) {
 				Prompt.hide()
-				if(res.length){
-					for(var i = 0 ;i<res.length;i++){
-						res[i]  = forMart([res[i].task])[0];
+				if (res.length) {
+					for (var i = 0; i < res.length; i++) {
+						res[i] = forMart([res[i].task])[0];
 					}
-					var obj={list:res};
-					var html = template('card',obj);
+					var obj = { list: res };
+					console.log(obj)
+					var html = template('card', obj);
 					document.querySelector('.content').innerHTML = html
 				}
 			})
@@ -101,4 +114,5 @@
 		loadData()
 	</script>
 </body>
+
 </html>
