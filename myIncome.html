@@ -161,14 +161,14 @@
 			chart = new G2.Chart({
 				container: 'chart',
 				forceFit: true,
-				height: 450,
+				height: 420,
 				padding: [20, 20, 95, 40], // 上，右，下，左
 			});
 			chart.source(data);
-			chart.scale('sales', {
+			chart.scale('收益', {
 				tickInterval: 20
 			});
-			chart.interval().position('date*sales').color('#ff4b2b');
+			chart.interval().position('date*收益').color('#ff4b2b');
 			chart.render();
 		}
 		function formartChartData(begin, end, data) {
@@ -201,7 +201,7 @@
 			for(var i = 0 ; i<result.data.length;i++){
 				data.push({
 					date: result.categories[i],
-					sales: result.data[i]
+					'收益': result.data[i]
 				})
 			}
 			return data

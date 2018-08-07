@@ -289,7 +289,7 @@
     </script>
     <script type="text/template" id="progress">
         {{each list v}}
-        <div class="task-card">
+        <div class="task-card" onclick='progressJump({{v}})'>
             <div class="card-item">
                 <div class="type-flag">
                     <div class="flag">{{v.flag}}</div>
@@ -433,6 +433,25 @@
             switch(index){
                 case 0 : loadNewList();document.title = '首页';break;
                 case 1 : loadProgressData(); document.title = "我的任务";break;
+                case 2 : setUserInfo(); document.title = "我的";break;
+            }
+        }
+        function setUserInfo(){
+            var u = Local.get('u') || null;
+            if(u){
+                document.querySelector('.username').innerHTML = u.nickname;
+                document.querySelector('.head-pic img').setAttribute('src',config.ossroot + u.avatar);
+            }
+        }
+        function progressJump(item){
+            if(item.status == 2){
+                if(item.isLocal){
+                    Comm.go(item.url + '.html')
+                }else{
+                    Comm.go('taskDetail.html?taskId='+item.task.taskId)
+                }
+            }else if(item.status == 3){
+                Comm.go('taskCertificate.html?taskId='+item.task.taskId);
             }
         }
         taskLoad();
