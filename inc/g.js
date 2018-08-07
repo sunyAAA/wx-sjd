@@ -44,7 +44,7 @@ var AJAX=new function(){
 	}
 	function ab(){
 		if(abs==null){
-			abs=Comm.db(K) ||'918aca55dc8d0586a1e4e7918340c5';
+			abs=Comm.db(K);
 			if(abs==null)
 				abs='';
 		}

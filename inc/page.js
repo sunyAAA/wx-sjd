@@ -121,9 +121,7 @@ var Local = new function() {
         sessionStorage.removeItem(k);
     };
     this.user = function(u) {
-        
-       
-
+        return Local.get('u')
     };
     this.deluser = function() {
         localStorage.removeItem("mjruser");

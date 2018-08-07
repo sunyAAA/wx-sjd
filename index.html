@@ -264,7 +264,7 @@
     <script src='inc/template.js'></script>
     <script type="text/template" id="card">
         {{each list v}}
-        <div class="task-card" onclick="Comm.go('taskDetail.html?taskId='+{{v.taskId}})">
+        <div class="task-card" onclick="go({{v.taskId}})">
             <div class="card-item">
                 <div class="type-flag">
                     <div class="flag">{{v.flag}}</div>
@@ -430,6 +430,10 @@
             for (var m = 0; m < contentBox.length; m++) {
                 contentBox[m].style.display = m == index ? 'block' : 'none'
             }
+            if(!Local.get('u') && index > 0){
+                Comm.go('login.html');
+                return
+            }
             switch(index){
                 case 0 : loadNewList();document.title = '首页';break;
                 case 1 : loadProgressData(); document.title = "我的任务";break;
@@ -452,6 +456,14 @@
                 }
             }else if(item.status == 3){
                 Comm.go('taskCertificate.html?taskId='+item.task.taskId);
+            }
+        }
+        function go(taskId){
+            var u = Local.get('u');
+            if(!u){
+                Comm.go('login.html?taskId='+taskId)
+            }else {
+                Comm.go('taskDetail?taskId='+taskId)
             }
         }
         taskLoad();

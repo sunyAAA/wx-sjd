@@ -202,6 +202,12 @@
 		 					// window.location.href = 'home.html'
 		 					Local.save('u',res.data)
 		 					Local.save('_token',res.data.token)
+							var taskId = Comm.query('taskId')||'';
+							if(taskId){
+								Comm.go('taskDetail?taskId='+taskId)
+							}else{
+								Comm.go('index.html')
+							} 
 		 				}
 		 			})
 		 		}else {
