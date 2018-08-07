@@ -17,7 +17,7 @@ db:上级操作页面返回的数据
 */
 var config = {
 	//root : 'http://192.168.0.187:8080',
-	root:'https://sjd.uvmatrix.com/',
+	root:'http://sjd.itan8.net/',
 	// webroot: "http://wh.feiyingbao.com.cn/", //网址地址
 	ossroot:'https://liangzhizheng.oss-cn-hangzhou.aliyuncs.com/'
 };

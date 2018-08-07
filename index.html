@@ -444,7 +444,10 @@
             var u = Local.get('u') || null;
             if(u){
                 document.querySelector('.username').innerHTML = u.nickname;
-                document.querySelector('.head-pic img').setAttribute('src',config.ossroot + u.avatar);
+                if(u.avatar){
+                    document.querySelector('.head-pic img').setAttribute('src',config.ossroot + u.avatar);
+                    
+                }
             }
         }
         function progressJump(item){
