@@ -152,7 +152,7 @@
 
 		#UpImageBox .back {
 			float: left;
-			background: url(../images/back_w.png) no-repeat center center;
+			background: url(images/back_w.png) no-repeat center center;
 			width: 1.2rem;
 			height: 1.2rem;
 		}
@@ -277,7 +277,7 @@
 					var obj = forMart([res.data.missionTask])[0]
 					var html = template('card', obj);
 					document.querySelector('.card-box').innerHTML = html;
-					if (userStatus == 2) {
+					if (userStatus == 2 || userStatus == 5) {
 						addStaffImg()
 					} else if (userStatus == 3) {
 						getProvData()
