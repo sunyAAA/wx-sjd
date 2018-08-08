@@ -109,6 +109,7 @@ imgUploader.prototype.fillimgs=function(imgs, del){
     this.fill(del);
 };
 imgUploader.prototype.getList=function() {
+    Prompt.hide()
     return this.imgList;
 };
 imgUploader.prototype.setErrorSrc=function (s) {
@@ -156,12 +157,12 @@ imgUploader.prototype.initLoder = function(button, cb, resize) {
             PostInit: function (up) {},
             FilesAdded: function (up, files) {
                 addFile(files);
+                Prompt.loading()
+                // $('#UpImageBox .back')[0].onclick=function () {
+                //     closeSelf(up)
+                // };
 
-                $('#UpImageBox .back')[0].onclick=function () {
-                    closeSelf(up)
-                };
-
-                $('#UpImageBox .select')[0].onclick=function () {
+               +function () {
                     if (up_isup)return;
                     up_isup = true;
                     !me.box &&(me.imgList=[]);
@@ -169,7 +170,7 @@ imgUploader.prototype.initLoder = function(button, cb, resize) {
                     setMark(100);
                     initParam(up, files[0].name, false);
                     return false;
-                };
+                }();
             },
             BeforeUpload: function (up, file) {},
             UploadProgress: function (up, file) {

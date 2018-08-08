@@ -49,6 +49,7 @@
 
 
 	<script src="./inc/jquery-2.1.1.min.js"></script>
+	<script src="inc/page.js"></script>
 	<script>
 		$(function(){
 			// 点击一键绑定按钮
@@ -58,7 +59,7 @@
 	        	+encodeURIComponent(bu)+"&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
 			})
 			if(code){
-				var code = Comm.query('code')
+				var code = Comm.query('code');
 			}
 		})
 	</script>
