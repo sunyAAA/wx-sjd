@@ -202,8 +202,14 @@ var AJAX = new function() {
          if (o) {
             if (ex.o) cb(o);
             else {
-                if (o.code === 1)
+                if (o.code === 1){
                     cb(o.data);
+                }else if(o.code == 110){
+                    Local.del('_token');
+                    Local.del('u');
+                    Prompt.msg('登录信息已过期,请重新登录')
+                    setTimeout("Comm.go('login.html')",800)
+                }
                 else {
                     if (!ex.n) Prompt.msg(o && o.msg ? o.msg : '网络异常，请稍后再试');
                     Prompt.hide();
