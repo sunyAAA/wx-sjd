@@ -164,7 +164,7 @@ var Nav = new function() {
     };
     t.gotop = function() {
         Local.sdel("his");
-        top.location.href = 'home.html'
+        top.location.href = 'index.html'
     };
     t.query = function(n, u) {
         if (n == null) {

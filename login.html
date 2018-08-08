@@ -199,12 +199,12 @@
 		 				},
 		 				success: function(res){
 		 					console.log(res)
-		 					// window.location.href = 'home.html'
+		 					// window.location.href = 'index.html'
 		 					Local.save('u',res.data)
 		 					Local.save('_token',res.data.token)
 							var taskId = Comm.query('taskId')||'';
 							if(taskId){
-								Comm.go('taskDetail?taskId='+taskId)
+								Comm.go('taskDetail.html?taskId='+taskId)
 							}else{
 								Comm.go('index.html')
 							} 

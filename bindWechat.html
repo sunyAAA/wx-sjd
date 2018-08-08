@@ -47,18 +47,18 @@
 	</section>
 
 
-
-
 	<script src="./inc/jquery-2.1.1.min.js"></script>
 	<script>
 		$(function(){
 			// 点击一键绑定按钮
 			$('.btn-bind input').on('click',function(){
-				var pclogin = 'aaa';
-				var bu='https://yuronfu.com/wx/guide.html?pclogin='+pclogin;
+				var bu='http://sjd.itan8.net/wx/bindWechat';
 	        	location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx952a3902534fbe57&redirect_uri="
 	        	+encodeURIComponent(bu)+"&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
 			})
+			if(code){
+				var code = Comm.query('code')
+			}
 		})
 	</script>
 </body>
