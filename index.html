@@ -374,7 +374,6 @@
                 var height = document.body.clientHeight - banner - nav - footer - 20;
                 view.setAttribute('style', 'height:' + height + 'px')
             }, 17)
-
         }
         function loadNewList() {
             Prompt.loading();
@@ -451,6 +450,10 @@
             view.setAttribute('style', 'height:' + height + 'px')
         }
         function footerBarChange(index) {
+            if (!u && index > 0) {
+                Comm.go('login.html');
+                return
+            }
             var footerBarList = document.querySelectorAll('.footer-bar>div');
             for (var i = 0; i < footerBarList.length; i++) {
                 footerBarList[i].className = i == index ? 'active' : '';
@@ -459,10 +462,7 @@
             for (var m = 0; m < contentBox.length; m++) {
                 contentBox[m].style.display = m == index ? 'block' : 'none'
             }
-            if (!u && index > 0) {
-                Comm.go('login.html');
-                return
-            }
+
             switch (index) {
                 case 0: loadNewList(); document.title = '首页'; break;
                 case 1: loadProgressData(); document.title = "我的任务"; break;
@@ -479,8 +479,9 @@
             }
         }
         function progressJump(item) {
+            console.log(item)
             if (item.status == 2) {
-                if (item.isLocal) {
+                if (item.task.isLocal) {
                     Comm.go(item.url + '.html')
                 } else {
                     Comm.go('taskDetail.html?taskId=' + item.task.taskId)
