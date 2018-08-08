@@ -63,6 +63,7 @@
 		}
 		.login-wrap .form .platform .text {
 			font-size: 0.7rem;
+			margin-right: 0.5rem;
 		}
 		.login-wrap .form .platform .text a {
 			color: #fc4e21;
@@ -71,6 +72,13 @@
 			width: 1.075rem;
 			height: 1.075rem;
 			background: url(./images/icon-btn-unsure.png);
+			-webkit-background-size: 100% 100%;
+			background-size: 100% 100%;
+		}
+		.login-wrap .form .platform .selected{
+			width: 1.075rem;
+			height: 1.075rem;
+			background: url(./images/icon-btn-sure.png);
 			-webkit-background-size: 100% 100%;
 			background-size: 100% 100%;
 		}
@@ -115,7 +123,7 @@
 		<!-- form表单 -->
 		<div class="form">
 			<div class="tel">
-				<input type="tel" placeholder='请输入您的手机号'>
+				<input type="tel" placeholder='请输入您的手机号' maxlength='11'>
 			</div>
 			<div class="code">
 				<input type="text" class='code-input' placeholder='请输入您收到的验证码'>
@@ -127,19 +135,10 @@
 					<span>我已阅读并同意</span>
 					<a href="">《平台使用协议》</a>
 				</div>
-				<div class="icon"></div>
+				<div class="icon selected"></div>
 			</div>
 			<!-- 登录按钮 -->
 			<div class="btn-login">登录</div>
-		</div>
-		<!-- 弹出框 -->
-		<div class="alert-model" style='display: none;'>
-			<div class="alert-content">
-				<div class="alert-header">&times;</div>
-				<div class="alert-body">
-					<span></span>
-				</div>
-			</div>
 		</div>
 	</div>
 
@@ -169,7 +168,7 @@
 		 		var phone = $('.form .tel input').val();
 		 		// 如果手机号无效
 	 			if(!(/^1(3|4|5|7|8)\d{9}$/.test(phone))){ 
-			        alertMsg("手机号码有误，请重填");  
+		 			Prompt.msg('手机号码有误，请重填')
 			        return false; 
 			    } else {
 			    	countdown(this)
@@ -186,11 +185,16 @@
 			    	})
 			    }
 		 	})
+		 	// 切换 平台协议的选中状态
+		 	$('.platform .icon').on('click',function(){
+		 		$(this).toggleClass('selected')
+		 	})
 		 	// 点击登录
 		 	$('.btn-login').on('click',function(){
 		 		var phone = $('.form .tel input').val();
 		 		var code = $('.form .code .code-input').val();
-		 		if(phone != '' && code != ''){	// 如果手机号和验证码都不为空的话
+		 		var isSelected = $('.platform .icon').hasClass('selected');
+		 		if(phone != '' && code != '' && isSelected){	// 如果手机号和验证码都不为空的话
 		 			$.ajax({
 		 				url: 'http://sjd.itan8.net//api/user/loginByCode',
 		 				type: 'POST',
@@ -212,17 +216,8 @@
 		 				}
 		 			})
 		 		}else {
-		 			// alert('手机号和验证码都不能为空')
+		 			Prompt.msg('请填写完整哦')
 		 		}
-		 	})
-
-		 	function alertMsg(msg){
-		 		$('.alert-model').show();
-		 		$('.alert-model .alert-body span').html(msg);
-		 	}
-
-		 	$('.alert-model .alert-header').click(function(){
-		 		$('.alert-model').hide();
 		 	})
 		})
 	</script>
