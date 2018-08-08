@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no,user-scalable=no=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <script src="inc/remset.js"></script>
     <link type="text/css" href="./css/page.css" rel="stylesheet">
@@ -445,8 +445,7 @@
             if(u){
                 document.querySelector('.username').innerHTML = u.nickname;
                 if(u.avatar){
-                    document.querySelector('.head-pic img').setAttribute('src',config.ossroot + u.avatar);
-                    
+                    document.querySelector('.head-pic img').setAttribute('src',config.ossroot + u.avatar);    
                 }
             }
         }
