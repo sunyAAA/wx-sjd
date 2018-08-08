@@ -199,9 +199,27 @@
 		</div>
 	</section>
 	<script src='./inc/remset.js'></script>
+	<script src='./inc/page.js'></script>
 	<script src='./inc/jquery-2.1.1.min.js'></script>
 	<script>
 		$(function(){
+			function loadData(){
+				AJAX.GET('/api/userDeposit/getMyBalance',function(res){
+					$('.icon-balance .balance .num').html(res.balance)
+				})
+				AJAX.GET('/api/userDeposit/getMyBind',function(res){
+					if(res.length){
+						
+					}else{
+						// document.getElementById('card').innerHTML='暂无提现账户，快去绑定吧！'
+						// document.getElementById('card').className='no-bind'
+					}
+				})
+			}
+			loadData()
+
+
+
 			// 切换选中金额
 			$('.wallet-box .can-apply li').on('click',function() {
 				$(this).toggleClass('selected').siblings().removeClass('selected')

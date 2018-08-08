@@ -54,7 +54,7 @@
 		$(function(){
 			// 点击一键绑定按钮
 			$('.btn-bind input').on('click',function(){
-				var bu='http://sjd.itan8.net/wx/bindWechat';
+				var bu='sjd.itan8.net/mp';
 	        	location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx952a3902534fbe57&redirect_uri="
 	        	+encodeURIComponent(bu)+"&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
 			})
