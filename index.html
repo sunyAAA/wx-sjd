@@ -345,6 +345,7 @@
         var sortStatus = 1;
         var progressStatus = 2;
         var homeIndex = 0;
+        var u = Local.get('u')
 
 
         function loadBanner() {
@@ -458,7 +459,7 @@
             for (var m = 0; m < contentBox.length; m++) {
                 contentBox[m].style.display = m == index ? 'block' : 'none'
             }
-            if (!Local.get('u') && index > 0) {
+            if (!u && index > 0) {
                 Comm.go('login.html');
                 return
             }
