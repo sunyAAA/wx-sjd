@@ -1,7 +1,9 @@
-var taskType = [];
+var taskType =Local.get('taskType') ||  [];
 (function(){
+    if(taskType.length){return}
     AJAX.GET('/api/dict/list?dictType=task_type',function(res){
         taskType = res;
+        Local.save('tsakType',res)
     })
 })();
 
