@@ -154,3 +154,9 @@ input::placeholder {color: #aaaaaa}
 		.task-card .card-item:last-child {
 			margin-bottom: 0;
 		}
+		.no-result {
+			min-height: 6rem;
+			line-height: 6rem;
+			text-align: center;
+			color: #666
+		}

@@ -345,6 +345,7 @@
         var sortStatus = 1;
         var progressStatus = 2;
         var homeIndex = 0;
+        var u = Local.get('u')
 
 
         function loadBanner() {
@@ -373,7 +374,6 @@
                 var height = document.body.clientHeight - banner - nav - footer - 20;
                 view.setAttribute('style', 'height:' + height + 'px')
             }, 17)
-
         }
         function loadNewList() {
             Prompt.loading();
@@ -436,20 +436,26 @@
                     var html = template('progress', renderObj);
                     document.querySelector('.progress-view').innerHTML = html;
                     setProgressViewHeight()
-                }else{
+                } else {
                     document.querySelector('.progress-view').innerHTML = '<div class="no-result">您暂时还没有相关任务</div>'
                 }
                 Prompt.hide()
             })
         }
         function setProgressViewHeight() {
-            var nav = document.querySelector('.progress-nav').clientHeight;
-            var footer = document.querySelector('.footer-bar').clientHeight;
-            var view = document.querySelector('.progress-view');
-            var height = document.body.clientHeight - nav - footer - 20;
-            view.setAttribute('style', 'height:' + height + 'px')
+            setTimeout(function () {
+                var nav = document.querySelector('.progress-nav').clientHeight;
+                var footer = document.querySelector('.footer-bar').clientHeight;
+                var view = document.querySelector('.progress-view');
+                var height = document.body.clientHeight - nav - footer - 20;
+                view.setAttribute('style', 'height:' + height + 'px')
+            }, 17)
         }
         function footerBarChange(index) {
+            if (!u && index > 0) {
+                Comm.go('login.html');
+                return
+            }
             var footerBarList = document.querySelectorAll('.footer-bar>div');
             for (var i = 0; i < footerBarList.length; i++) {
                 footerBarList[i].className = i == index ? 'active' : '';
@@ -458,10 +464,7 @@
             for (var m = 0; m < contentBox.length; m++) {
                 contentBox[m].style.display = m == index ? 'block' : 'none'
             }
-            if (!Local.get('u') && index > 0) {
-                Comm.go('login.html');
-                return
-            }
+
             switch (index) {
                 case 0: loadNewList(); document.title = '首页'; break;
                 case 1: loadProgressData(); document.title = "我的任务"; break;
@@ -478,8 +481,9 @@
             }
         }
         function progressJump(item) {
+            console.log(item)
             if (item.status == 2) {
-                if (item.isLocal) {
+                if (item.task.isLocal) {
                     Comm.go(item.url + '.html')
                 } else {
                     Comm.go('taskDetail.html?taskId=' + item.task.taskId)

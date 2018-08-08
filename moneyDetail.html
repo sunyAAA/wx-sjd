@@ -12,7 +12,7 @@
 	<style>
 		.moneyDetail-wrap .top-bar {
 			position: fixed;
-			top:0;
+			top: 0;
 			width: 100%;
 			background: #fff;
 			display: flex;
@@ -42,6 +42,46 @@
 			padding-top: 3rem;
 			height: 100%;
 		}
+
+		.tx-item {
+			display: flex;
+			flex-direction: column;
+			height: 4rem;
+			padding: 0 1rem;
+			margin-bottom: 1rem;
+			border-bottom: 1px solid #eee;
+		}
+
+		.top-case {
+			height: 2rem;
+			display: flex;
+			align-items: center;
+		}
+
+		.top-case>div:nth-child(1) {
+			flex: 1
+		}
+
+		.top-case>div:nth-child(2) {
+			flex: 0 0 10rem;
+			text-align: right;
+		}
+
+		.bottom-case {
+			height: 2rem;
+			display: flex;
+			align-items: center;
+		}
+
+		.bottom-case>div:nth-child(1) {
+			flex: 1
+		}
+
+		.bottom-case>div:nth-child(2) {
+			flex: 0 0 3rem;
+			text-align: right;
+
+		}
 	</style>
 </head>
 
@@ -57,7 +97,6 @@
 
 		</div>
 	</div>
-
 	<script src="inc/page.js"></script>
 	<script src='inc/template.js'></script>
 	<script src="inc/model.js"></script>
@@ -85,29 +124,59 @@
         </div>
         {{/each}}
 	</script>
+	<script type="text/template" id="tx">
+		{{each list v}}
+		<div class="tx-item">
+				<div class="top-case">
+					<div style="font-weight: bold">提现</div>
+					<div>{{v.createTime | Date}}</div>
+				</div>
+				<div class="bottom-case">
+					<div>余额：{{v.balance|fixed}}</div>
+					<div>-{{v.amount|fixed}}</div>
+				</div>
+		</div>
+		{{/each}}
+	</script>
 	<script>
 		var type = 1;
-		function toggle(ele, type) {
+		template.defaults.imports.Date = function (time) {
+			return timestampToDate(time,'Y-m-d H:m:s')
+		}
+		template.defaults.imports.fixed = function (amount) {
+			return amount.toFixed(2)
+		}
+		function toggle(ele, index) {
 			if (ele.className.indexOf('active') > -1) {
 				return
 			}
 			document.querySelector('.case.active').className = 'case';
 			ele.className = 'case active';
-			type = type;
+			type = index;
 			loadData()
 		}
 		function loadData() {
 			Prompt.loading();
+			var content = document.querySelector('.content');
+			content.innerHTML = ''
 			AJAX.GET('/api/userDeposit/getDepositPage?type=' + type + "&pageSize=1000&pageNum=1", function (res) {
 				Prompt.hide()
 				if (res.length) {
-					for (var i = 0; i < res.length; i++) {
-						res[i] = forMart([res[i].task])[0];
+					if (type == 1) {
+						for (var i = 0; i < res.length; i++) {
+							res[i] = forMart([res[i].task])[0];
+						}
+						var obj = { list: res };
+						var html = template('card', obj);
+						content.innerHTML = html
+					}else {
+						var obj = { list: res };
+						var html = template('tx', obj);
+						content.innerHTML = html	
 					}
-					var obj = { list: res };
-					console.log(obj)
-					var html = template('card', obj);
-					document.querySelector('.content').innerHTML = html
+
+				}else{
+					content.innerHTML = '<div class="no-result">暂无消息</div>'
 				}
 			})
 		}
