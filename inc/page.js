@@ -208,7 +208,7 @@ var AJAX = new function() {
                     Local.del('_token');
                     Local.del('u');
                     Prompt.msg('登录信息已过期,请重新登录')
-                    setTimeout("Comm.go('login.html')",800)
+                    setTimeout("Comm.go('login.html')",200)
                 }
                 else {
                     if (!ex.n) Prompt.msg(o && o.msg ? o.msg : '网络异常，请稍后再试');
