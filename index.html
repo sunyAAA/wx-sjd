@@ -216,7 +216,6 @@
                 </div>
             </div>
             <div class="progress-view yscroll">
-
             </div>
         </div>
         <div class="my" style="display: none">
@@ -428,16 +427,17 @@
             curNav.className = ''; ele.className = 'active'
             progressStatus = status;
             loadProgressData();
-
         }
         function loadProgressData() {
             Prompt.loading();
             AJAX.GET('/api/task/myList?status=' + progressStatus + '&pageSize=' + pageSize + '&pageNum=1', function (res) {
-                if (res) {
+                if (res.length) {
                     var renderObj = { list: forMartProgressTask(res) }
                     var html = template('progress', renderObj);
                     document.querySelector('.progress-view').innerHTML = html;
                     setProgressViewHeight()
+                }else{
+                    document.querySelector('.progress-view').innerHTML = '<div class="no-result">您暂时还没有相关任务</div>'
                 }
                 Prompt.hide()
             })
