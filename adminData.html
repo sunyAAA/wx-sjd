@@ -45,6 +45,19 @@
 			color: #000;
 			font-size: 0.6rem;
 		}
+		/* 退出登录 */
+		.info-list .sign-out {
+			margin: 3rem auto 0;
+			width: 12.5rem;
+			height: 2rem;
+			line-height: 2rem;
+			border-radius: 1rem;
+			background-color: #fd5a36;
+			font-size: 1rem;
+			color: #fff;
+			text-align: center;
+		}
+		
 		/* 性别选择弹出框 */
 		.sex-model-wrap {
 			width: 100%;
@@ -115,11 +128,7 @@
 			</section>
 			<section class="list-item sex">
 				<span>性别</span>
-				<!-- <picker :value="index" :range="sex" onchange='changeSex'>
-					<section class="picker">
-						当前选择：{{sex[index]}}
-					</section>
-				</picker> -->
+				<div class='sex-value'>保密</div>
 			</section>
 			<section class="list-item telephone-number">
 				<span>手机号码</span>
@@ -129,9 +138,48 @@
 				<span>实名认证</span>
 				<input class="disabled" type="text" disabled value="未认证">
 			</section>
+			<!-- 退出登录 -->
+			<div class="sign-out">退出登录</div>
 		</section>
+
+		<!-- 性别选择弹出框 -->
+		<div class="sex-model-wrap" style='display: none;'>
+			<div class="sex">
+				<div class="content">
+					<div class="title">请选择您的性别</div>
+					<div class="sex-box">
+						<div class="sex-item">男</div>
+						<div class="sex-item">女</div>
+					</div>
+				</div>
+				<div class="btn-cancel">取消</div>
+			</div>
+		</div>
 	</section>
 
 	<script src='./inc/remset.js'></script>
+	<script src='./inc/page.js'></script>
+	<script src='./inc/jquery-2.1.1.min.js'></script>
+	<script>
+		$(function(){
+			$(".info-list .sex .sex-value").on("click",function(){
+				$(".sex-model-wrap").show();
+			})
+			$(".sex-model-wrap .btn-cancel").on("click",function(){
+				$(".sex-model-wrap").hide();
+			})
+			$(".sex-model-wrap .content .sex-box .sex-item").on('click',function(){
+				$(this).addClass('selected').siblings().removeClass('selected');
+				$('.info-list .sex .sex-value').html($(this).html());
+				$(".sex-model-wrap").hide();
+			})
+
+			$('.sign-out').on('click',function(){
+				Local.del("u")
+				Local.del("_token")
+				Comm.go('login.html')
+			})
+		})
+	</script>
 </body>
 </html>

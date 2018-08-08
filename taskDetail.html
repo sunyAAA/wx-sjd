@@ -194,21 +194,21 @@
             </div>
             {{/if}}
 		</div>
-		<!-- 任务描述、任务说明、任务列表 -->
+		<!-- 任务描述、提交说明、任务列表 -->
 		<div :class="['task',{ 'received': receiveFlag } ]" v-show="!task">
 			<!-- 任务导航 -->
 			<div class="task-nav">
 				<div class="nav-item active"  onclick='toggle(this,0)'>任务描述</div>
-				<div class="nav-item" onclick='toggle(this,1)'>任务说明</div>
+				<div class="nav-item" onclick='toggle(this,1)'>提交说明</div>
 				<!-- <div class="nav-item" :class="[ currentTab == 2 ? 'current' : '' ]" @click="toggleNav(2)">任务列表</div> -->
 			</div>
 			<!-- 任务内容 -->
 			<div class="task-content">
 				<div class="content-item task-desc" style="display:block" >
-                    {{missionTask.description}}
+                    {{#missionTask.description}}
 				</div>
 				<div class="content-item task-detail" style="display:none">
-                    {{missionTask.illustrate || ''}}
+                    {{#missionTask.illustrate || ''}}
 				</div>
 				<!-- <div class="content-item task-list" v-show="currentTab == 2">
 					<task-card v-if="curTask" :item='curTask' :no-jump="true"></task-card>

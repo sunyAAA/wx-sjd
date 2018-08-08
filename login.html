@@ -195,8 +195,12 @@
 							} 
 		 				}
 		 			})
-		 		}else {
-		 			Prompt.msg('请填写完整哦')
+		 		}else if(!isSelected) {
+		 			Prompt.msg('请勾选平台协议哦～')
+		 		}else if(phone == '') {
+		 			Prompt.msg('手机号不能为空哦～')
+		 		}else if(code == '') {
+		 			Prompt.msg('验证码不能为空哦～')
 		 		}
 		 	})
 		})

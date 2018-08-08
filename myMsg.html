@@ -70,10 +70,12 @@
 		function getMsg() {
 			Prompt.loading();
 			AJAX.GET('/api/message/getMessage?pageNum=' + pageNum + '&pageSize=' + pageSize, function (res) {
+				if(res.length){
+					var obj = { list: res }
+					var html = template('card', obj);
+					document.querySelector('.content').innerHTML = html;
+				}
 				Prompt.hide();
-				var obj = { list: res }
-				var html = template('card', obj);
-				document.querySelector('.content').innerHTML = html;
 			})
 		}
 		getMsg()

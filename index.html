@@ -223,7 +223,9 @@
                 <!-- 个人信息（头像和昵称） -->
                 <div class="admin-info">
                     <div class="head-pic">
-                        <img src="images/logo.png" alt="用户头像">
+                        <a href="adminData.html">
+                            <img src="images/logo.png" alt="用户头像">
+                        </a>
                     </div>
                     <div class="username">赏金多</div>
                 </div>
@@ -484,7 +486,7 @@
             console.log(item)
             if (item.status == 2) {
                 if (item.task.isLocal) {
-                    Comm.go(item.url + '.html')
+                    Comm.go(item.task.url + '.html')
                 } else {
                     Comm.go('taskDetail.html?taskId=' + item.task.taskId)
                 }
