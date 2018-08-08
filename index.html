@@ -436,18 +436,20 @@
                     var html = template('progress', renderObj);
                     document.querySelector('.progress-view').innerHTML = html;
                     setProgressViewHeight()
-                }else{
+                } else {
                     document.querySelector('.progress-view').innerHTML = '<div class="no-result">您暂时还没有相关任务</div>'
                 }
                 Prompt.hide()
             })
         }
         function setProgressViewHeight() {
-            var nav = document.querySelector('.progress-nav').clientHeight;
-            var footer = document.querySelector('.footer-bar').clientHeight;
-            var view = document.querySelector('.progress-view');
-            var height = document.body.clientHeight - nav - footer - 20;
-            view.setAttribute('style', 'height:' + height + 'px')
+            setTimeout(function () {
+                var nav = document.querySelector('.progress-nav').clientHeight;
+                var footer = document.querySelector('.footer-bar').clientHeight;
+                var view = document.querySelector('.progress-view');
+                var height = document.body.clientHeight - nav - footer - 20;
+                view.setAttribute('style', 'height:' + height + 'px')
+            }, 17)
         }
         function footerBarChange(index) {
             if (!u && index > 0) {
