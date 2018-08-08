@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no,user-scalable=no=1.0">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no,minimal-ui">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <script src="inc/remset.js"></script>
     <link type="text/css" href="./css/page.css" rel="stylesheet">
@@ -109,65 +109,78 @@
             line-height: 1.4rem;
             font-size: 12px;
         }
+
         .task-progress .active {
             color: #ff4b2b;
         }
+
         .progress-view {
-            padding-top:1rem;
+            padding-top: 1rem;
         }
+
         .my-wrap .admin-info {
-		    width: 18.75rem;
-		    height: 8.5rem;
-		    text-align: center;
-		    padding-top: 1.5rem;
-		}
-		.my-wrap .admin-info .head-pic {
-	      	width: 4rem;
-	      	height: 4rem;
-	      	border-radius: 50%;
-	      	margin: 0 auto;
-	      	margin-bottom: 0.25rem;
-		}
-		.my-wrap .admin-info .head-pic img {
-	        width: 100%;
-	        height: 100%;
-	        border-radius: 50%;
-		}
-		.my-wrap .admin-info .username {
-	      	font-size: 0.75rem;
-	      	font-weight: 400;
-		}
-		/* 功能列表 */
-		.my-wrap .admin-list .list-item {
-	      	width: 16.55rem;
-	      	height: 3rem;
-	      	line-height: 3rem;
-	      	border-bottom: 1px solid #efeff4;
-	      	padding: 0 1.1rem;
-		}
-		.my-wrap .admin-list .list-item .icon {
-			width: 0.875rem;
-	        height: 1rem;
-	        float: left;
-	        margin-top: 0.125rem;
-		}
-		.my-wrap .admin-list .list-item .icon img {
-          	width: 100%;
-          	height: 100%;
-		}
-		.my-wrap .admin-list .list-item .title {
-	        float: left;
-	        margin-left: 0.75rem;
-		}
-		.my-wrap .admin-list .list-item .icon-arrow {
-	        width: 0.4rem;
-	        height: 0.75rem;
-	        float: right;
-		}
-		.my-wrap .admin-list .list-item .icon-arrow img {
-			width: 100%;
-			height: 100%;
-		}
+            width: 18.75rem;
+            height: 8.5rem;
+            text-align: center;
+            padding-top: 1.5rem;
+        }
+
+        .my-wrap .admin-info .head-pic {
+            width: 4rem;
+            height: 4rem;
+            border-radius: 50%;
+            margin: 0 auto;
+            margin-bottom: 0.25rem;
+        }
+
+        .my-wrap .admin-info .head-pic img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+        }
+
+        .my-wrap .admin-info .username {
+            font-size: 0.75rem;
+            font-weight: 400;
+        }
+
+        /* 功能列表 */
+
+        .my-wrap .admin-list .list-item {
+            width: 16.55rem;
+            height: 3rem;
+            line-height: 3rem;
+            border-bottom: 1px solid #efeff4;
+            padding: 0 1.1rem;
+        }
+
+        .my-wrap .admin-list .list-item .icon {
+            width: 0.875rem;
+            height: 1rem;
+            float: left;
+            margin-top: 0.125rem;
+        }
+
+        .my-wrap .admin-list .list-item .icon img {
+            width: 100%;
+            height: 100%;
+        }
+
+        .my-wrap .admin-list .list-item .title {
+            float: left;
+            margin-left: 0.75rem;
+        }
+
+        .my-wrap .admin-list .list-item .icon-arrow {
+            width: 0.4rem;
+            height: 0.75rem;
+            float: right;
+        }
+
+        .my-wrap .admin-list .list-item .icon-arrow img {
+            width: 100%;
+            height: 100%;
+        }
     </style>
     <title>首页</title>
 </head>
@@ -207,39 +220,51 @@
             </div>
         </div>
         <div class="my" style="display: none">
-            	<div class="my-wrap">
-                        <!-- 个人信息（头像和昵称） -->
-                        <div class="admin-info">
-                            <div class="head-pic">
-                              <img src="images/logo.png" alt="用户头像">
-                            </div>
-                            <div class="username">赏金多</div>
+            <div class="my-wrap">
+                <!-- 个人信息（头像和昵称） -->
+                <div class="admin-info">
+                    <div class="head-pic">
+                        <img src="images/logo.png" alt="用户头像">
+                    </div>
+                    <div class="username">赏金多</div>
+                </div>
+
+                <!-- 功能列表 -->
+                <ul class="admin-list">
+                    <li class="list-item" onclick="Comm.go('myIncome.html')">
+                        <div class="icon">
+                            <img src=" images/my-income.png">
                         </div>
-                
-                        <!-- 功能列表 -->
-                        <ul class="admin-list">
-                            <li class="list-item" onclick="Comm.go('myIncome.html')">
-                                <div class="icon"><img src=" images/my-income.png"></div>
-                                  <div class="title">我的收益</div>
-                                  <div class="icon-arrow"><img src=" images/arrow-right.png"></div>
-                            </li>
-                            <!-- <li class="list-item" onclick="jumpTo()">
+                        <div class="title">我的收益</div>
+                        <div class="icon-arrow">
+                            <img src=" images/arrow-right.png">
+                        </div>
+                    </li>
+                    <!-- <li class="list-item" onclick="jumpTo()">
                                 <div class="icon"><img src=" images/my-credibility.png"></div>
                                   <div class="title">我的信誉</div>
                                   <div class="icon-arrow"><img src=" images/arrow-right.png"></div>
                             </li> -->
-                            <li class="list-item" onclick="Comm.go('myWallet.html')">
-                                <div class="icon"><img src=" images/withdraw.png"></div>
-                                  <div class="title">我要提现</div>
-                                  <div class="icon-arrow"><img src=" images/arrow-right.png"></div>
-                            </li>
-                            <li class="list-item" onclick="Comm.go('myMsg.html')">
-                                <div class="icon"><img src=" images/my-information.png"></div>
-                                  <div class="title">我的消息</div>
-                                  <div class="icon-arrow"><img src=" images/arrow-right.png"></div>
-                            </li>
-                        </ul>
-                      </div>
+                    <li class="list-item" onclick="Comm.go('myWallet.html')">
+                        <div class="icon">
+                            <img src=" images/withdraw.png">
+                        </div>
+                        <div class="title">我要提现</div>
+                        <div class="icon-arrow">
+                            <img src=" images/arrow-right.png">
+                        </div>
+                    </li>
+                    <li class="list-item" onclick="Comm.go('myMsg.html')">
+                        <div class="icon">
+                            <img src=" images/my-information.png">
+                        </div>
+                        <div class="title">我的消息</div>
+                        <div class="icon-arrow">
+                            <img src=" images/arrow-right.png">
+                        </div>
+                    </li>
+                </ul>
+            </div>
         </div>
     </section>
 
@@ -336,17 +361,20 @@
                         sideObj = new Side('banner');
                         Prompt.hide();
                         setViewHeight()
-                    }, 500);
+                    }, 17);
                 }
             })
         }
         function setViewHeight() {
-            var banner = document.querySelector('.banner').clientHeight;
-            var nav = document.querySelector('.nav').clientHeight;
-            var view = document.querySelector('.view');
-            var footer = document.querySelector('.footer-bar').clientHeight
-            var height = document.body.clientHeight - banner - nav - footer - 20;
-            view.setAttribute('style', 'height:' + height + 'px')
+            setTimeout(function () {
+                var banner = document.querySelector('.banner').clientHeight;
+                var nav = document.querySelector('.nav').clientHeight;
+                var view = document.querySelector('.view');
+                var footer = document.querySelector('.footer-bar').clientHeight
+                var height = document.body.clientHeight - banner - nav - footer - 20;
+                view.setAttribute('style', 'height:' + height + 'px')
+            }, 17)
+
         }
         function loadNewList() {
             Prompt.loading();
@@ -364,7 +392,7 @@
         }
         function render() {
             renderList = list.sort(getSortFun()).slice(0);
-            !newTask?'':renderList.unshift(newTask);
+            !newTask ? '' : renderList.unshift(newTask);
             var renderData = { list: renderList }
             var html = template('card', renderData);
             document.querySelector('.view').innerHTML = html;
@@ -394,32 +422,32 @@
             sortStatus = index;
             render()
         }
-        function progressNavHandle(ele,status){
+        function progressNavHandle(ele, status) {
             var curNav = document.querySelector('.task-progress div.active');
-            if(ele == curNav){return}
-            curNav.className='';ele.className='active'
+            if (ele == curNav) { return }
+            curNav.className = ''; ele.className = 'active'
             progressStatus = status;
             loadProgressData();
-            
+
         }
-        function loadProgressData(){
+        function loadProgressData() {
             Prompt.loading();
-            AJAX.GET('/api/task/myList?status='+progressStatus+'&pageSize='+pageSize+'&pageNum=1',function(res){
-                if(res){
-                    var renderObj = {list : forMartProgressTask(res)}
-                    var html = template('progress',renderObj);
+            AJAX.GET('/api/task/myList?status=' + progressStatus + '&pageSize=' + pageSize + '&pageNum=1', function (res) {
+                if (res) {
+                    var renderObj = { list: forMartProgressTask(res) }
+                    var html = template('progress', renderObj);
                     document.querySelector('.progress-view').innerHTML = html;
                     setProgressViewHeight()
                 }
                 Prompt.hide()
             })
         }
-        function setProgressViewHeight(){
+        function setProgressViewHeight() {
             var nav = document.querySelector('.progress-nav').clientHeight;
             var footer = document.querySelector('.footer-bar').clientHeight;
             var view = document.querySelector('.progress-view');
-            var height = document.body.clientHeight  - nav - footer - 20;
-            view.setAttribute('style','height:'+height+'px')
+            var height = document.body.clientHeight - nav - footer - 20;
+            view.setAttribute('style', 'height:' + height + 'px')
         }
         function footerBarChange(index) {
             var footerBarList = document.querySelectorAll('.footer-bar>div');
@@ -430,42 +458,42 @@
             for (var m = 0; m < contentBox.length; m++) {
                 contentBox[m].style.display = m == index ? 'block' : 'none'
             }
-            if(!Local.get('u') && index > 0){
+            if (!Local.get('u') && index > 0) {
                 Comm.go('login.html');
                 return
             }
-            switch(index){
-                case 0 : loadNewList();document.title = '首页';break;
-                case 1 : loadProgressData(); document.title = "我的任务";break;
-                case 2 : setUserInfo(); document.title = "我的";break;
+            switch (index) {
+                case 0: loadNewList(); document.title = '首页'; break;
+                case 1: loadProgressData(); document.title = "我的任务"; break;
+                case 2: setUserInfo(); document.title = "我的"; break;
             }
         }
-        function setUserInfo(){
+        function setUserInfo() {
             var u = Local.get('u') || null;
-            if(u){
+            if (u) {
                 document.querySelector('.username').innerHTML = u.nickname;
-                if(u.avatar){
-                    document.querySelector('.head-pic img').setAttribute('src',config.ossroot + u.avatar);    
+                if (u.avatar) {
+                    document.querySelector('.head-pic img').setAttribute('src', config.ossroot + u.avatar);
                 }
             }
         }
-        function progressJump(item){
-            if(item.status == 2){
-                if(item.isLocal){
+        function progressJump(item) {
+            if (item.status == 2) {
+                if (item.isLocal) {
                     Comm.go(item.url + '.html')
-                }else{
-                    Comm.go('taskDetail.html?taskId='+item.task.taskId)
+                } else {
+                    Comm.go('taskDetail.html?taskId=' + item.task.taskId)
                 }
-            }else if(item.status == 3){
-                Comm.go('taskCertificate.html?taskId='+item.task.taskId);
+            } else if (item.status == 3) {
+                Comm.go('taskCertificate.html?taskId=' + item.task.taskId);
             }
         }
-        function go(taskId){
+        function go(taskId) {
             var u = Local.get('u');
-            if(!u){
-                Comm.go('login.html?taskId='+taskId)
-            }else {
-                Comm.go('taskDetail?taskId='+taskId)
+            if (!u) {
+                Comm.go('login.html?taskId=' + taskId)
+            } else {
+                Comm.go('taskDetail.html?taskId=' + taskId)
             }
         }
         taskLoad();
