@@ -149,24 +149,19 @@
 		 	// 点击 确认绑定按钮
 		 	$('.sure-bind').on('click',function(){
 		 		var phone = $('.form .tel input').val();
-		 		var code = $('.form .code .btn-get').val();
-		 		var token = Local.get('_token')
+		 		var code = $('.form .code .code-input').val();
 		 		if(phone != '' && code != ''){	// 如果手机号和验证码都不为空的话
-		 			$.ajax({
-		 				url: 'http://sjd.itan8.net/api/userDeposit/addUserAccount',
-		 				type: 'POST',
-		 				data: {
-		 					phone: phone,
+		 			AJAX.POST('/api/userDeposit/addUserAccount',
+		 				{
 		 					code: code,
-		 					type: 1,
-		 					accountNo: phone,
-		 					_token: token
+		 					type: 2,
+		 					accountNo: phone
 		 				},
-		 				success: function(res){
-		 					// Comm.go('myWallet.html')
-		 					console.log(res)
-		 				}
-		 			})
+		 				function(res){
+			    			Prompt.msg('绑定成功');
+			    			setTimeout("Comm.go('myWallet.html')",800);
+						}
+					)
 		 		}else {
 		 			Prompt.msg('手机号和验证码都要填写哦～')
 		 		}
