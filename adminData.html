@@ -156,7 +156,6 @@
 			</div>
 		</div>
 	</section>
-
 	<script src='./inc/remset.js'></script>
 	<script src='./inc/page.js'></script>
 	<script src='./inc/jquery-2.1.1.min.js'></script>
@@ -174,11 +173,28 @@
 				$(".sex-model-wrap").hide();
 			})
 
+			
+
 			$('.sign-out').on('click',function(){
 				Local.del("u")
 				Local.del("_token")
 				Comm.go('login.html')
 			})
+
+			function getInfo(){
+		    	AJAX.GET('/api/user/getUserInfo', function (res) {
+		    		console.log(res)
+		    		$('.nickname input').val(res.nickname)
+		    		$('.telephone-number input').val(res.phone)
+
+
+		    		var sex = res.sex == 0 ? '保密': res.sex==1 ? '男' : '女'
+		    		var verified = res.isTrue == null ? '未认证' : '已认证'
+		    		$('.sex .sex-value').html(sex)
+		    		$('.verified input').val(verified)
+            	})
+			}
+			getInfo()
 		})
 	</script>
 </body>

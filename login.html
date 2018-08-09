@@ -106,7 +106,7 @@
 				<input type="tel" placeholder='请输入您的手机号' maxlength='11'>
 			</div>
 			<div class="code">
-				<input type="text" class='code-input' placeholder='请输入您收到的验证码'>
+				<input type="number" class='code-input' placeholder='请输入您收到的验证码' maxlength='6'>
 				<input type="button" class='btn-get' value='发送验证码'>
 			</div>
 			<!-- 平台使用协议 -->
@@ -149,7 +149,7 @@
 		 		// 如果手机号无效
 	 			if(!(/^1(3|4|5|7|8)\d{9}$/.test(phone))){ 
 		 			Prompt.msg('手机号码有误，请重填')
-			        return false; 
+			        // return false; 
 			    } else {
 			    	countdown(this)
 			    	$.ajax({
@@ -174,7 +174,7 @@
 		 		var phone = $('.form .tel input').val();
 		 		var code = $('.form .code .code-input').val();
 		 		var isSelected = $('.platform .icon').hasClass('selected');
-		 		if(phone != '' && code != '' && isSelected){	// 如果手机号和验证码都不为空的话
+		 		if(/^1(3|4|5|7|8)\d{9}$/.test(phone) && code != '' && isSelected){	// 如果手机号和验证码都不为空的话
 		 			$.ajax({
 		 				url: 'http://sjd.itan8.net//api/user/loginByCode',
 		 				type: 'POST',
@@ -193,8 +193,13 @@
 							}else{
 								Comm.go('index.html')
 							} 
+		 				},
+		 				error: function(){
+		 					Prompt.msg('验证码错误哦～')
 		 				}
 		 			})
+		 		}else if(!(/^1(3|4|5|7|8)\d{9}$/.test(phone))){
+		 			Prompt.msg('请输入正确的手机号～')
 		 		}else if(!isSelected) {
 		 			Prompt.msg('请勾选平台协议哦～')
 		 		}else if(phone == '') {
