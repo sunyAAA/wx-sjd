@@ -162,7 +162,7 @@
 			<div class="wallet-box">
 				<!-- 可提现的金额 -->
 				<ul class="can-apply">
-					<li class='selected'>10</li>
+					<li class='selected'>1</li>
 					<li>20</li>
 					<li>50</li>
 					<li>80</li>
@@ -208,6 +208,7 @@
 					$('.icon-balance .balance .num').html(res.balance)
 				})
 				AJAX.GET('/api/userDeposit/getMyBind',function(res){
+					console.log(res)
 					// var data = JSON.parse(res.data)
 					for(var i=0;i<res.length;i++){
 						console.log(res[i].type)
@@ -235,20 +236,37 @@
 			$('.btn-apply').on('click',function(){
 				var isSelectedWechat = $('.way .wechat').hasClass('selected');
 				var isSelectedAlipay = $('.way .alipay').hasClass('selected');
-
 				// 账户余额
 				var balance = $('.icon-balance .balance .num').html()
 				// 选择的提取金额
 				var checkedMoney = $('.wallet-box .can-apply .selected').html();
+				// 提现方式的ID
+				var bindId = function(){
+					if($('.way .alipay').hasClass('selected')){
+						return 1
+					}else if($('.way .wechat').hasClass('selected')){
+						return 2
+					}else {
+						return ''
+					}
+				}
 				if(!isSelectedWechat && !isSelectedAlipay){
 					Prompt.msg('先绑定支付方式哦～');
-				}else if(balance<checkedMoney){
-					Prompt.msg('您的余额不足，请重新选择！');
-				}else {
-					AJAX.GET('/api/userDeposit/apply',function(res){
-						Prompt.msg('恭喜您，提现成功！');
-					})
+					return;
 				}
+				if( balance < checkedMoney ){
+					Prompt.msg('您的余额不足，请重新选择！');
+					return;
+				}
+				AJAX.POST('/api/userDeposit/apply',
+					{
+	 					amount: checkedMoney,
+	 					bindId: bindId()
+	 				},
+	 				function(res){
+						Prompt.msg('恭喜您，提现成功！');
+						loadData()
+					})
 			})
 		})
 
