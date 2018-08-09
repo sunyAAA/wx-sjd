@@ -348,7 +348,11 @@
         var progressStatus = 2;
         var homeIndex = 0;
         var u = Local.get('u')
-
+        var userAgent = navigator.userAgent;
+        var isAndroid = userAgent.indexOf('Android') > -1 || userAgent.indexOf('Adr') > -1; //android终端
+        var isiOS = !!userAgent.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+        var offset = 0;
+        var timer=null;
 
         function loadBanner() {
             AJAX.GET('/api/advert/list', function (res) {
@@ -362,28 +366,17 @@
                     setTimeout(function () {
                         sideObj = new Side('banner');
                         Prompt.hide();
-                        setViewHeight()
                     }, 17);
                 }
             })
         }
         function setViewHeight() {
-            var userAgent = navigator.userAgent;
-            var isAndroid = userAgent.indexOf('Android') > -1 || userAgent.indexOf('Adr') > -1; //android终端
-            var isiOS = !!userAgent.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
-            var offset = 0;
-            if (isiOS) {
-                Prompt.msg('ios+++')
-                if(History.length > 1){
-                    offset = 80                     // H5底部白边兼容
-                }
-            }
             setTimeout(function () {
                 var banner = document.querySelector('.banner').clientHeight;
                 var nav = document.querySelector('.nav').clientHeight;
                 var view = document.querySelector('.view');
                 var footer = document.querySelector('.footer-bar').clientHeight
-                var height = document.body.clientHeight - banner - nav - footer - offset-20;
+                var height = document.body.clientHeight - banner - nav - footer - offset - 20;
                 view.setAttribute('style', 'height:' + height + 'px')
             }, 17)
         }
@@ -407,6 +400,7 @@
             var renderData = { list: renderList }
             var html = template('card', renderData);
             document.querySelector('.view').innerHTML = html;
+            setViewHeight()
         }
         function taskLoad() {
             loadBanner()
@@ -476,7 +470,7 @@
             for (var m = 0; m < contentBox.length; m++) {
                 contentBox[m].style.display = m == index ? 'block' : 'none'
             }
-
+            homeIndex = index;
             switch (index) {
                 case 0: loadNewList(); document.title = '首页'; break;
                 case 1: loadProgressData(); document.title = "我的任务"; break;
@@ -513,6 +507,8 @@
             }
         }
         taskLoad();
+        History.length = 0;
+ 
     </script>
 </body>
 
