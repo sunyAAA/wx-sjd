@@ -2,8 +2,8 @@ var taskType =Local.get('taskType') ||  [];
 (function(){
     if(taskType.length){return}
     AJAX.GET('/api/dict/list?dictType=task_type',function(res){
-        taskType = res;
-        Local.save('tsakType',res)
+        taskType = res.data ? res.data : res
+        Local.save('tsakType',res.data ? res.data : res)
     })
 })();
 
@@ -18,6 +18,7 @@ function setNewTaskList(arr){
 function forMart(arr){
     if(!arr){return[]};
     for(var i  =0 ;i <arr.length;i++){
+        console.log(arr[i])
         arr[i].flag = getTaskType(arr[i].type); 
         arr[i].begin = timestampToDate(arr[i].beginTime);
         arr[i].end = timestampToDate(arr[i].endTime);
