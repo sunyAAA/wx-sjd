@@ -202,7 +202,7 @@
 				<!-- <div class="nav-item" :class="[ currentTab == 2 ? 'current' : '' ]" @click="toggleNav(2)">任务列表</div> -->
 			</div>
 			<!-- 任务内容 -->
-			<div class="task-content yscroll">
+			<div class="task-content yscroll" onclick='goHook(event)'>
 				<div class="content-item task-desc" style="display:block" >
                     {{@missionTask.description}}
 				</div>
@@ -244,6 +244,13 @@
                     document.querySelector('.content').innerHTML = html
                     Prompt.hide()
                     setContentHeight()
+                }
+                var as = document.getElementsByTagName('a');
+                for(var i = 0 ; i < as.length; i ++){
+                    as[i].addEventListener('click',function(e){
+                        e.preventDefault();
+                        return false
+                    })
                 }
             })
         }
@@ -297,6 +304,7 @@
         }
         function giveUp(){
             Prompt.confirm('确定要放弃任务吗？',function(state){
+                
                 if(state){
                     Prompt.loading();
                     AJAX.POST('/api/taskUser/giveUpTask?taskId='+taskId,{},function(res){
@@ -305,6 +313,13 @@
                     })
                 }
             })
+        }
+        function goHook(event){
+            var t = event.target;
+            if(t.nodeName == 'A'){
+                var url = t.getAttribute('href');
+                Comm.go('hook.html?redirect_url='+encodeURIComponent(url));
+            }
         }
         function setContentHeight(){
             var view = document.querySelector('.task-content');
