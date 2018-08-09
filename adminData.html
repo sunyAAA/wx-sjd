@@ -4,6 +4,7 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no,minimal-ui">
 	<title>个人资料</title>
+	<script src='./inc/remset.js'></script>
 	<link rel="stylesheet" href="./css/common.css">
 	<style>
 		/* 头像 */
@@ -46,7 +47,7 @@
 			font-size: 0.6rem;
 		}
 		/* 退出登录 */
-		.info-list .sign-out {
+		.info-list .save {
 			margin: 3rem auto 0;
 			width: 12.5rem;
 			height: 2rem;
@@ -117,14 +118,14 @@
 <body>
 	<section class="admin-wrap wrap-box">
 		<!-- 头像 -->
-		<section class="head-pic">
-			<img src="http://img06.tooopen.com/images/20160818/tooopen_sy_175833047715.jpg" alt="">
+		<section class="head-pic" id='headPicBox'>
+			<img class="head" src="images/logo.png" alt="">
 		</section>
 		<!-- 相关信息 -->
 		<section class="info-list">
 			<section class="list-item nickname">
 				<span>昵称</span>
-				<input type="text" value="傻子不会跑">
+				<input type="text">
 			</section>
 			<section class="list-item sex">
 				<span>性别</span>
@@ -132,14 +133,15 @@
 			</section>
 			<section class="list-item telephone-number">
 				<span>手机号码</span>
-				<input class="disabled" type="text" disabled value="18899997777">
+				<input class="disabled" type="text" disabled>
 			</section>
 			<section class="list-item verified">
 				<span>实名认证</span>
 				<input class="disabled" type="text" disabled value="未认证">
 			</section>
 			<!-- 退出登录 -->
-			<div class="sign-out">退出登录</div>
+			<!-- <div class="sign-out">退出登录</div> -->
+			<div class="save" onclick='saveInfo()'>保存</div>
 		</section>
 
 		<!-- 性别选择弹出框 -->
@@ -156,10 +158,15 @@
 			</div>
 		</div>
 	</section>
-	<script src='./inc/remset.js'></script>
-	<script src='./inc/page.js'></script>
+
+
+	<script src="inc/z.js"></script>
+	<script src="inc/page.js"></script>
+	<script src="inc/g.js"></script>
+	<script src="inc/upimg/upload.js"></script>
 	<script src='./inc/jquery-2.1.1.min.js'></script>
 	<script>
+		var avatar,sex,verified,nickname,phone
 		$(function(){
 			$(".info-list .sex .sex-value").on("click",function(){
 				$(".sex-model-wrap").show();
@@ -173,29 +180,47 @@
 				$(".sex-model-wrap").hide();
 			})
 
-			
-
-			$('.sign-out').on('click',function(){
-				Local.del("u")
-				Local.del("_token")
-				Comm.go('login.html')
-			})
-
 			function getInfo(){
 		    	AJAX.GET('/api/user/getUserInfo', function (res) {
-		    		console.log(res)
-		    		$('.nickname input').val(res.nickname)
-		    		$('.telephone-number input').val(res.phone)
-
-
-		    		var sex = res.sex == 0 ? '保密': res.sex==1 ? '男' : '女'
-		    		var verified = res.isTrue == null ? '未认证' : '已认证'
+		    		sex = res.sex == 0 ? '保密': res.sex==1 ? '男' : '女'
+		    		verified = res.isTrue == null ? '未认证' : '已认证'
+		    		nickname = res.data.nickname
+		    		phone = res.data.phone
+		    		// 性别
 		    		$('.sex .sex-value').html(sex)
+		    		// 认证状态
 		    		$('.verified input').val(verified)
+		    		// 昵称
+		    		$('.nickname input').val(nickname)
+		    		// 手机号
+		    		$('.telephone-number input').val(phone)
             	})
 			}
 			getInfo()
 		})
+
+		function addImg() {
+			load = new imgUploader("headPicBox");
+			load.fill = function () {
+				avatar = this.getList()[0];
+				document.querySelector('#headPicBox>img').setAttribute('src',config.ossroot+avatar);
+			}
+		}
+		addImg()
+
+		// 保存修改的信息
+		function saveInfo(){
+			nickname = $('.nickname input').val()
+			sex = $('.info-list .sex .sex-value').html() == '女' ? 2 : 1
+
+			AJAX.POST('/api/user/completeUser',{nickname:nickname,sex:sex,avatar:avatar||""},function(res){
+				if(res.code == 1){
+					Prompt.msg('修改成功！');
+				}else{
+					Prompt.msg(res.msg);
+				}
+			})
+		}
 	</script>
 </body>
 </html>
