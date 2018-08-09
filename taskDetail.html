@@ -47,7 +47,6 @@
             font-size: 0.55rem;
         }
         /* 操作 */
-        .taskDetail-wrap .information-operate .operate {}
         /* 领取按钮 */
         .taskDetail-wrap .information-operate .operate .btn-receive {
             width: 2.5rem;
@@ -205,10 +204,10 @@
 			<!-- 任务内容 -->
 			<div class="task-content yscroll">
 				<div class="content-item task-desc" style="display:block" >
-                    {{#missionTask.description}}
+                    {{@missionTask.description}}
 				</div>
 				<div class="content-item task-detail" style="display:none">
-                    {{#missionTask.illustrate || ''}}
+                    {{@missionTask.illustrate || ''}}
 				</div>
 				<!-- <div class="content-item task-list" v-show="currentTab == 2">
 					<task-card v-if="curTask" :item='curTask' :no-jump="true"></task-card>
