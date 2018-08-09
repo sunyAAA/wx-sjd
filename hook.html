@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no,minimal-ui">
+    <title>请在浏览器中打开</title>
+    <script src='inc/remset.js'></script>
+    <link rel="stylesheet" href="./css/common.css">
+    <link rel="stylesheet" href="./css/page.css">
+    <style>
+    </style>
+</head>
+
+<body >
+    <img class="mask" src="images/hook-bg.png" style="width: 100%;height: 100%;display: none">
+    <script src="inc/page.js"></script>
+    <script>
+        function isWeiXin() {
+            var ua = window.navigator.userAgent.toLowerCase();
+            console.log(ua);//mozilla/5.0 (iphone; cpu iphone os 9_1 like mac os x) applewebkit/601.1.46 (khtml, like gecko)version/9.0 mobile/13b143 safari/601.1
+            if (ua.match(/MicroMessenger/i) == 'micromessenger') {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        if(!isWeiXin()){
+            location.href = decodeURIComponent(Comm.query('redirect_url'));
+        }else{
+            document.querySelector('.mask').style.display = 'block';
+        }
+    </script>
+</body>
+
+</html>
