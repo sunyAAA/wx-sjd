@@ -4,6 +4,7 @@
 	<meta charset="UTF-8">    
 	<meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no,minimal-ui">
 	<title>绑定账号</title>
+	<script src='./inc/remset.js'></script>
 	<link rel="stylesheet" href="./css/common.css">
 	<style>
 		/* 支付宝图标 */
@@ -23,41 +24,43 @@
 		/* 手机号 */
 		.bindAlipay-wrap .form .tel {
 			display: flex;
-			height: 2.25rem;
-			line-height: 2.5rem;
+			height: 1.75rem;
+			line-height: 1.75rem;
 			border-bottom: 1px solid #efeff4;
 			padding: 0 1rem;
+			margin-top: 0.5rem;
 		}
 		.bindAlipay-wrap .form .tel span {
 			font-size: 0.65rem;
 			margin-right: 1rem;
 		}
 		.bindAlipay-wrap .form .tel input {
-			padding-top: 0.3rem;
+			font-size: 0.7rem;
 		}
 		.bindAlipay-wrap .form .tel input::-webkit-input-placeholder{
 			color: #999;
-			font-size: 0.75rem;
+			font-size: 0.7rem;
 		}
 		/* 验证码 */
 		.bindAlipay-wrap .form .code {
 			display: flex;
 			justify-content: space-between;
-			height: 2.25rem;
-			line-height: 2.5rem;
+			height: 1.75rem;
+			line-height: 1.75rem;
 			border-bottom: 1px solid #efeff4;
 			padding: 0 1rem;
+			margin-top: 0.5rem;
 		}
 		.bindAlipay-wrap .form .code span {
 			font-size: 0.65rem;
 		}
 		.bindAlipay-wrap .form .code input.code-input {
-			padding-top: 0.3rem;
+			font-size: 0.7rem;
 			width: 7rem;
 		}
 		.bindAlipay-wrap .form .code input::-webkit-input-placeholder{
 			color: #999;
-			font-size: 0.75rem;
+			font-size: 0.7rem;
 		}
 		.bindAlipay-wrap .form .code input.btn-get {
 			font-size: 0.65rem;
@@ -92,7 +95,7 @@
 			<!-- 验证码 -->
 			<div class="code">
 				<span>验证码</span>
-				<input type="number" class='code-input' placeholder='输入您收到的验证码' maxlength='6'>
+				<input type="tel" class='code-input' placeholder='输入您收到的验证码' maxlength='6'>
 				<input type="button" class='btn-get' value='获取验证码'>
 			</div>
 			<!-- 确认绑定 -->
@@ -103,7 +106,6 @@
 
 
 
-	<script src='./inc/remset.js'></script>
 	<script src='./inc/page.js'></script>
 	<script src="./inc/jquery-2.1.1.min.js"></script>
 	<script>
