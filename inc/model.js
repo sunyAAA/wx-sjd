@@ -18,7 +18,6 @@ function setNewTaskList(arr){
 function forMart(arr){
     if(!arr){return[]};
     for(var i  =0 ;i <arr.length;i++){
-        console.log(arr[i])
         arr[i].flag = getTaskType(arr[i].type); 
         arr[i].begin = timestampToDate(arr[i].beginTime);
         arr[i].end = timestampToDate(arr[i].endTime);
