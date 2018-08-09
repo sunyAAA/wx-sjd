@@ -171,7 +171,7 @@
 				</ul>
 				<!-- 提现方式 -->
 				<ul class='way'>
-					<li>
+					<li class='wechat'>
 						<div class="icon-title">
 							<div class="icon"><img src="./images/icon-mini-wechat.png" alt=""></div>
 							<div class='title'>微信</div>
@@ -182,7 +182,7 @@
 							<div class="bind"><a href="bindWechat.html">去绑定<div class="icon-right"></div></a></div>
 						</div>
 					</li>
-					<li class='selected'>
+					<li class='alipay'>
 						<div class="icon-title">
 							<div class="icon"><img src="./images/icon-mini-alipay.png" alt=""></div>
 							<div class='title'>支付宝</div>
@@ -208,19 +208,20 @@
 					$('.icon-balance .balance .num').html(res.balance)
 				})
 				AJAX.GET('/api/userDeposit/getMyBind',function(res){
-					console.log(res)
-					if(res.length){
-						
-					}else{
-						// document.getElementById('card').innerHTML='暂无提现账户，快去绑定吧！'
-						// document.getElementById('card').className='no-bind'
+					// var data = JSON.parse(res.data)
+					for(var i=0;i<res.length;i++){
+						console.log(res[i].type)
+						if(res[i].type == 1){
+							$('.wechat .icon-title span').hide()
+							$('.wechat .select-bind .select').show().siblings().hide();
+						}else if(res[i].type == 2){
+							$('.alipay .icon-title span').hide()
+							$('.alipay .select-bind .select').show().siblings().hide();
+						}
 					}
 				})
 			}
 			loadData()
-
-
-
 			// 切换选中金额
 			$('.wallet-box .can-apply li').on('click',function() {
 				$(this).toggleClass('selected').siblings().removeClass('selected')
@@ -228,6 +229,26 @@
 			// 切换支付方式
 			$('.wallet-box .way li').on('click',function(){
 				$(this).toggleClass('selected').siblings().removeClass('selected')
+			})
+
+			// 点击申请提现按钮
+			$('.btn-apply').on('click',function(){
+				var isSelectedWechat = $('.way .wechat').hasClass('selected');
+				var isSelectedAlipay = $('.way .alipay').hasClass('selected');
+
+				// 账户余额
+				var balance = $('.icon-balance .balance .num').html()
+				// 选择的提取金额
+				var checkedMoney = $('.wallet-box .can-apply .selected').html();
+				if(!isSelectedWechat && !isSelectedAlipay){
+					Prompt.msg('先绑定支付方式哦～');
+				}else if(balance<checkedMoney){
+					Prompt.msg('您的余额不足，请重新选择！');
+				}else {
+					AJAX.GET('/api/userDeposit/apply',function(res){
+						Prompt.msg('恭喜您，提现成功！');
+					})
+				}
 			})
 		})
 
