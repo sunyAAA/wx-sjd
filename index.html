@@ -520,9 +520,13 @@
         History.length = 0;
         $(function(){
             $('.sign-out').on('click',function(){
-                Local.del("u")
-                Local.del("_token")
-                Comm.go('login.html')
+                Prompt.confirm('确认退出登录吗？', function (a) {
+                    if (a) {
+                        Local.del("u")
+                        Local.del("_token")
+                        Comm.go('login.html')
+                    }
+                })
             })
         })
     </script>

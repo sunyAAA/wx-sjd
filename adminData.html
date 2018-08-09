@@ -166,7 +166,7 @@
 	<script src="inc/upimg/upload.js"></script>
 	<script src='./inc/jquery-2.1.1.min.js'></script>
 	<script>
-		var avatar,sex,verified,nickname,phone
+		var avatar,sex,verified,nickname,phone,imgSrc
 		$(function(){
 			$(".info-list .sex .sex-value").on("click",function(){
 				$(".sex-model-wrap").show();
@@ -179,25 +179,28 @@
 				$('.info-list .sex .sex-value').html($(this).html());
 				$(".sex-model-wrap").hide();
 			})
-
-			function getInfo(){
-		    	AJAX.GET('/api/user/getUserInfo', function (res) {
-		    		sex = res.sex == 0 ? '保密': res.sex==1 ? '男' : '女'
-		    		verified = res.isTrue == null ? '未认证' : '已认证'
-		    		nickname = res.data.nickname
-		    		phone = res.data.phone
-		    		// 性别
-		    		$('.sex .sex-value').html(sex)
-		    		// 认证状态
-		    		$('.verified input').val(verified)
-		    		// 昵称
-		    		$('.nickname input').val(nickname)
-		    		// 手机号
-		    		$('.telephone-number input').val(phone)
-            	})
-			}
-			getInfo()
 		})
+
+		function getInfo(){
+	    	AJAX.GET('/api/user/getUserInfo', function (res) {
+	    		sex = res.sex == 0 ? '保密': res.sex==1 ? '男' : '女'
+	    		verified = res.isTrue == null ? '未认证' : '已认证'
+	    		nickname = res.data.nickname
+	    		phone = res.data.phone
+	    		imgSrc = config.ossroot + res.data.avatar
+	    		// 性别
+	    		$('.sex .sex-value').html(sex)
+	    		// 认证状态
+	    		$('.verified input').val(verified)
+	    		// 昵称
+	    		$('.nickname input').val(nickname)
+	    		// 手机号
+	    		$('.telephone-number input').val(phone)
+	    		// 头像
+				$('#headPicBox img').attr('src',imgSrc);
+        	})
+		}
+		getInfo()
 
 		function addImg() {
 			load = new imgUploader("headPicBox");
@@ -216,6 +219,7 @@
 			AJAX.POST('/api/user/completeUser',{nickname:nickname,sex:sex,avatar:avatar||""},function(res){
 				if(res.code == 1){
 					Prompt.msg('修改成功！');
+					setTimeout("Comm.go('index.html')",800)
 				}else{
 					Prompt.msg(res.msg);
 				}
