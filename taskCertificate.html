@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width,initial-scale=1,initial-scale=1,user-scalable=no.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no,minimal-ui">
+	<meta name="viewport" content="width=device-width,initial-scale=1,initial-scale=1,user-scalable=no, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no,minimal-ui">
 	<title>任务凭证</title>
 	<link rel="stylesheet" href="./css/common.css">
 	<link rel="stylesheet" href="./css/page.css">
@@ -13,7 +13,17 @@
 			padding: 1rem;
 			height: 100%;
 		}
-
+		.task-card .card-item .type-flag .flag {
+			width: 1.25rem;
+			height: 1.75rem;
+			background-color: #ff4b2b;
+			font-size: 0.45rem;
+			color: #fff;
+			padding: 0.25rem 0.15rem 0 0.15rem;
+			text-align: center;
+			position: relative;
+			line-height: 0.5rem;
+		}
 		/* 任务信息卡片 */
 
 		.taskCertificate-wrap .card-item {
@@ -207,6 +217,7 @@
 					userStatus = res.data.missionTask.userStatus;
 					userTaskId = res.data.missionTask.userTaskId
 					var obj = forMart([res.data.missionTask])[0]
+					console.log(obj)
 					var html = template('card', obj);
 					document.querySelector('.card-box').innerHTML = html;
 					if (userStatus == 2) {
