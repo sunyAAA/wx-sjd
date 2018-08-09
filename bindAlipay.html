@@ -92,7 +92,7 @@
 			<!-- 验证码 -->
 			<div class="code">
 				<span>验证码</span>
-				<input type="text" class='code-input' placeholder='输入您收到的验证码'>
+				<input type="number" class='code-input' placeholder='输入您收到的验证码' maxlength='6'>
 				<input type="button" class='btn-get' value='获取验证码'>
 			</div>
 			<!-- 确认绑定 -->
@@ -112,7 +112,7 @@
 			function countdown(o) {
 			  	if (wait == 0) {
 			   		o.removeAttribute("disabled");   
-			   		o.value="免费获取验证码";
+			   		o.value="获取验证码";
 			   		wait = 60;
 			  	} else { 
 				   	o.setAttribute("disabled", true);
@@ -150,6 +150,7 @@
 		 	$('.sure-bind').on('click',function(){
 		 		var phone = $('.form .tel input').val();
 		 		var code = $('.form .code .btn-get').val();
+		 		var token = Local.get('_token')
 		 		if(phone != '' && code != ''){	// 如果手机号和验证码都不为空的话
 		 			$.ajax({
 		 				url: 'http://sjd.itan8.net/api/userDeposit/addUserAccount',
@@ -158,10 +159,12 @@
 		 					phone: phone,
 		 					code: code,
 		 					type: 1,
-		 					accountNo: phone
+		 					accountNo: phone,
+		 					_token: token
 		 				},
 		 				success: function(res){
-		 					Comm.go('myWallet.html')
+		 					// Comm.go('myWallet.html')
+		 					console.log(res)
 		 				}
 		 			})
 		 		}else {
