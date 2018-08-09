@@ -19,7 +19,7 @@ function forMart(arr){
     if(!arr.length){return[]};
     for(var i  =0 ;i <arr.length;i++){
         try{
-            arr[i].flag = getTaskType(arr[i].type); 
+            arr[i].flag = getTaskType(arr[i].type) || '赏金任务'; 
         }catch(e){}
         arr[i].begin = timestampToDate(arr[i].beginTime);
         arr[i].end = timestampToDate(arr[i].endTime);
@@ -63,7 +63,7 @@ function forMartProgressTask(arr){
     if(arr.length){
         for(var i = 0 ;i<arr.length;i++){
             var obj = arr[i];
-            obj.flag = getTaskType(arr[i].task.type);
+            obj.flag = getTaskType(arr[i].task.type) || '赏金任务';
             obj.begin = timestampToDate(arr[i].task.beginTime);
             obj.end = timestampToDate(arr[i].task.endTime);
             obj.singleAmount = arr[i].task.singleAmount;
