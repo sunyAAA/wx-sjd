@@ -16,7 +16,7 @@ db:上级操作页面返回的数据
 特别说明：系统内置变量均为以双下划线 “__”开始，为防止变量污染，请不要在任何时间申明变量时使用双下划线开始，
 */
 var config = {
-	//root : 'http://192.168.0.187:8080',
+	// root : 'http://192.168.1.14:55552',
 	http:'http://sjd.itan8.net/',
 	// webroot: "http://wh.feiyingbao.com.cn/", //网址地址
 	ossroot:'https://liangzhizheng.oss-cn-hangzhou.aliyuncs.com/'

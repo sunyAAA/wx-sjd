@@ -56,7 +56,7 @@
 	        	+encodeURIComponent(bu)+"&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
 			})
 			if(code){
-				Prompt.loading()
+				Prompt.loading();
 				AJAX.POST('/api/user/getWxToken',{code:code,appId:'wxe0123b05d0cc1f61'},function(res){
 					Prompt.hide()
 					Prompt.msg('绑定成功');
