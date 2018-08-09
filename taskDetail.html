@@ -134,8 +134,8 @@
     </style>
 </head>
 
-<body class="yscroll">
-    <div class="content"></div>
+<body >
+    <div class="content" ></div>
     <script src='inc/z.js'></script>
     <script src="inc/page.js"></script>
     <script src="inc/side/side.js"></script>
@@ -195,7 +195,7 @@
             {{/if}}
 		</div>
 		<!-- 任务描述、提交说明、任务列表 -->
-		<div :class="['task',{ 'received': receiveFlag } ]" v-show="!task">
+		<div class="nav-box" v-show="!task">
 			<!-- 任务导航 -->
 			<div class="task-nav">
 				<div class="nav-item active"  onclick='toggle(this,0)'>任务描述</div>
@@ -203,7 +203,7 @@
 				<!-- <div class="nav-item" :class="[ currentTab == 2 ? 'current' : '' ]" @click="toggleNav(2)">任务列表</div> -->
 			</div>
 			<!-- 任务内容 -->
-			<div class="task-content">
+			<div class="task-content yscroll">
 				<div class="content-item task-desc" style="display:block" >
                     {{#missionTask.description}}
 				</div>
@@ -244,6 +244,7 @@
                     userStatus = res.missionTask.userStatus;
                     document.querySelector('.content').innerHTML = html
                     Prompt.hide()
+                    setContentHeight()
                 }
             })
         }
@@ -305,6 +306,13 @@
                     })
                 }
             })
+        }
+        function setContentHeight(){
+            var view = document.querySelector('.task-content');
+            var top = document.querySelector('.information-operate').clientHeight;
+            var nav = document.querySelector('.task-nav').clientHeight;
+            var height = document.body.clientHeight - top - nav - 20;
+            view.setAttribute('style','height:'+height+"px")
         }
         loadData()
     </script>
