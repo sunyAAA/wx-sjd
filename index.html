@@ -368,12 +368,22 @@
             })
         }
         function setViewHeight() {
+            var userAgent = navigator.userAgent;
+            var isAndroid = userAgent.indexOf('Android') > -1 || userAgent.indexOf('Adr') > -1; //android终端
+            var isiOS = !!userAgent.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+            var offset = 0;
+            if (isiOS) {
+                Prompt.msg('ios+++')
+                if(History.length > 1){
+                    offset = 80                     // H5底部白边兼容
+                }
+            }
             setTimeout(function () {
                 var banner = document.querySelector('.banner').clientHeight;
                 var nav = document.querySelector('.nav').clientHeight;
                 var view = document.querySelector('.view');
                 var footer = document.querySelector('.footer-bar').clientHeight
-                var height = document.body.clientHeight - banner - nav - footer - 20;
+                var height = document.body.clientHeight - banner - nav - footer - offset-20;
                 view.setAttribute('style', 'height:' + height + 'px')
             }, 17)
         }
