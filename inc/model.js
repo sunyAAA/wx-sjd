@@ -16,9 +16,11 @@ function setNewTaskList(arr){
 }
 
 function forMart(arr){
-    if(!arr){return[]};
+    if(!arr.length){return[]};
     for(var i  =0 ;i <arr.length;i++){
-        arr[i].flag = getTaskType(arr[i].type); 
+        try{
+            arr[i].flag = getTaskType(arr[i].type); 
+        }catch(e){}
         arr[i].begin = timestampToDate(arr[i].beginTime);
         arr[i].end = timestampToDate(arr[i].endTime);
         !arr[i].shopName ?arr[i].shopName='平台发布':'';
