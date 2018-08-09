@@ -151,18 +151,10 @@
 		 			Prompt.msg('手机号码有误，请重填')
 			        // return false; 
 			    } else {
-			    	countdown(this)
-			    	$.ajax({
-			    		url: 'http://sjd.itan8.net//api/user/sendVerificationCode',
-			    		type: 'GET',
-			    		data: {
-			    			phone: phone,
-			    			type: 1
-			    		},
-			    		success(res){
-			    			Prompt.msg('发送成功')
-			    		}
-			    	})
+					countdown(this)
+					AJAX.GET('api/user/sendVerificationCode?type=1&phone='+phone,function(res){
+						Prompt.msg('发送成功')
+					})
 			    }
 		 	})
 		 	// 切换 平台协议的选中状态
@@ -174,30 +166,17 @@
 		 		var phone = $('.form .tel input').val();
 		 		var code = $('.form .code .code-input').val();
 		 		var isSelected = $('.platform .icon').hasClass('selected');
-		 		if(/^1(3|4|5|7|8)\d{9}$/.test(phone) && code != '' && isSelected){	// 如果手机号和验证码都不为空的话
-		 			$.ajax({
-		 				url: 'http://sjd.itan8.net//api/user/loginByCode',
-		 				type: 'POST',
-		 				data: {
-		 					phone: phone,
-		 					verificationCode: code
-		 				},
-		 				success: function(res){
-		 					console.log(res)
-		 					// window.location.href = 'index.html'
-		 					Local.save('u',res.data)
-		 					Local.save('_token',res.data.token)
+				 if(/^1(3|4|5|7|8)\d{9}$/.test(phone) && code != '' && isSelected){	// 如果手机号和验证码都不为空的话
+					AJAX.POST('api/user/loginByCode',{phone: phone,verificationCode: code},function(res){
+						Local.save('u',res)
+		 					Local.save('_token',res.token)
 							var taskId = Comm.query('taskId')||'';
 							if(taskId){
 								Comm.go('taskDetail.html?taskId='+taskId)
 							}else{
 								Comm.go('index.html')
 							} 
-		 				},
-		 				error: function(){
-		 					Prompt.msg('验证码错误哦～')
-		 				}
-		 			})
+					})
 		 		}else if(!(/^1(3|4|5|7|8)\d{9}$/.test(phone))){
 		 			Prompt.msg('请输入正确的手机号～')
 		 		}else if(!isSelected) {
