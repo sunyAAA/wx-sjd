@@ -581,3 +581,11 @@ window.addEventListener("onorientationchange" in window ? "orientationchange" : 
         alert('当前禁止横屏操作，请旋转至竖屏状态！');
     }
 }, false);
+
+var state = { title: "Page", url: "#" + Math.random() };
+history.pushState(state, state.title, state.url);
+window.addEventListener("popstate", function(e) {
+    if (window.goBackEvent)
+        window.goBackEvent();
+    else Comm.close();
+}, false);

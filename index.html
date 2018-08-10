@@ -503,7 +503,7 @@
         function progressJump(item) {
             if (item.status == 2) {
                 Comm.go('taskDetail.html?taskId=' + item.task.taskId)
-            } else if (item.status == 3) {
+            } else if (item.status == 3 || item.status == 5 ) {
                 Comm.go('taskCertificate.html?taskId=' + item.task.taskId);
             }
         }
@@ -528,8 +528,6 @@
                 })
             })
         })
-        var state = { title: "Page", url: "#" + Math.random() };
-        history.pushState(state, state.title, state.url);
     </script>
 </body>
 
