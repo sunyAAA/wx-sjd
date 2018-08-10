@@ -162,6 +162,9 @@
             float: left;
             margin-top: 0.125rem;
         }
+        .my-wrap .admin-list .sign-out .icon {
+            width: 1rem;
+        }
 
         .my-wrap .admin-list .list-item .icon img {
             width: 100%;
@@ -268,12 +271,12 @@
                     </li>
                     <li class="list-item sign-out">
                         <div class="icon">
-                            <img src=" images/my-information.png">
+                            <img src=" images/sign-out.png">
                         </div>
                         <div class="title">退出登录</div>
-                        <div class="icon-arrow">
+                        <!-- <div class="icon-arrow">
                             <img src=" images/arrow-right.png">
-                        </div>
+                        </div> -->
                     </li>
                 </ul>
             </div>
@@ -327,7 +330,7 @@
     <script type="text/template" id="progress">
         {{each list v}}
         <div class="task-card" onclick='progressJump({{v}})'>
-            <div class="card-item">
+            <div class="card-item {{ v.status == 3 ? 'reviewing' : v.status == 5 ? 'review-failed' : '' }}">
                 <div class="type-flag">
                     <div class="flag">{{v.flag}}</div>
                 </div>

@@ -88,13 +88,25 @@ input::placeholder {color: #aaaaaa}
 			padding-bottom: 0.5rem;
 		}
 		.task-card .card-item {
-			background-color: #efeff4;
 			padding: 0 0.75rem;
 			width: 15.25rem;
 			height: 5.5rem;
 			margin: 0 auto;
 			border-radius: 0.3rem;
 			margin-bottom: 0.4rem;
+			background-color: #efeff4;
+		}
+		/* 审核中 */
+		.task-card .reviewing {
+			background: #efeff4 url('../images/icon-wechat.png') no-repeat 15rem 1rem;
+			-webkit-background-size: 1rem 1rem;
+			background-size: 1rem 1rem;
+		}
+		/* 审核未通过 */
+		.task-card .review-failed {
+			background: #efeff4 url('../images/icon-alipay.png') no-repeat 15rem 1rem;
+			-webkit-background-size: 1rem 1rem;
+			background-size: 1rem 1rem;
 		}
 		/* 类型标记 */
 		.task-card .card-item .type-flag {
