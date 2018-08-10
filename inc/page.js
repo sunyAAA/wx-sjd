@@ -522,11 +522,6 @@ Comm.getImgUrl = function(url) {
 
 
 
-
-
-
-
-
 function Coder(e, inp, o) {
     var t = this;
     t.url = o.url;
@@ -563,15 +558,6 @@ function Coder(e, inp, o) {
 }
 
 
-if (self === top && !(insharedetail && !Local.user()) && !window.indexPage) {
-    var state = { title: "Page", url: "#" + Math.random() };
-    history.pushState(state, state.title, state.url);
-    window.addEventListener("popstate", function(e) {
-        if (window.goBackEvent)
-            window.goBackEvent();
-        else Comm.close();
-    }, false);
-}
 
 
 

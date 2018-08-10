@@ -259,11 +259,7 @@
             AJAX.GET('/api/taskUser/getReceive?taskId=' + taskId, function (res) {
                 Prompt.hide()
                 Prompt.msg('领取成功');
-                if(isLocal && url){
-                    Comm.go(url+'.html');
-                }else{
                     loadData()
-                }
             })
         }
         function setCountDown(t) {
@@ -318,7 +314,11 @@
             var t = event.target;
             if(t.nodeName == 'A'){
                 var url = t.getAttribute('href');
-                Comm.go('hook.html?redirect_url='+encodeURIComponent(url));
+                if(isLocal){
+                    Comm.go(url+'.html')
+                }else{
+                    Comm.go('hook.html?redirect_url='+encodeURIComponent(url));
+                }
             }
         }
         function setContentHeight(){
