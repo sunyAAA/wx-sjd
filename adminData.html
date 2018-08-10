@@ -245,6 +245,7 @@
 			
 					Prompt.msg('修改成功！');
 					AJAX.GET('/api/user/getUserInfo', function (res) {
+						console.log(res)
 						Local.save('u', res)
 						Local.save('_token',res.token)
 						setTimeout("Comm.go('index.html')", 800)

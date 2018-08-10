@@ -226,7 +226,7 @@ var AJAX = new function() {
             url = t.Uri() + url;
         if (!post) {
             if (url.indexOf("_token") < 0)
-                url += (url.indexOf("?") <= -1 ? "?" : "&") + "_token=" + (u ? u.token : "") + "&_device=" + Device.type + "&_t=" + Math.random();
+                url += (url.indexOf("?") <= -1 ? "?" : "&") + "_token=" + (Local.get('_token')?Local.get('_token') : "") + "&_device=" + Device.type + "&_t=" + Math.random();
         } else {
             if (!data._token) {
                 data._device = Device.type;
