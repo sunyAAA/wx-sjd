@@ -519,14 +519,6 @@ Comm.getImgUrl = function(url) {
         return config.http + url;
     }
 };
-var insharedetail = location.href.indexOf("casedetail") > -1 && location.href.indexOf("share") > -1;
-
-    var state = { title: "Page", url: "#" + Math.random() };
-    history.pushState(state, state.title, state.url);
-
-
-
-
 
 
 
@@ -566,15 +558,6 @@ function Coder(e, inp, o) {
 }
 
 
-if (self === top && !(insharedetail && !Local.user()) && !window.indexPage) {
-    var state = { title: "Page", url: "#" + Math.random() };
-    history.pushState(state, state.title, state.url);
-    window.addEventListener("popstate", function(e) {
-        if (window.goBackEvent)
-            window.goBackEvent();
-        else Comm.close();
-    }, false);
-}
 
 
 
