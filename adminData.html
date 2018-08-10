@@ -197,7 +197,7 @@
 	    		// 手机号
 	    		$('.telephone-number input').val(phone)
 	    		// 头像
-				$('#headPicBox img').attr('src',imgSrc);
+				res.data.avatar ? $('#headPicBox img').attr('src',imgSrc) : '';
         	})
 		}
 		getInfo()
