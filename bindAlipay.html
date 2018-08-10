@@ -152,7 +152,7 @@
 		 	$('.sure-bind').on('click',function(){
 		 		var phone = $('.form .tel input').val();
 		 		var code = $('.form .code .code-input').val();
-		 		if(phone != '' && code != ''){	// 如果手机号和验证码都不为空的话
+		 		if(/^1(3|4|5|7|8)\d{9}$/.test(phone) && code != ''){	// 如果手机号和验证码都不为空的话
 		 			AJAX.POST('/api/userDeposit/addUserAccount',
 		 				{
 		 					code: code,
