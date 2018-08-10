@@ -313,12 +313,12 @@
         function goHook(event){
             var t = event.target;
             if(t.nodeName == 'A'){
-                var url = t.getAttribute('href');
-                if(isLocal){
-                    if(userStatus <2){
+                if(userStatus <2){
                         Prompt.msg('请先领取任务再进行操作');
                         return
-                    }
+                }
+                var url = t.getAttribute('href');
+                if(isLocal){
                     Comm.go(url+'.html')
                 }else{
                     Comm.go('hook.html?redirect_url='+encodeURIComponent(url));

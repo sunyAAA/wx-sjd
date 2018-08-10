@@ -5,8 +5,8 @@
 	<meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no,minimal-ui">
 	<title>个人资料</title>
 	<script src='./inc/remset.js'></script>
-	<link rel="stylesheet" href="./css/common.css">
 	<link rel="stylesheet" href="css/page.css">
+	<link rel="stylesheet" href="./css/common.css">
 	<style>
 		/* 头像 */
 		.head-pic {
@@ -39,13 +39,14 @@
 			/*height: 2.75rem;*/
 			color: #000;
 			text-align: right;
+			font-size: .75rem
 		}
 		.info-list .list-item .disabled {
 			color: #999;
 		}
 		.info-list .list-item .sex-value {
 			color: #000;
-			font-size: 0.6rem;
+			font-size: .75rem			
 		}
 		/* 退出登录 */
 		.info-list .save {
@@ -114,6 +115,10 @@
 			color: #ff4b2b;
 			text-align: center;
 		}
+		.list-item>span {
+			display: inline-block;
+			width: 4rem;
+		}
 	</style>
 </head>
 <body>
@@ -134,11 +139,11 @@
 			</section>
 			<section class="list-item telephone-number">
 				<span>手机号码</span>
-				<input class="disabled" type="text" disabled>
+				<input class="disabled" type="text" readonly>
 			</section>
 			<section class="list-item verified">
 				<span>实名认证</span>
-				<input class="disabled" type="text" disabled value="未认证">
+				<input class="disabled" type="text" readonly value="未认证">
 			</section>
 			<!-- 退出登录 -->
 			<!-- <div class="sign-out">退出登录</div> -->
@@ -159,14 +164,122 @@
 			</div>
 		</div>
 	</section>
-
-
-	<script src="inc/page.js"></script>
+	<script src='./inc/jquery-2.1.1.min.js'></script>
 	<script src="inc/g.js"></script>
 	<script src="inc/upimg/upload.js"></script>
-	<script src='./inc/jquery-2.1.1.min.js'></script>
 	<script>
-		var avatar,sex,verified,nickname,phone,imgSrc
+		if (self === top) {
+    window.Prompt = new function() {
+        var t = this;
+        t.tag = 0, t.cover = 0, t.cbs = [];
+        this.loading = function(msg) {
+            if (t.cover <= 0) {
+                t.cover = 0;
+                t.tag = layer.open({ type: 2, shadeClose: false, content: msg });
+                t.cover++;
+            }
+        };
+        this.hide = function() {
+            t.cover--;
+            if (t.cover <= 0) {
+                layer.close(t.tag);
+                t.cover = 0;
+            }
+        };
+        this.msg = function(msg) {
+            layer.open({ content: msg, shadeClose: false, skin: 'msg', time: 3 });
+        };
+        this.alert = function(msg, cb) {
+            t.cbs.push(cb);
+            layer.open({
+                content: msg,
+                shadeClose: false,
+                btn: '确认',
+                yes: function(index) {
+                    layer.close(index);
+                    t.end(1);
+                }
+            });
+        };
+        this.confirm = function(msg, cb) {
+            t.cbs.push(cb);
+            layer.open({
+                content: msg,
+                shadeClose: false,
+                btn: ['确认', '取消'],
+                yes: function(index) {
+                    layer.close(index);
+                    t.end(1);
+                },
+                no: function() {
+                    t.end(0);
+                }
+            });
+        };
+        this.show = function(ct, cb) {
+            t.cbs.push(cb);
+            var tag = layer.open({ type: 1, content: ct, anim: 'up', style: 'width:80%;height:auto;border:none;border-radius:8px;overflow:hidden' });
+            t.shows.push(tag);
+        };
+        this.shows = [];
+        this.closeShow = function() {
+            if (t.shows.length > 0) {
+                var tag = t.shows.pop();
+                layer.close(tag);
+            }
+        };
+        this.action = function(tt, bs, cb) {
+            t.cbs.push(cb);
+            var btns = [];
+            for (var i = 0; i < bs.length; i++) {
+                btns.push('<div onclick="Prompt.closePop(this);Prompt.end(' + i + ');" class="btn' + (i !== 0 ? ' nt' : '') + (i !== bs.length - 1 ? ' nb line' : '') + ' line">' + bs[i] + '</div>')
+            }
+            var p = document.querySelector(".popbox");
+            if (!p) {
+                p = document.createElement("DIV");
+                p.className = "popbox";
+                document.body.appendChild(p);
+            }
+            p.innerHTML = '<div class="btmbox">' + btns.join("") + '<div onclick="Prompt.closePop(this);" class="btn" style="margin-top: 10px; color: #737373">取消</div></div>';
+            p.style.display = "block";
+        };
+        this.closePop = function(e) {
+            if (e) {
+                var p = e.position;
+                e.style.position = 'relative';
+                var cv = document.createElement("DIV");
+                cv.className = '_btnCover';
+                e.appendChild(cv);
+                setTimeout(function() {
+                    end(e, cv);
+                    var p = document.querySelector(".popbox");
+                    if (p) p.parentNode.removeChild(p);
+                }, 150);
+            }
+
+            function end(e, cv) {
+                e.removeChild(cv);
+                e.style.position = p;
+                cv = null;
+            }
+        };
+        this.tempf = null;
+        this.end = function(d) {
+            if (t.cbs.length > 0) {
+                var f = t.cbs.pop();
+                t.tempf = f;
+                if (typeof f === "function") f(d);
+            }
+        };
+        this.remainEvent = function() {
+            if (t.tempf)
+                t.cbs.push(t.tempf);
+        }
+    };
+} else
+    window.Prompt = top.Prompt;
+
+		var avatar,sex,verified,nickname,phone,imgSrc;
 		$(function(){
 			$(".info-list .sex .sex-value").on("click",function(){
 				$(".sex-model-wrap").show();

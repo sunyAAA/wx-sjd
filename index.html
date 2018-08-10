@@ -525,6 +525,8 @@
                 })
             })
         })
+        var state = { title: "Page", url: "#" + Math.random() };
+        history.pushState(state, state.title, state.url);
     </script>
 </body>
 
