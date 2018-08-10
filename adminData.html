@@ -160,7 +160,6 @@
 	</section>
 
 
-	<script src="inc/z.js"></script>
 	<script src="inc/page.js"></script>
 	<script src="inc/g.js"></script>
 	<script src="inc/upimg/upload.js"></script>
@@ -219,7 +218,10 @@
 			AJAX.POST('/api/user/completeUser',{nickname:nickname,sex:sex,avatar:avatar||""},function(res){
 				if(res.code == 1){
 					Prompt.msg('修改成功！');
-					setTimeout("Comm.go('index.html')",800)
+					AJAX.GET('/api/user/getUserInfo',function(res){
+						Local.save('u',res.data)
+						setTimeout("Comm.go('index.html')",800)
+					})
 				}else{
 					Prompt.msg(res.msg);
 				}
