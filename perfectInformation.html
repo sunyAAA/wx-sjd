@@ -254,12 +254,8 @@
 				return
 			}
 			AJAX.POST('/api/user/completeUser',{name:name,sex:sex,avatar:avatar||""},function(res){
-				if(res.code == 1){
 					Prompt.msg('提交成功');
 					setTimeout("Nav.gotop()", 1200);
-				}else{
-					Prompt.msg(res.msg);
-				}
 			})
 		}
 		addImg()
