@@ -519,10 +519,7 @@ Comm.getImgUrl = function(url) {
         return config.http + url;
     }
 };
-var insharedetail = location.href.indexOf("casedetail") > -1 && location.href.indexOf("share") > -1;
 
-    var state = { title: "Page", url: "#" + Math.random() };
-    history.pushState(state, state.title, state.url);
 
 
 

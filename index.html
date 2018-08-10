@@ -499,11 +499,7 @@
         }
         function progressJump(item) {
             if (item.status == 2) {
-                if (item.task.isLocal) {
-                    Comm.go(item.task.url + '.html')
-                } else {
-                    Comm.go('taskDetail.html?taskId=' + item.task.taskId)
-                }
+                Comm.go('taskDetail.html?taskId=' + item.task.taskId)
             } else if (item.status == 3) {
                 Comm.go('taskCertificate.html?taskId=' + item.task.taskId);
             }
