@@ -315,6 +315,10 @@
             if(t.nodeName == 'A'){
                 var url = t.getAttribute('href');
                 if(isLocal){
+                    if(userStatus <2){
+                        Prompt.msg('请先领取任务再进行操作');
+                        return
+                    }
                     Comm.go(url+'.html')
                 }else{
                     Comm.go('hook.html?redirect_url='+encodeURIComponent(url));
