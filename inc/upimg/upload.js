@@ -166,19 +166,15 @@ imgUploader.prototype.initLoder = function(button, cb, resize) {
                     if (up_isup)return;
                     up_isup = true;
                     !me.box &&(me.imgList=[]);
-                    setMess(true);
-                    setMark(100);
                     initParam(up, files[0].name, false);
                     return false;
                 }();
             },
             BeforeUpload: function (up, file) {},
             UploadProgress: function (up, file) {
-                setMark(100 - file.percent);
             },
             FileUploaded: function (up, file, info) {
                 up_isup = false;
-                setMess(false);
                 if (info.status == 200) {
                     me._callback && me._callback(up_g_filename);
                     closeSelf(up);
@@ -251,8 +247,6 @@ function doupload(up, filename) {
 }
 
 function addFile(files) {
-    setMark(0);
-    setMess(false);
     if (files.length > 1) {
         files.splice(0, files.length - 1);
     }
@@ -261,13 +255,10 @@ function addFile(files) {
     preloader.onload = function () {
         preloader.downsize(300, 300, 90);
         var imgsrc = preloader.getAsDataURL();
-        $('#UpImageBox .content').css('backgroundImage', 'url(' + imgsrc + ')');
         preloader.destroy();
         preloader = null;
     };
     preloader.load(file.getSource());
-    Comm.bg(true);
-    $('#UpImageBox').show();
 }
 
 function closeSelf(up) {
@@ -278,9 +269,6 @@ function closeSelf(up) {
             up_isup = false;
         }
     }
-    $('#UpImageBox').hide();
-    $('#UpImageBox .content').css("backgroundImage", "none");
-    Comm.bg(false);
 }
 
 function UploderError(msg) {
@@ -288,13 +276,7 @@ function UploderError(msg) {
     closeSelf();
 }
 
-function setMess(l) {
-    $('#UpImageBox .upmess').html(l ? '正在努力上传，请稍候...' : '');
-}
 
-function setMark(w) {
-    $('#UpImageBox .mask').css("width", w === 0 ? '0px' : w + '%');
-}
 var Comm=new function(){
 	//网页历史记录
 	var URLIST='__UrlList',z=this;
