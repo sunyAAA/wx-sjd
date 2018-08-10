@@ -335,9 +335,12 @@
 			if (imgList.length) {
 				var voucher = imgList.join(',');
 				var remark = document.getElementById('remark').value;
+				Prompt.loading()
+
 				AJAX.POST('/api/taskUser/completeApply', { userTaskId: userTaskId, userDetailId: userDetailId || '', voucher: voucher, remark: remark }, function (res) {
 						Prompt.msg('提交审核成功');
 						setTimeout("Nav.gotop()", 1200);
+						Prompt.hide()
 				})
 			} else {
 				Prompt.msg('至少上传一张凭证')

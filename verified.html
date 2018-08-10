@@ -71,13 +71,11 @@
 			if(!cardPositive){
 				Prompt.msg('请上传身份证');return;
 			}
+			Prompt.loading()
 			AJAX.POST('/api/user/completeCardNo',{cardPositive:cardPositive},function(res){
-				if(res.code == 1){
 					Prompt.msg('提交成功')
 					setTimeout('Nav.gotop()',1200);
-				}else{
-					Prompt.msg(res.msg);
-				}
+				Prompt.hide()
 			})
 		}
 		addImg()

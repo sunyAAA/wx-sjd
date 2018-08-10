@@ -303,7 +303,7 @@
         }
         function giveUp(){
             Prompt.confirm('确定要放弃任务吗？',function(state){
-                
+            
                 if(state){
                     Prompt.loading();
                     AJAX.POST('/api/taskUser/giveUpTask?taskId='+taskId,{},function(res){
@@ -316,7 +316,7 @@
         function goHook(event){
             var t = event.target;
             if(t.nodeName == 'A'){
-                if(userStatus <2){
+                if(userStatus !=2){
                         Prompt.msg('请先领取任务再进行操作');
                         return
                 }
