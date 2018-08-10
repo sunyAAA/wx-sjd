@@ -98,15 +98,15 @@ input::placeholder {color: #aaaaaa}
 		}
 		/* 审核中 */
 		.task-card .reviewing {
-			background: #efeff4 url('../images/icon-wechat.png') no-repeat 15rem 1rem;
-			-webkit-background-size: 1rem 1rem;
-			background-size: 1rem 1rem;
+			background: #efeff4 url('../images/reviewing.png') no-repeat 14rem 3rem;
+			-webkit-background-size: 2.25rem 2.25rem;
+			background-size: 2.25rem 2.25rem;
 		}
 		/* 审核未通过 */
 		.task-card .review-failed {
-			background: #efeff4 url('../images/icon-alipay.png') no-repeat 15rem 1rem;
-			-webkit-background-size: 1rem 1rem;
-			background-size: 1rem 1rem;
+			background: #efeff4 url('../images/review-failed.png') no-repeat 14rem 3rem;
+			-webkit-background-size: 2.25rem 2.25rem;
+			background-size: 2.25rem 2.25rem;
 		}
 		/* 类型标记 */
 		.task-card .card-item .type-flag {
