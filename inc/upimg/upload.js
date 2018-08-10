@@ -207,7 +207,7 @@ if(!document.getElementById("UpImageBox")) {
 function get_signature() {
     if (up_expire < Date.parse(new Date()) / 1000 + 3) {
         var xmlhttp = new XMLHttpRequest();
-        serverUrl = config.http + "/api/imgupload/getImgPolicy?_token="+Comm.db("_token");
+        serverUrl = config.http + "/api/imgupload/getImgPolicy?_token="+Local.get("_token");
         xmlhttp.open("GET", serverUrl, false);
         xmlhttp.send(null);
         up_token = JSON.parse(xmlhttp.responseText);
