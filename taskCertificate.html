@@ -179,8 +179,8 @@
 		<div class="btn-review" onclick='send()'>提交凭证</div>
 	</div>
 	<script src="inc/z.js"></script>
-	<script src='inc/page.js'></script>
 	<script src="inc/g.js"></script>
+	<script src='inc/page.js'></script>
 	<script src="inc/upimg//upload.js"></script>
 	<script src="inc/model.js"></script>
 	<script src='inc/template.js'></script>
@@ -213,10 +213,9 @@
 		}
 		function loadData() {
 			AJAX.GET('/api/task/getDetailById?taskId=' + taskId + "&userId=5", function (res) {
-				if (res.code == 1) {
-					userStatus = res.data.missionTask.userStatus;
-					userTaskId = res.data.missionTask.userTaskId
-					var obj = forMart([res.data.missionTask])[0]
+					userStatus = res.missionTask.userStatus;
+					userTaskId = res.missionTask.userTaskId
+					var obj = forMart([res.missionTask])[0]
 					console.log(obj)
 					var html = template('card', obj);
 					document.querySelector('.card-box').innerHTML = html;
@@ -224,9 +223,9 @@
 						addStaffImg()
 
 					} else if (userStatus == 3) {
-						getProvData()
+						getProvData(0)
 					} else if (userStatus == 5) {
-						getProvData();
+						getProvData(1);
 						setTimeout(function () {
 							document.getElementById('addBox').style.display = 'inline-block';
 							document.querySelector('.btn-review').style.display = 'block';
@@ -266,13 +265,6 @@
 							Nav.back()
 						}, 800);
 					}
-				} else {
-					Prompt.msg('网络连接失败,请稍后再试');
-					setTimeout(() => {
-						Nav.back()
-					}, 800);
-				}
-
 			})
 		}
 		function addStaffImg() {
@@ -312,9 +304,9 @@
 				document.getElementById('addBox').style.display = 'none';
 				document.querySelector('.btn-review').style.display = 'none';
 				document.getElementById('remark').setAttribute('readOnly', true)
-				var voucher = res.data.voucher.split(',');
+				var voucher = res.voucher.split(',');
 				imgList = voucher;
-				document.getElementById('remark').value = res.data.remark || '';
+				document.getElementById('remark').value = res.remark || '';
 				if (voucher.length && userStatus != 5) {
 					document.querySelector('.tips').style.display = 'none';
 					document.querySelector('.reason-title').style.display = 'block';
@@ -335,7 +327,7 @@
 				if (userStatus == 5) {
 					document.querySelector('.tips').style.display = 'none';
 					document.querySelector('.reason-title').style.display = 'block';
-					document.querySelector('.reason-title').innerHTML = '审核失败，失败原因为：' + res.data.reason;
+					document.querySelector('.reason-title').innerHTML = '审核失败，失败原因为：' + res.reason;
 				}
 			})
 		}
@@ -344,12 +336,8 @@
 				var voucher = imgList.join(',');
 				var remark = document.getElementById('remark').value;
 				AJAX.POST('/api/taskUser/completeApply', { userTaskId: userTaskId, userDetailId: userDetailId || '', voucher: voucher, remark: remark }, function (res) {
-					if (res.code == 1) {
 						Prompt.msg('提交审核成功');
 						setTimeout("Nav.gotop()", 1200);
-					} else {
-						Prompt.msg(res.msg);
-					}
 				})
 			} else {
 				Prompt.msg('至少上传一张凭证')

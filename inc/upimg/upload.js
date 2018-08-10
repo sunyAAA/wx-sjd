@@ -21,7 +21,7 @@ function imgUploader(box,maximg,subbutton) {
     var me = this;
     if (Comm.w9()) {
         document.getElementById(this.subbutton).onclick = function () {
-            var obj = {url:config.root+'api/imgupload/app/getUploadToken?_token='+Comm.db("_token"), remain:me.box?(me.maximg-me.imgList.length):1};
+            var obj = {url:config.http+'/api/imgupload/app/getUploadToken?_token='+Comm.db("_token"), remain:me.box?(me.maximg-me.imgList.length):1};
             Comm.upimg(obj, function (a) {
                 var as = a.split(",");
                 for(var i=0;i<as.length;i++){
@@ -211,7 +211,7 @@ if(!document.getElementById("UpImageBox")) {
 function get_signature() {
     if (up_expire < Date.parse(new Date()) / 1000 + 3) {
         var xmlhttp = new XMLHttpRequest();
-        serverUrl = config.root + "api/imgupload/getImgPolicy?_token="+Comm.db("_token");
+        serverUrl = config.http + "/api/imgupload/getImgPolicy?_token="+Comm.db("_token");
         xmlhttp.open("GET", serverUrl, false);
         xmlhttp.send(null);
         up_token = JSON.parse(xmlhttp.responseText);
