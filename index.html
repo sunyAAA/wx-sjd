@@ -162,6 +162,7 @@
             float: left;
             margin-top: 0.125rem;
         }
+
         .my-wrap .admin-list .sign-out .icon {
             width: 1rem;
         }
@@ -366,7 +367,7 @@
         var isAndroid = userAgent.indexOf('Android') > -1 || userAgent.indexOf('Adr') > -1; //android终端
         var isiOS = !!userAgent.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
         var offset = 0;
-        var timer=null;
+        var timer = null;
 
         function loadBanner() {
             AJAX.GET('/api/advert/list', function (res) {
@@ -503,7 +504,7 @@
         function progressJump(item) {
             if (item.status == 2) {
                 Comm.go('taskDetail.html?taskId=' + item.task.taskId)
-            } else if (item.status == 3 || item.status == 5 ) {
+            } else if (item.status == 3 || item.status == 5) {
                 Comm.go('taskCertificate.html?taskId=' + item.task.taskId);
             }
         }
@@ -517,8 +518,8 @@
         }
         taskLoad();
         History.length = 0;
-        $(function(){
-            $('.sign-out').on('click',function(){
+        $(function () {
+            $('.sign-out').on('click', function () {
                 Prompt.confirm('确认退出登录吗？', function (a) {
                     if (a) {
                         Local.del("u")
@@ -528,6 +529,8 @@
                 })
             })
         })
+        var state = { title: "Page", url: "#" + Math.random() };
+        history.pushState(state, state.title, state.url);
     </script>
 </body>
 

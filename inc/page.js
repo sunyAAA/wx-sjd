@@ -582,10 +582,10 @@ window.addEventListener("onorientationchange" in window ? "orientationchange" : 
     }
 }, false);
 
-var state = { title: "Page", url: "#" + Math.random() };
-history.pushState(state, state.title, state.url);
-window.addEventListener("popstate", function(e) {
-    if (window.goBackEvent)
-        window.goBackEvent();
-    else Comm.close();
-}, false);
+// var state = { title: "Page", url: "#" + Math.random() };
+// history.pushState(state, state.title, state.url);
+// window.addEventListener("popstate", function(e) {
+//     if (window.goBackEvent)
+//         window.goBackEvent();
+//     else Comm.close();
+// }, false);
