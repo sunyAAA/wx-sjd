@@ -182,7 +182,7 @@
 
 		function getInfo(){
 	    	AJAX.GET('/api/user/getUserInfo', function (res) {
-	    		sex = res.sex == 0 ? '保密': res.sex==1 ? '男' : '女'
+	    		sex = res.data.sex == 0 ? '保密': res.data.sex==1 ? '男' : '女'
 	    		verified = res.isTrue == null ? '未认证' : '已认证'
 	    		nickname = res.data.nickname
 	    		phone = res.data.phone
