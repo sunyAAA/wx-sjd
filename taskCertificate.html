@@ -212,6 +212,7 @@
 			loadData();
 		}
 		function loadData() {
+			Prompt.loading()
 			AJAX.GET('/api/task/getDetailById?taskId=' + taskId + "&userId=5", function (res) {
 					userStatus = res.missionTask.userStatus;
 					userTaskId = res.missionTask.userTaskId
@@ -265,6 +266,7 @@
 							Nav.back()
 						}, 800);
 					}
+					Prompt.hide()
 			})
 		}
 		function addStaffImg() {

@@ -173,7 +173,7 @@
 		 		var isSelected = $('.platform .icon').hasClass('selected');
 				 if(/^1(3|4|5|7|8)\d{9}$/.test(phone) && code != '' && isSelected){	// 如果手机号和验证码都不为空的话
 					AJAX.POST('api/user/loginByCode',{phone: phone,verificationCode: code},function(res){
-						Local.save('u',res)
+							Local.save('u',res)
 		 					Local.save('_token',res.token)
 							var taskId = Comm.query('taskId')||'';
 							if(taskId){
