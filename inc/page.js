@@ -226,11 +226,11 @@ var AJAX = new function() {
             url = t.Uri() + url;
         if (!post) {
             if (url.indexOf("_token") < 0)
-                url += (url.indexOf("?") <= -1 ? "?" : "&") + "_token=" + (u ? u.token : "918aca55dc8d0586a1e4e7918340c5") + "&_device=" + Device.type + "&_t=" + Math.random();
+                url += (url.indexOf("?") <= -1 ? "?" : "&") + "_token=" + (u ? u.token : "") + "&_device=" + Device.type + "&_t=" + Math.random();
         } else {
             if (!data._token) {
                 data._device = Device.type;
-                data._token = u ? u.token : "918aca55dc8d0586a1e4e7918340c5";
+                data._token = u ? u.token : "";
                 data._t = Math.random();
             }
         }
@@ -519,6 +519,10 @@ Comm.getImgUrl = function(url) {
         return config.http + url;
     }
 };
+var insharedetail = location.href.indexOf("casedetail") > -1 && location.href.indexOf("share") > -1;
+
+    var state = { title: "Page", url: "#" + Math.random() };
+    history.pushState(state, state.title, state.url);
 
 
 
@@ -562,7 +566,15 @@ function Coder(e, inp, o) {
 }
 
 
-
+if (self === top && !(insharedetail && !Local.user()) && !window.indexPage) {
+    var state = { title: "Page", url: "#" + Math.random() };
+    history.pushState(state, state.title, state.url);
+    window.addEventListener("popstate", function(e) {
+        if (window.goBackEvent)
+            window.goBackEvent();
+        else Comm.close();
+    }, false);
+}
 
 
 
