@@ -189,7 +189,9 @@ imgUploader.prototype.initLoder = function(button, cb, resize) {
     });
     this._uploder.init();
 };
-
+imgUploader.prototype.destroy = function(){
+	this._uploder.destroy();
+}
 
 
 //上传通用操作

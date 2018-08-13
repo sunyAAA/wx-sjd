@@ -188,6 +188,15 @@
             width: 100%;
             height: 100%;
         }
+        .noMore{
+            height: 6rem;
+            width: 100%;
+            padding: 2rem 1rem;
+            box-sizing: border-box;
+            line-height: 2rem;
+            color: #666;
+            text-align: center;
+        }
     </style>
     <title>首页</title>
 </head>
@@ -317,7 +326,7 @@
                         <span>{{v.shopName}}</span>
                     </div>
                     <div class="time-limit">任务时间：
-                        <span >{{v.begin}}</span> 至
+                        <span>{{v.begin}}</span> 至
                         <span>{{v.end}}</span>
                     </div>
                     <div class="time-limit">预计耗时：{{v.preTime||v.task.preTime || ''}}分钟</div>
@@ -339,10 +348,10 @@
                 <div class="task-content">
                     <div class="title">{{v.name || v.task.name}}</div>
                     <div class="publisher">发布商家：
-                        <span>{{v.shopName}}</span>
+                        <span>{{v.shopName || v.task.shopName}}</span>
                     </div>
                     <div class="time-limit">任务时间：
-                        <span >{{v.begin}}</span> 至
+                        <span>{{v.begin}}</span> 至
                         <span>{{v.end}}</span>
                     </div>
                 </div>
@@ -369,6 +378,7 @@
         var isiOS = !!userAgent.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
         var offset = 0;
         var timer = null;
+        var hasMore = null;
 
         function loadBanner() {
             AJAX.GET('/api/advert/list', function (res) {
@@ -386,6 +396,7 @@
                 }
             })
         }
+
         function setViewHeight() {
             setTimeout(function () {
                 var banner = document.querySelector('.banner').clientHeight;
@@ -396,45 +407,62 @@
                 view.setAttribute('style', 'height:' + height + 'px')
             }, 17)
         }
+
         function loadNewList() {
             Prompt.loading();
             AJAX.GET('/api/task/newTask?userid=' + userId + '&dictId=2', function (res) {
+                if (!res.length) {
+                    hasMore = false
+                }
                 newTask = setNewTaskList(res);
                 loadTaskList()
             })
         }
+
         function loadTaskList() {
-            AJAX.GET('/api/task/getRecommend?pageNum=' + pageNum + '&pageSize=' + pageSize + '&userId=' + userId, function (res) {
-                list = forMart(res);
-                Prompt.hide();
-                render()
-            })
+            AJAX.GET('/api/task/getRecommend?pageNum=' + pageNum + '&pageSize=' + pageSize + '&userId=' + userId,
+                function (res) {
+                    Prompt.hide();
+                    if (!res.length && !hasMore) {
+                        document.querySelector('.view').innerHTML = '<div class="noMore">大人您把所有任务都做完了真的太太太厉害了(•̀ω•́)✧！<br>任务会不定期更新，请大人常回来看看呦(●◡●)ﾉ</div>';
+                    } else {
+                        list = forMart(res);
+                        render()
+                    }
+
+                })
         }
+
         function render() {
             renderList = list.sort(getSortFun()).slice(0);
             !newTask ? '' : renderList.unshift(newTask);
-            var renderData = { list: renderList }
+            var renderData = {
+                list: renderList
+            }
             var html = template('card', renderData);
             document.querySelector('.view').innerHTML = html;
             setViewHeight()
         }
+
         function taskLoad() {
             loadBanner()
             loadNewList()
         }
+
         function getSortFun() {
-            return sortStatus == 1
-                ? (a, b) => {
+            return sortStatus == 1 ?
+                (a, b) => {
                     return a.preTime - b.preTime;
-                }
-                : this.sortStatus == 2
-                    ? (a, b) => {
-                        return b.singleAmount - a.singleAmount;
-                    }
-                    : (a, b) => {
-                        return a.taskId - b.taskId;
-                    };
+                } :
+                this.sortStatus == 2 ?
+                (a, b) => {
+                    return b.singleAmount - a.singleAmount;
+                } :
+                (a, b) => {
+                    return a.taskId - b.taskId;
+                };
         }
+
         function navHandle(index) {
             var navList = document.querySelectorAll('.nav-item');
             for (var i = 0; i < navList.length; i++) {
@@ -443,27 +471,37 @@
             sortStatus = index;
             render()
         }
+
         function progressNavHandle(ele, status) {
             var curNav = document.querySelector('.task-progress div.active');
-            if (ele == curNav) { return }
-            curNav.className = ''; ele.className = 'active'
+            if (ele == curNav) {
+                return
+            }
+            curNav.className = '';
+            ele.className = 'active'
             progressStatus = status;
             loadProgressData();
         }
+
         function loadProgressData() {
             Prompt.loading();
-            AJAX.GET('/api/task/myList?status=' + progressStatus + '&pageSize=' + pageSize + '&pageNum=1', function (res) {
+            AJAX.GET('/api/task/myList?status=' + progressStatus + '&pageSize=' + pageSize + '&pageNum=1', function (
+                res) {
                 if (res.length) {
-                    var renderObj = { list: forMartProgressTask(res) }
+                    var renderObj = {
+                        list: forMartProgressTask(res)
+                    }
                     var html = template('progress', renderObj);
                     document.querySelector('.progress-view').innerHTML = html;
                     setProgressViewHeight()
                 } else {
-                    document.querySelector('.progress-view').innerHTML = '<div class="no-result">您暂时还没有相关任务</div>'
+                    document.querySelector('.progress-view').innerHTML =
+                        '<div class="no-result">您暂时还没有相关任务</div>'
                 }
                 Prompt.hide()
             })
         }
+
         function setProgressViewHeight() {
             setTimeout(function () {
                 var nav = document.querySelector('.progress-nav').clientHeight;
@@ -473,6 +511,7 @@
                 view.setAttribute('style', 'height:' + height + 'px')
             }, 17)
         }
+
         function footerBarChange(index) {
             if (!u && index > 0) {
                 Comm.go('login.html');
@@ -488,11 +527,21 @@
             }
             homeIndex = index;
             switch (index) {
-                case 0: loadNewList(); document.title = '首页'; break;
-                case 1: loadProgressData(); document.title = "我的任务"; break;
-                case 2: setUserInfo(); document.title = "我的"; break;
+                case 0:
+                    loadNewList();
+                    document.title = '首页';
+                    break;
+                case 1:
+                    loadProgressData();
+                    document.title = "我的任务";
+                    break;
+                case 2:
+                    setUserInfo();
+                    document.title = "我的";
+                    break;
             }
         }
+
         function setUserInfo() {
             var u = Local.get('u') || null;
             if (u) {
@@ -502,6 +551,7 @@
                 }
             }
         }
+
         function progressJump(item) {
             if (item.status == 2) {
                 Comm.go('taskDetail.html?taskId=' + item.task.taskId)
@@ -509,6 +559,7 @@
                 Comm.go('taskCertificate.html?taskId=' + item.task.taskId);
             }
         }
+
         function go(taskId) {
             var u = Local.get('u');
             if (!u) {
@@ -530,7 +581,10 @@
                 })
             })
         })
-        var state = { title: "Page", url: "#" + Math.random() };
+        var state = {
+            title: "Page",
+            url: "#" + Math.random()
+        };
         history.pushState(state, state.title, state.url);
     </script>
 </body>

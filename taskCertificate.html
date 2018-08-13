@@ -13,6 +13,7 @@
 			padding: 1rem;
 			height: 100%;
 		}
+
 		.task-card .card-item .type-flag .flag {
 			width: 1.25rem;
 			height: 1.75rem;
@@ -24,6 +25,7 @@
 			position: relative;
 			line-height: 0.5rem;
 		}
+
 		/* 任务信息卡片 */
 
 		.taskCertificate-wrap .card-item {
@@ -132,6 +134,7 @@
 			background-color: #ff4b2b;
 			text-align: center;
 			margin: 0 auto 1rem auto;
+			z-index: 999;
 		}
 
 
@@ -185,95 +188,72 @@
 	<script src="inc/model.js"></script>
 	<script src='inc/template.js'></script>
 	<script type="text/template" id="card">
-        <div class="task-card" >
-            <div class="card-item">
-                <div class="type-flag">
-                    <div class="flag">{{flag}}</div>
-                </div>
-                <div class="task-content">
-                    <div class="title">{{name || task.name}}</div>
-                    <div class="publisher">发布商家：
-                        <span>{{shopName}}</span>
-                    </div>
-                    <div class="time-limit">任务时间：
-                        <span >{{begin}}</span> 至
-                        <span>{{end}}</span>
-                    </div>
-                </div>
-                <div class="task-bounty">¥
-                    <span>{{singleAmount}}</span>
-                </div>
-            </div>
-        </div>
+		<div class="task-card">
+			<div class="card-item">
+				<div class="type-flag">
+					<div class="flag">{{flag}}</div>
+				</div>
+				<div class="task-content">
+					<div class="title">{{name || task.name}}</div>
+					<div class="publisher">发布商家：
+						<span>{{shopName}}</span>
+					</div>
+					<div class="time-limit">任务时间：
+						<span>{{begin}}</span> 至
+						<span>{{end}}</span>
+					</div>
+				</div>
+				<div class="task-bounty">¥
+					<span>{{singleAmount}}</span>
+				</div>
+			</div>
+		</div>
 	</script>
 	<script>
-		var taskId = Comm.query('taskId') || null, imgList = [], userStatus, userTaskId, userDetailId="", load;
+		var taskId = Comm.query('taskId') || null,
+			imgList = [],
+			userStatus, userTaskId, userDetailId = "",
+			load;
+
 		function pageload() {
 			loadData();
 		}
+
 		function loadData() {
 			Prompt.loading()
 			AJAX.GET('/api/task/getDetailById?taskId=' + taskId + "&userId=5", function (res) {
-					userStatus = res.missionTask.userStatus;
-					userTaskId = res.missionTask.userTaskId
-					var obj = forMart([res.missionTask])[0]
-					console.log(obj)
-					var html = template('card', obj);
-					document.querySelector('.card-box').innerHTML = html;
-					if (userStatus == 2) {
-						addStaffImg()
+				userStatus = res.missionTask.userStatus;
+				userTaskId = res.missionTask.userTaskId
+				var obj = forMart([res.missionTask])[0]
+				console.log(obj)
+				var html = template('card', obj);
+				document.querySelector('.card-box').innerHTML = html;
+				if (userStatus == 2) {
+					addStaffImg()
 
-					} else if (userStatus == 3) {
-						getProvData(0)
-					} else if (userStatus == 5) {
-						getProvData(1);
-						setTimeout(function () {
-							document.getElementById('addBox').style.display = 'inline-block';
-							document.querySelector('.btn-review').style.display = 'block';
-							document.getElementById('remark').removeAttribute('readOnly')
-							addStaffImg()
-							for (var i = 0; i < imgList.length; i++) {
-								var index = i;
-								var div = document.createElement('DIV');
-								var img = document.createElement('IMG');
-								var remove = document.createElement('IMG');
-								remove.setAttribute('src', 'images/remove.jpg')
-								remove.className = 'remove';
-								img.setAttribute('src', config.ossroot + imgList[i]);
-								div.className = 'img-item';
-								div.appendChild(img)
-								div.appendChild(remove)
-								document.querySelector('.img-box').insertBefore(div, document.getElementById('addBox'));
-								remove.addEventListener('click', function () {
-									Prompt.confirm('确定要删除这张图片吗？', function (a) {
-										if (a) {
-											document.querySelector('.img-box').removeChild(div);
-											imgList.splice(index, 1);
-											if (imgList.length <= 8) { toggleLoadBtn('inline-block') }
-											addStaffImg()
-										}
-									})
-								})
-								if (imgList.length == 9) { toggleLoadBtn('none') }
-							}
-							if (i >= 8) {
-								toggleLoadBtn('none')
-							}
-						}, 800)
-					} else {
-						Prompt.msg('任务已过期，请重新领取')
-						setTimeout(() => {
-							Nav.back()
-						}, 800);
-					}
-					Prompt.hide()
+				} else if (userStatus == 3) {
+					getProvData(0)
+				} else if (userStatus == 5) {
+					getProvData(1);
+				} else {
+					Prompt.msg('任务已过期，请重新领取')
+					setTimeout(() => {
+						Nav.back()
+					}, 800);
+				}
+				Prompt.hide()
 			})
 		}
+
 		function addStaffImg() {
-			if (load) { load = null };
+			if (load) {
+				load.destroy();
+			};
 			load = new imgUploader("addBox");
 			load.fill = function () {
-				if (imgList.length >= 9) { return Prompt.msg('最多上传9张图片') }
+				if (imgList.length >= 9) {
+					return Prompt.msg('最多上传9张图片')
+				}
 				imgList.push(this.getList()[0]);
 				var index = imgList.length - 1;
 				var div = document.createElement('DIV');
@@ -283,23 +263,17 @@
 				remove.className = 'remove';
 				img.setAttribute('src', config.ossroot + this.getList()[0]);
 				div.className = 'img-item';
+				remove.setAttribute('onclick', 'remove(this)')
 				div.appendChild(img)
 				div.appendChild(remove)
 				document.querySelector('.img-box').insertBefore(div, document.getElementById('addBox'));
-				remove.addEventListener('click', function () {
-					Prompt.confirm('确定要删除这张图片吗？', function (a) {
-						if (a) {
-							document.querySelector('.img-box').removeChild(div);
-							imgList.splice(index, 1);
-							if (imgList.length <= 8) { toggleLoadBtn('inline-block') }
-							addStaffImg()
-						}
-					})
-				})
-				if (imgList.length == 9) { toggleLoadBtn('none') }
+				if (imgList.length == 9) {
+					toggleLoadBtn('none')
+				}
 			}
 		}
-		function getProvData() {
+
+		function getProvData(type) {
 			Prompt.loading()
 			AJAX.GET('/api/task/getApplyById?userTaskId=' + userTaskId + '&userDetailId=' + userDetailId, function (res) {
 				Prompt.hide();
@@ -330,24 +304,78 @@
 					document.querySelector('.tips').style.display = 'none';
 					document.querySelector('.reason-title').style.display = 'block';
 					document.querySelector('.reason-title').innerHTML = '审核失败，失败原因为：' + res.reason;
+					document.getElementById('addBox').style.display = 'inline-block';
+					document.querySelector('.btn-review').style.display = 'block';
+					document.getElementById('remark').removeAttribute('readOnly')
+					addStaffImg()
+					for (var i = 0; i < imgList.length; i++) {
+						var index = i;
+						var div = document.createElement('DIV');
+						var img = document.createElement('IMG');
+						var remove = document.createElement('IMG');
+						remove.setAttribute('src', 'images/remove.jpg')
+						remove.className = 'remove';
+						img.setAttribute('src', config.ossroot + imgList[i]);
+						div.className = 'img-item';
+						div.appendChild(img)
+						div.appendChild(remove)
+						remove.setAttribute('onclick', 'remove(this)')
+						document.querySelector('.img-box').insertBefore(div, document.getElementById('addBox'));
+						// remove.addEventListener('click', function () {
+						// 	Prompt.confirm('确定要删除这张图片吗？', function (a) {
+						// 		if (a) {
+						// 			imgList.splice(index, 1);
+						// 			if (imgList.length <= 8) {
+						// 				toggleLoadBtn('inline-block')
+						// 			}
+						// 			addStaffImg()
+						// 		}
+						// 	})
+						// })
+						if (imgList.length == 9) {
+							toggleLoadBtn('none')
+						}
+					}
+					if (i >= 8) {
+						toggleLoadBtn('none')
+					}
 				}
 			})
 		}
+
+		function remove(ele) {
+			Prompt.confirm('确定要删除这张图片吗？', function (a) {
+				if (a) {
+					var index = $(ele).parent().index()
+					console.log(index)
+					$(ele).parent().remove();
+					imgList.splice(index, 1);
+					addStaffImg()
+				}
+			})
+		}
+
 		function send() {
 			if (imgList.length) {
 				var voucher = imgList.join(',');
 				var remark = document.getElementById('remark').value;
 				Prompt.loading()
 
-				AJAX.POST('/api/taskUser/completeApply', { userTaskId: userTaskId, userDetailId: userDetailId || '', voucher: voucher, remark: remark }, function (res) {
-						Prompt.msg('提交审核成功');
-						setTimeout("Nav.gotop()", 1200);
-						Prompt.hide()
+				AJAX.POST('/api/taskUser/completeApply', {
+					userTaskId: userTaskId,
+					userDetailId: userDetailId || '',
+					voucher: voucher,
+					remark: remark
+				}, function (res) {
+					Prompt.msg('提交审核成功');
+					setTimeout("Nav.gotop()", 1200);
+					Prompt.hide()
 				})
 			} else {
 				Prompt.msg('至少上传一张凭证')
 			}
 		}
+
 		function toggleLoadBtn(display) {
 			document.getElementById('addBox').style.display = display
 		}
