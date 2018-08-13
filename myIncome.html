@@ -79,9 +79,10 @@
 		.range-date>span {
 			flex: 0 0 20px
 		}
+
 		.unit {
 			padding-left: 1rem;
-			margin: 1rem 0 ;
+			margin: 1rem 0;
 		}
 	</style>
 </head>
@@ -113,7 +114,7 @@
 	<script src='inc/g2.js'></script>
 	<script src="inc/picker.min.js"></script>
 	<script>
-		var TIME_OFFSET = 5 * 24 * 60 * 60 * 1000, startPicker, endPicker,chart=null;
+		var TIME_OFFSET = 5 * 24 * 60 * 60 * 1000, startPicker, endPicker, chart = null;
 		var start = document.getElementById('start');
 		var end = document.getElementById('end');
 		function pageload() {
@@ -152,12 +153,12 @@
 			Prompt.loading();
 			AJAX.GET('/api/userDeposit/getMyDeposit?beginTime=' + b + '&endTime=' + e, function (res) {
 				Prompt.hide()
-				document.querySelector('.bounty').innerHTML  = res.total.toFixed(2);
-				renderChart(formartChartData(b,e,res.detail))
+				document.querySelector('.bounty').innerHTML = res.total.toFixed(2);
+				renderChart(formartChartData(b, e, res.detail))
 			})
 		}
 		function renderChart(data) {
-			if(chart){chart.changeData(data);return}
+			if (chart) { chart.changeData(data); return }
 			chart = new G2.Chart({
 				container: 'chart',
 				forceFit: true,
@@ -197,8 +198,8 @@
 				}
 				if (!has) { result.data.push(0) }
 			}
-			var data=[]
-			for(var i = 0 ; i<result.data.length;i++){
+			var data = []
+			for (var i = 0; i < result.data.length; i++) {
 				data.push({
 					date: result.categories[i],
 					'收益': result.data[i]

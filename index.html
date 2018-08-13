@@ -193,7 +193,7 @@
             width: 100%;
             padding: 2rem 1rem;
             box-sizing: border-box;
-            line-height: 2rem;
+            line-height: 1rem;
             color: #666;
             text-align: center;
         }
@@ -373,9 +373,9 @@
         var progressStatus = 2;
         var homeIndex = 0;
         var u = Local.get('u')
-        var userAgent = navigator.userAgent;
-        var isAndroid = userAgent.indexOf('Android') > -1 || userAgent.indexOf('Adr') > -1; //android终端
-        var isiOS = !!userAgent.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+        // var userAgent = navigator.userAgent;
+        // var isAndroid = userAgent.indexOf('Android') > -1 || userAgent.indexOf('Adr') > -1; //android终端
+        // var isiOS = !!userAgent.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
         var offset = 0;
         var timer = null;
         var hasMore = null;

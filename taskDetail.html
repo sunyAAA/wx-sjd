@@ -303,8 +303,7 @@
             }
         }
         function giveUp(){
-            Prompt.confirm('确定要放弃任务吗？',function(state){
-            
+            Prompt.confirm('确定要放弃任务吗？',function(state){           
                 if(state){
                     Prompt.loading();
                     AJAX.POST('/api/taskUser/giveUpTask?taskId='+taskId,{},function(res){

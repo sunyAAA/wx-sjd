@@ -154,6 +154,19 @@
 			padding: 1rem .5rem;
 			color: #ff4b2b
 		}
+		.give-up {
+			text-align: right;
+			margin-bottom: 10px
+		}
+		.box {
+			display: inline-block;
+			width: 4rem;
+			padding: .2rem .5rem;
+			text-align: center;
+			border-radius: 4px;
+			border: 1px solid #ff4b2b;
+			color: #333
+		}
 	</style>
 </head>
 
@@ -164,7 +177,8 @@
 		</div>
 		<!-- 上传凭证 -->
 		<div class="reason-title" style="display: none;">
-
+			<p class="text"></p>
+			<div class="give-up" > <span onclick="giveUp()" class="box">放弃任务</span> </div>
 		</div>
 		<div class="upload-box">
 			<div class="upload-area">
@@ -286,7 +300,7 @@
 				if (voucher.length && userStatus != 5) {
 					document.querySelector('.tips').style.display = 'none';
 					document.querySelector('.reason-title').style.display = 'block';
-					document.querySelector('.reason-title').innerHTML = '审核中，预计审核时间为七个工作日';
+					document.querySelector('.reason-title .text').innerHTML = '审核中，预计审核时间为七个工作日';
 
 					for (var i = 0; i < voucher.length; i++) {
 						var div = document.createElement('DIV');
@@ -303,7 +317,8 @@
 				if (userStatus == 5) {
 					document.querySelector('.tips').style.display = 'none';
 					document.querySelector('.reason-title').style.display = 'block';
-					document.querySelector('.reason-title').innerHTML = '审核失败，失败原因为：' + res.reason;
+					document.querySelector('.reason-title .text').innerHTML = '审核失败，失败原因为：' + res.reason;
+					document.querySelector('.btn-review').innerHTML = '重新提交'
 					document.getElementById('addBox').style.display = 'inline-block';
 					document.querySelector('.btn-review').style.display = 'block';
 					document.getElementById('remark').removeAttribute('readOnly')
@@ -379,6 +394,17 @@
 		function toggleLoadBtn(display) {
 			document.getElementById('addBox').style.display = display
 		}
+		function giveUp(){
+            Prompt.confirm('确定要放弃任务吗？',function(state){           
+                if(state){
+                    Prompt.loading();
+                    AJAX.POST('/api/taskUser/giveUpTask?taskId='+taskId,{},function(res){
+                        Prompt.hide();
+                        setTimeout('Nav.gotop()',800);
+                    })
+                }
+            })
+        }
 	</script>
 </body>
 
