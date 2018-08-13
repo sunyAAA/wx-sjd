@@ -7,6 +7,7 @@ var taskType =Local.get('taskType') ||  [];
     })
 })();
 
+// 格式化新手任务
 function setNewTaskList(arr){
     for(var i = 0 ; i<arr.length ;i++){
         if(arr[i].userStatus <=3 || !arr[i].userStatus || arr[i].userStatus == 8 ){
@@ -15,6 +16,7 @@ function setNewTaskList(arr){
     }
 }
 
+// 格式化所有任务
 function forMart(arr){
     if(!arr.length){return[]};
     for(var i  =0 ;i <arr.length;i++){
@@ -28,6 +30,8 @@ function forMart(arr){
     }
     return arr;
 }
+
+// 倒计时
 function diffTime(diff) {
 
     //计算出相差天数  
@@ -44,6 +48,7 @@ function diffTime(diff) {
     var leave3 = leave2 % (60 * 1000);      //计算分钟数后剩余的毫:数  
     var seconds = Math.round(leave3 / 1000);
 
+    // 返回值
     var returnStr = seconds < 10 ? '0' + seconds : seconds;
     if (minutes > 0) {
         returnStr = (minutes < 10 ? '0' + minutes + ":" : minutes + ':') + returnStr;
@@ -58,6 +63,8 @@ function diffTime(diff) {
     }
     return returnStr;
 }
+
+// 格式化进行中的任务
 function forMartProgressTask(arr){
     let result = [];
     if(arr.length){
@@ -74,6 +81,7 @@ function forMartProgressTask(arr){
     return result
 }
 
+// 获取任务类型
 function getTaskType(type) {
     for (var i = 0 ; i <taskType.length;i++) {
         var item = taskType[i];
@@ -84,6 +92,7 @@ function getTaskType(type) {
     return null;
 }
 
+// 时间戳转日期
 function timestampToDate(timestamp, formats) {
 	// formats格式包括
 	// 1. Y-m-d

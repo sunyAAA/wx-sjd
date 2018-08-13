@@ -116,6 +116,7 @@
 		var TIME_OFFSET = 5 * 24 * 60 * 60 * 1000, startPicker, endPicker,chart=null;
 		var start = document.getElementById('start');
 		var end = document.getElementById('end');
+		// 加载页面
 		function pageload() {
 			let now = new Date().getTime();
 			end.value = timestampToDate(now, "Y-m-d");
@@ -156,6 +157,7 @@
 				renderChart(formartChartData(b,e,res.detail))
 			})
 		}
+		// 渲染图表
 		function renderChart(data) {
 			if(chart){chart.changeData(data);return}
 			chart = new G2.Chart({
@@ -171,6 +173,7 @@
 			chart.interval().position('date*收益').color('#ff4b2b');
 			chart.render();
 		}
+		
 		function formartChartData(begin, end, data) {
 			var dayOffset = 24 * 60 * 60 * 1000;
 			var count = Math.floor((end - begin) / dayOffset) + 1;

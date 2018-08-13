@@ -258,6 +258,8 @@
                 }
             })
         }
+
+        // 领取任务
         function takeTask() {
             Prompt.loading();
             AJAX.GET('/api/taskUser/getReceive?taskId=' + taskId, function (res) {
@@ -266,6 +268,7 @@
                     loadData()
             })
         }
+        // 设置倒计时
         function setCountDown(t) {
             if (timer) {
                 return
@@ -284,13 +287,15 @@
                 }
             }, 1000);
         }
+        // 倒计时结束
         function timeOut() {
             Prompt.msg('该任务已过期,请重新领取')
             setTimeout(() => {
-                loadData()
+                Nav.back();
             }, 1200);
             return;
         }
+        // 切换任务说明。。。
         function toggle(ele,index){
             if(ele.className == 'nav-item active'){
                 return
@@ -302,6 +307,7 @@
                 box[i].style.display = i==index? 'block' : 'none'
             }
         }
+        // 放弃任务
         function giveUp(){
             Prompt.confirm('确定要放弃任务吗？',function(state){
             
@@ -314,6 +320,7 @@
                 }
             })
         }
+        // 右上角浏览器打开
         function goHook(event){
             var t = event.target;
             if(t.nodeName == 'A'){
@@ -329,6 +336,7 @@
                 }
             }
         }
+        // 设置任务说明容器的高度
         function setContentHeight(){
             var view = document.querySelector('.task-content');
             var top = document.querySelector('.information-operate').clientHeight;

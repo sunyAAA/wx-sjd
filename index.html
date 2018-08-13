@@ -363,23 +363,19 @@
         {{/each}}
     </script>
     <script>
-        var sideObj = null;
+        var sideObj = null;     // 轮播
         var userId = Local.get('u') ? Local.get('u').userId : 5;
-        var newTask = null;
-        var pageSize = 50;
-        var pageNum = 1;
-        var List = [];
-        var sortStatus = 1;
-        var progressStatus = 2;
-        var homeIndex = 0;
+        var newTask = null;     // 新手任务
+        var pageSize = 50;      // 首页展示的任务条数
+        var pageNum = 1;        // 页数
+        var sortStatus = 1;     // 排序方式
+        var progressStatus = 2; // 任务进度状态
+        var homeIndex = 0;      // 底部导航栏的index
         var u = Local.get('u')
-        var userAgent = navigator.userAgent;
-        var isAndroid = userAgent.indexOf('Android') > -1 || userAgent.indexOf('Adr') > -1; //android终端
-        var isiOS = !!userAgent.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
-        var offset = 0;
         var timer = null;
-        var hasMore = null;
+        var hasMore = null;     // 控制是否有新手任务
 
+        // 加载轮播图
         function loadBanner() {
             AJAX.GET('/api/advert/list', function (res) {
                 var html = [];
@@ -391,12 +387,13 @@
                 if (!sideObj) {
                     setTimeout(function () {
                         sideObj = new Side('banner');
-                        Prompt.hide();
+                        Prompt.hide();  // 关闭所有的loading
                     }, 17);
                 }
             })
         }
 
+        // 设置首页任务容器的高度
         function setViewHeight() {
             setTimeout(function () {
                 var banner = document.querySelector('.banner').clientHeight;
@@ -408,6 +405,7 @@
             }, 17)
         }
 
+        // 加载新手任务
         function loadNewList() {
             Prompt.loading();
             AJAX.GET('/api/task/newTask?userid=' + userId + '&dictId=2', function (res) {
@@ -419,6 +417,7 @@
             })
         }
 
+        // 加载任务列表
         function loadTaskList() {
             AJAX.GET('/api/task/getRecommend?pageNum=' + pageNum + '&pageSize=' + pageSize + '&userId=' + userId,
                 function (res) {
@@ -433,6 +432,7 @@
                 })
         }
 
+        // 更新首页视图
         function render() {
             renderList = list.sort(getSortFun()).slice(0);
             !newTask ? '' : renderList.unshift(newTask);
@@ -444,11 +444,13 @@
             setViewHeight()
         }
 
+        // 加载任务
         function taskLoad() {
             loadBanner()
             loadNewList()
         }
 
+        // 返回排序
         function getSortFun() {
             return sortStatus == 1 ?
                 (a, b) => {
@@ -463,6 +465,7 @@
                 };
         }
 
+        // 导航的点击事件
         function navHandle(index) {
             var navList = document.querySelectorAll('.nav-item');
             for (var i = 0; i < navList.length; i++) {
@@ -472,6 +475,7 @@
             render()
         }
 
+        // 我的任务的导航的点击事件
         function progressNavHandle(ele, status) {
             var curNav = document.querySelector('.task-progress div.active');
             if (ele == curNav) {
@@ -483,6 +487,7 @@
             loadProgressData();
         }
 
+        // 加载我的任务的数据
         function loadProgressData() {
             Prompt.loading();
             AJAX.GET('/api/task/myList?status=' + progressStatus + '&pageSize=' + pageSize + '&pageNum=1', function (
@@ -502,6 +507,7 @@
             })
         }
 
+        // 我的任务的容器的高度
         function setProgressViewHeight() {
             setTimeout(function () {
                 var nav = document.querySelector('.progress-nav').clientHeight;
@@ -512,6 +518,7 @@
             }, 17)
         }
 
+        // 改变底部栏的状态
         function footerBarChange(index) {
             if (!u && index > 0) {
                 Comm.go('login.html');
@@ -542,6 +549,7 @@
             }
         }
 
+        // 获取我的信息
         function setUserInfo() {
             var u = Local.get('u') || null;
             if (u) {
@@ -552,6 +560,7 @@
             }
         }
 
+        // 我的任务跳转
         function progressJump(item) {
             if (item.status == 2) {
                 Comm.go('taskDetail.html?taskId=' + item.task.taskId)
@@ -560,6 +569,7 @@
             }
         }
 
+        // 首页的任务卡片的跳转
         function go(taskId) {
             var u = Local.get('u');
             if (!u) {
@@ -581,10 +591,13 @@
                 })
             })
         })
+
+        // 路由加上哈希值
         var state = {
             title: "Page",
             url: "#" + Math.random()
         };
+        // 不刷新浏览器加上哈希值
         history.pushState(state, state.title, state.url);
     </script>
 </body>

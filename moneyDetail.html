@@ -139,13 +139,16 @@
 		{{/each}}
 	</script>
 	<script>
+		// type=1是收入，2是支出
 		var type = 1;
+		// 加上管道函数
 		template.defaults.imports.Date = function (time) {
 			return timestampToDate(time,'Y-m-d H:m:s')
 		}
 		template.defaults.imports.fixed = function (amount) {
 			return amount.toFixed(2)
 		}
+		// 切换收入/支出
 		function toggle(ele, index) {
 			if (ele.className.indexOf('active') > -1) {
 				return
@@ -155,6 +158,7 @@
 			type = index;
 			loadData()
 		}
+		// 加载数据
 		function loadData() {
 			Prompt.loading();
 			var content = document.querySelector('.content');

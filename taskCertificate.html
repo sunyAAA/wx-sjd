@@ -222,6 +222,7 @@
 		function loadData() {
 			Prompt.loading()
 			AJAX.GET('/api/task/getDetailById?taskId=' + taskId + "&userId=5", function (res) {
+				// userStatus为2是进行中，3是正在审核，5是审核失败
 				userStatus = res.missionTask.userStatus;
 				userTaskId = res.missionTask.userTaskId
 				var obj = forMart([res.missionTask])[0]
@@ -245,6 +246,7 @@
 			})
 		}
 
+		// 上传图片
 		function addStaffImg() {
 			if (load) {
 				load.destroy();
@@ -273,6 +275,7 @@
 			}
 		}
 
+		// 获取凭证数据
 		function getProvData(type) {
 			Prompt.loading()
 			AJAX.GET('/api/task/getApplyById?userTaskId=' + userTaskId + '&userDetailId=' + userDetailId, function (res) {
