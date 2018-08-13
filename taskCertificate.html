@@ -402,7 +402,8 @@
                 if(state){
                     Prompt.loading();
                     AJAX.POST('/api/taskUser/giveUpTask?taskId='+taskId,{},function(res){
-                        Prompt.hide();
+						Prompt.hide();
+						Prompt.msg('放弃任务成功');
                         setTimeout('Nav.gotop()',800);
                     })
                 }
