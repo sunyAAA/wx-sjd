@@ -303,6 +303,7 @@
 				if (voucher.length && userStatus != 5) {
 					document.querySelector('.tips').style.display = 'none';
 					document.querySelector('.reason-title').style.display = 'block';
+					document.querySelector('.give-up').style.display='none';
 					document.querySelector('.reason-title .text').innerHTML = '审核中，预计审核时间为七个工作日';
 
 					for (var i = 0; i < voucher.length; i++) {
