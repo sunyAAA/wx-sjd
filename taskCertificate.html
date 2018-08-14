@@ -369,6 +369,9 @@
 					console.log(index)
 					$(ele).parent().remove();
 					imgList.splice(index, 1);
+					if(imgList.length<9){
+						toggleLoadBtn('inline-block')
+					}
 					addStaffImg()
 				}
 			})
