@@ -445,11 +445,7 @@
             setViewHeight()
         }
 
-        // 加载任务
-        function taskLoad() {
-            loadBanner()
-            loadNewList()
-        }
+
 
         // 返回排序
         function getSortFun() {
@@ -579,7 +575,7 @@
                 Comm.go('taskDetail.html?taskId=' + taskId)
             }
         }
-        taskLoad();
+        // taskLoad();
         History.length = 0;
         $(function () {
             $('.sign-out').on('click', function () {
@@ -600,6 +596,12 @@
         };
         // 不刷新浏览器加上哈希值
         history.pushState(state, state.title, state.url);
+        
+        // 加载任务
+        void function taskLoad() {
+            loadBanner()
+            loadNewList()
+        }()
     </script>
 </body>
 
